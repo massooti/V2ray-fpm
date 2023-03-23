@@ -163,9 +163,9 @@ EOF
 unlink /run/supervisor.sock
 pkill -9 supervisord
 
-#启动部署,添加开机自启.
+#Start the deployment, add boot self-start.
 supervisord -c /etc/supervisor/supervisord.conf
-echo "接下来输入【update】然后【ctrl+d】退出"
+echo "Next, enter [update] and then [ctrl+d] to exit"
 supervisorctl -c /etc/supervisor/supervisord.conf
 echo -e "now you can open you web browser,open http://127.0.0.1:${uport}"
 echo -e "User_name:【${un}】Password:【${pw}】"
