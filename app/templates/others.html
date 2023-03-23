@@ -1,0 +1,256 @@
+{% extends "base.html" %} {% block content %}
+<div class="mdui-container">
+  <p></p>
+  <div class="mdui-row">
+    <div class="mdui-table-fluid">
+      <table class="mdui-table">
+        <thead>
+          <tr>
+            <th>parameter</th>
+            <th>operate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr></tr>
+          <tr>
+            <td>socks5port</td>
+            <td>
+              <div class="mdui-row">
+                <div class="mdui-col-md-4" style="margin: 3px">
+                  <input
+                    id="socks5"
+                    class="mdui-textfield-input"
+                    type="text"
+                    placeholder="port"
+                    {%
+                    if
+                    socks5
+                    %}
+                    value="{{"
+                    socks5
+                    }}
+                    {%
+                    else
+                    %}
+                    value="10808"
+                    {%
+                    endif
+                    %}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="vmess-config">
+            <td>domain policy</td>
+            <td>
+              <div class="mdui-row">
+                <div class="mdui-col-md-4" style="margin: 3px">
+                  <form id="strategy" action="##">
+                    <select name="routeChoice" class="mdui-select" mdui-select>
+                      {% if config['DOMAINSTRATEGY'] == 'Asis' %}
+                      <option id="Asis" value="1" selected>Asis</option>
+                      <option id="IPIfNonMatch" value="2">IPIfNonMatch</option>
+                      <option id="IPOnDemand" value="3">IPOnDemand</option>
+                      {% elif config['DOMAINSTRATEGY'] == 'IPIfNonMatch' %}
+                      <option id="Asis" value="1">Asis</option>
+                      <option id="IPIfNonMatch" value="2" selected>
+                        IPIfNonMatch
+                      </option>
+                      <option id="IPOnDemand" value="3">IPOnDemand</option>
+                      {% else %}
+                      <option id="Asis" value="1">Asis</option>
+                      <option id="IPIfNonMatch" value="2">IPIfNonMatch</option>
+                      <option id="IPOnDemand" value="3" selected>
+                        IPOnDemand
+                      </option>
+                      {% endif %}
+                    </select>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="vmess-config">
+            <td>routing pattern</td>
+            <td>
+              <div class="mdui-row">
+                <div class="mdui-col-md-4" style="margin: 3px">
+                  <form id="route" action="##">
+                    <select name="routeChoice" class="mdui-select" mdui-select>
+                      {% if config['RULES'] == 'all'%}
+                      <option id="all" value="1" selected>global</option>
+                      <option id="bpL" value="2">Bypass LAN address</option>
+                      <option id="bpA" value="3">
+                        Bypass mainland address
+                      </option>
+                      <option id="bpLAA" value="4">
+                        Bypass LAN and mainland addresses
+                      </option>
+                      {% elif config['RULES'] == 'bpL' %}
+                      <option id="all" value="1">global</option>
+                      <option id="bpL" value="2" selected>
+                        Bypass LAN address
+                      </option>
+                      <option id="bpA" value="3">
+                        Bypass mainland address
+                      </option>
+                      <option id="bpLAA" value="4">
+                        Bypass LAN and mainland addresses
+                      </option>
+                      {% elif config['RULES'] == 'bpA' %}
+                      <option id="all" value="1">global</option>
+                      <option id="bpL" value="2">Bypass LAN address</option>
+                      <option id="bpA" value="3" selected>
+                        Bypass mainland address
+                      </option>
+                      <option id="bpLAA" value="4">
+                        Bypass LAN and mainland addresses
+                      </option>
+                      {% else %}
+                      <option id="all" value="1">global</option>
+                      <option id="bpL" value="2">Bypass LAN address</option>
+                      <option id="bpA" value="3">
+                        Bypass mainland address
+                      </option>
+                      <option id="bpLAA" value="4" selected>
+                        Bypass LAN and mainland addresses
+                      </option>
+                      {% endif %}
+                    </select>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>http port</td>
+            <td>
+              <div class="mdui-row">
+                <div class="mdui-col-md-4" style="margin: 3px">
+                  <input
+                    id="http"
+                    class="mdui-textfield-input"
+                    type="text"
+                    placeholder="port"
+                    {%
+                    if
+                    http
+                    %}
+                    value="{{"
+                    http
+                    }}
+                    {%
+                    else
+                    %}
+                    value="10809"
+                    {%
+                    endif
+                    %}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+          <td>
+            Operational control
+            <i
+              class="mdui-icon material-icons mdui-text-color-grey-400"
+              mdui-dialog="{target: '#control-helper'}"
+              >info</i
+            >
+            <div class="mdui-dialog" id="control-helper">
+              <div class="mdui-dialog-title">control instructions</div>
+              <div class="mdui-dialog-content">
+                <b
+                  >The configuration cannot be modified during running, please
+                  click the running button to stop the service first</b
+                ><br />
+              </div>
+              <div class="mdui-dialog-actions">
+                <button class="mdui-btn mdui-ripple" mdui-dialog-close="">
+                  confirm
+                </button>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="mdui-row">
+              <div class="mdui-col-md-4">
+                <div class="mdui-chip" onclick="save_config()">
+                  <span class="mdui-chip-icon mdui-color-yellow-700"
+                    ><i class="mdui-icon material-icons"
+                      >settings_backup_restore</i
+                    ></span
+                  >
+                  <span class="mdui-chip-title">keep</span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script type="text/javascript">
+  mdui.mutation();
+  function message(m_message) {
+    mdui.snackbar({
+      message: m_message,
+      position: "right-top",
+    });
+  }
+
+  function save_config() {
+    let socks5 = document.getElementById("socks5").value;
+    let http = document.getElementById("http").value;
+    let strategy = document.getElementById("strategy").innerText;
+    let route = document.getElementById("route").innerText;
+
+    if (socks5 == "") {
+      message("socks5 The port number is incorrect");
+      return;
+    }
+    if (http == "") {
+      message("http The port number is incorrect");
+      return;
+    }
+    if (route == "") {
+      message("incorrect routing");
+      return;
+    }
+    if (strategy == "") {
+      message("incorrect strategy");
+      return;
+    }
+
+    $.ajax({
+      url: "/api/changeOthers",
+      headers: { "Content-Type": "application/json;charset=utf-8" },
+      data: JSON.stringify({
+        socks5: socks5,
+        http: http,
+        route: route,
+        strategy: strategy,
+      }),
+      type: "post",
+      dataType: "json",
+      success: function (data) {
+        //The json data returned by the backend (where data is a json object)
+
+        if (data["status"] == "Failure") {
+          message("failed");
+        } else {
+          message("keep configured successfully");
+          window.location.href = data["url"];
+        }
+      },
+      error: function () {
+        alert("abnormal");
+      },
+    });
+  }
+</script>
+{% endblock %}
