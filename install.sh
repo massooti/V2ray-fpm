@@ -60,7 +60,7 @@ chmod +x /etc/rc.local
 
 function install_components() {
     # install_v2ray
-    pip3 install -r requirements.txt
+    # pip3 install -r requirements.txt
     echo_supervisord_conf > config/supervisord.conf
     SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
     sudo kill -9 $(ps -aux|grep supervisor| awk '{print$2}')

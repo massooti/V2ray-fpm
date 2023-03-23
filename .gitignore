@@ -1,1 +1,5 @@
 v2rayClient/
+__pycache__/
+.idea/
+app/__pycache__/
+v2rayControl/__pycache__/

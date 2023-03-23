@@ -4,19 +4,21 @@
  * Licensed under MIT
  */
 /* jshint ignore:start */
-;(function(global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.mdui = factory());
-}(this, (function() {
-  'use strict';
+(function (global, factory) {
+  typeof exports === "object" && typeof module !== "undefined"
+    ? (module.exports = factory())
+    : typeof define === "function" && define.amd
+    ? define(factory)
+    : (global.mdui = factory());
+})(this, function () {
+  "use strict";
 
   /* jshint ignore:end */
   var mdui = {};
 
   /**
    * =============================================================================
-   * ************   浏览器兼容性问题修复   ************
+   * ************   Browser compatibility issues fixed   ************
    * =============================================================================
    */
 
@@ -38,8 +40,8 @@
         var timeToCall = Math.max(0, 16.7 - (currTime - lastTime));
 
         var id = window.setTimeout(function () {
-            callback(currTime + timeToCall);
-          }, timeToCall);
+          callback(currTime + timeToCall);
+        }, timeToCall);
 
         lastTime = currTime + timeToCall;
         return id;
@@ -53,7 +55,6 @@
     }
   })();
 
-
   /**
    * =============================================================================
    * ************   JavaScript 工具库，语法和 jQuery 类似   ************
@@ -61,9 +62,8 @@
    */
   /* jshint ignore:start */
   var $ = (function (window, document, undefined) {
-    'use strict';
-  /* jshint ignore:end */
-
+    "use strict";
+    /* jshint ignore:end */
 
     var emptyArray = [];
     var slice = emptyArray.slice;
@@ -78,7 +78,7 @@
      * @returns {boolean}
      */
     function isArrayLike(obj) {
-      return typeof obj.length === 'number';
+      return typeof obj.length === "number";
     }
 
     /**
@@ -174,15 +174,15 @@
     }
 
     function isFunction(fn) {
-      return typeof fn === 'function';
+      return typeof fn === "function";
     }
 
     function isString(obj) {
-      return typeof obj === 'string';
+      return typeof obj === "string";
     }
 
     function isObject(obj) {
-      return typeof obj === 'object';
+      return typeof obj === "object";
     }
 
     /**
@@ -216,10 +216,10 @@
       if (!elementDisplay[nodeName]) {
         element = document.createElement(nodeName);
         document.body.appendChild(element);
-        display = getComputedStyle(element, '').getPropertyValue('display');
+        display = getComputedStyle(element, "").getPropertyValue("display");
         element.parentNode.removeChild(element);
-        if (display === 'none') {
-          display = 'block';
+        if (display === "none") {
+          display = "block";
         }
 
         elementDisplay[nodeName] = display;
@@ -227,7 +227,6 @@
 
       return elementDisplay[nodeName];
     }
-
 
     var JQ = function (arr) {
       var _this = this;
@@ -263,27 +262,27 @@
         selector = selector.trim();
 
         // 创建 HTML 字符串
-        if (selector[0] === '<' && selector[selector.length - 1] === '>') {
+        if (selector[0] === "<" && selector[selector.length - 1] === ">") {
           // HTML
-          var toCreate = 'div';
-          if (selector.indexOf('<li') === 0) {
-            toCreate = 'ul';
+          var toCreate = "div";
+          if (selector.indexOf("<li") === 0) {
+            toCreate = "ul";
           }
 
-          if (selector.indexOf('<tr') === 0) {
-            toCreate = 'tbody';
+          if (selector.indexOf("<tr") === 0) {
+            toCreate = "tbody";
           }
 
-          if (selector.indexOf('<td') === 0 || selector.indexOf('<th') === 0) {
-            toCreate = 'tr';
+          if (selector.indexOf("<td") === 0 || selector.indexOf("<th") === 0) {
+            toCreate = "tr";
           }
 
-          if (selector.indexOf('<tbody') === 0) {
-            toCreate = 'table';
+          if (selector.indexOf("<tbody") === 0) {
+            toCreate = "table";
           }
 
-          if (selector.indexOf('<option') === 0) {
-            toCreate = 'select';
+          if (selector.indexOf("<option") === 0) {
+            toCreate = "select";
           }
 
           tempParent = document.createElement(toCreate);
@@ -295,9 +294,8 @@
 
         // 选择器
         else {
-
           // id 选择器
-          if (selector[0] === '#' && !selector.match(/[ .<>:~]/)) {
+          if (selector[0] === "#" && !selector.match(/[ .<>:~]/)) {
             els = [document.getElementById(selector.slice(1))];
           }
 
@@ -320,7 +318,11 @@
       }
 
       // Node
-      else if (selector.nodeType || selector === window || selector === document) {
+      else if (
+        selector.nodeType ||
+        selector === window ||
+        selector === document
+      ) {
         arr.push(selector);
       }
 
@@ -375,7 +377,6 @@
     };
 
     $.extend({
-
       /**
        * 遍历对象
        * @param obj {String|Array|Object}
@@ -428,7 +429,7 @@
        */
       param: function (obj) {
         if (!isObjectLike(obj)) {
-          return '';
+          return "";
         }
 
         var args = [];
@@ -436,7 +437,7 @@
           destructure(key, value);
         });
 
-        return args.join('&');
+        return args.join("&");
 
         function destructure(key, value) {
           var keyTmp;
@@ -444,18 +445,18 @@
           if (isObjectLike(value)) {
             each(value, function (i, v) {
               if (isArray(value) && !isObjectLike(v)) {
-                keyTmp = '';
+                keyTmp = "";
               } else {
                 keyTmp = i;
               }
 
-              destructure(key + '[' + keyTmp + ']', v);
+              destructure(key + "[" + keyTmp + "]", v);
             });
           } else {
-            if (!isNull(value) && value !== '') {
-              keyTmp = '=' + encodeURIComponent(value);
+            if (!isNull(value) && value !== "") {
+              keyTmp = "=" + encodeURIComponent(value);
             } else {
-              keyTmp = '';
+              keyTmp = "";
             }
 
             args.push(encodeURIComponent(key) + keyTmp);
@@ -465,7 +466,6 @@
     });
 
     $.fn.extend({
-
       /**
        * 遍历对象
        * @param callback {Function}
@@ -481,9 +481,11 @@
        * @returns {JQ}
        */
       map: function (callback) {
-        return new JQ(map(this, function (el, i) {
-          return callback.call(el, i, el);
-        }));
+        return new JQ(
+          map(this, function (el, i) {
+            return callback.call(el, i, el);
+          })
+        );
       },
 
       /**
@@ -492,9 +494,9 @@
        * @returns {Node|Array}
        */
       get: function (index) {
-        return index === undefined ?
-          slice.call(this) :
-          this[index >= 0 ? index : index + this.length];
+        return index === undefined
+          ? slice.call(this)
+          : this[index >= 0 ? index : index + this.length];
       },
 
       /**
@@ -562,7 +564,7 @@
         return this.map(function () {
           var offsetParent = this.offsetParent;
 
-          while (offsetParent && $(offsetParent).css('position') === 'static') {
+          while (offsetParent && $(offsetParent).css("position") === "static") {
             offsetParent = offsetParent.offsetParent;
           }
 
@@ -588,24 +590,24 @@
           left: 0,
         };
 
-        if (_this.css('position') === 'fixed') {
+        if (_this.css("position") === "fixed") {
           offset = _this[0].getBoundingClientRect();
         } else {
           offsetParent = _this.offsetParent();
           offset = _this.offset();
-          if (!nodeName(offsetParent[0], 'html')) {
+          if (!nodeName(offsetParent[0], "html")) {
             parentOffset = offsetParent.offset();
           }
 
           parentOffset = {
-            top: parentOffset.top + offsetParent.css('borderTopWidth'),
-            left: parentOffset.left + offsetParent.css('borderLeftWidth'),
+            top: parentOffset.top + offsetParent.css("borderTopWidth"),
+            left: parentOffset.left + offsetParent.css("borderLeftWidth"),
           };
         }
 
         return {
-          top: offset.top - parentOffset.top - _this.css('marginTop'),
-          left: offset.left - parentOffset.left - _this.css('marginLeft'),
+          top: offset.top - parentOffset.top - _this.css("marginTop"),
+          left: offset.left - parentOffset.left - _this.css("marginLeft"),
           width: offset.width,
           height: offset.height,
         };
@@ -617,11 +619,14 @@
        */
       show: function () {
         return this.each(function () {
-          if (this.style.display === 'none') {
-            this.style.display = '';
+          if (this.style.display === "none") {
+            this.style.display = "";
           }
 
-          if (window.getComputedStyle(this, '').getPropertyValue('display') === 'none') {
+          if (
+            window.getComputedStyle(this, "").getPropertyValue("display") ===
+            "none"
+          ) {
             this.style.display = defaultDisplay(this.nodeName);
           }
         });
@@ -633,7 +638,7 @@
        */
       hide: function () {
         return this.each(function () {
-          this.style.display = 'none';
+          this.style.display = "none";
         });
       },
 
@@ -643,7 +648,7 @@
        */
       toggle: function () {
         return this.each(function () {
-          this.style.display = this.style.display === 'none' ? '' : 'none';
+          this.style.display = this.style.display === "none" ? "" : "none";
         });
       },
 
@@ -690,7 +695,8 @@
        * @returns {JQ}
        */
       eq: function (index) {
-        var ret = index === -1 ? this.slice(index) : this.slice(index, +index + 1);
+        var ret =
+          index === -1 ? this.slice(index) : this.slice(index, +index + 1);
         return new JQ(ret);
       },
 
@@ -882,7 +888,7 @@
        */
       empty: function () {
         return this.each(function () {
-          this.innerHTML = '';
+          this.innerHTML = "";
         });
       },
 
@@ -922,15 +928,15 @@
 
         $(slice.call(ele.elements)).each(function () {
           $ele = $(this);
-          type = $ele.attr('type');
+          type = $ele.attr("type");
           if (
-            this.nodeName.toLowerCase() !== 'fieldset' &&
+            this.nodeName.toLowerCase() !== "fieldset" &&
             !this.disabled &&
-            ['submit', 'reset', 'button'].indexOf(type) === -1 &&
-            (['radio', 'checkbox'].indexOf(type) === -1 || this.checked)
+            ["submit", "reset", "button"].indexOf(type) === -1 &&
+            (["radio", "checkbox"].indexOf(type) === -1 || this.checked)
           ) {
             result.push({
-              name: $ele.attr('name'),
+              name: $ele.attr("name"),
               value: $ele.val(),
             });
           }
@@ -946,10 +952,12 @@
       serialize: function () {
         var result = [];
         each(this.serializeArray(), function (i, elm) {
-          result.push(encodeURIComponent(elm.name) + '=' + encodeURIComponent(elm.value));
+          result.push(
+            encodeURIComponent(elm.name) + "=" + encodeURIComponent(elm.value)
+          );
         });
 
-        return result.join('&');
+        return result.join("&");
       },
     });
 
@@ -968,11 +976,11 @@
      * @param value {String=}
      * @return {*|JQ}
      */
-    each(['val', 'html', 'text'], function (nameIndex, name) {
+    each(["val", "html", "text"], function (nameIndex, name) {
       var props = {
-        0: 'value',
-        1: 'innerHTML',
-        2: 'textContent',
+        0: "value",
+        1: "innerHTML",
+        2: "textContent",
       };
 
       var defaults = {
@@ -1009,7 +1017,7 @@
      * @param {name|props|key,value=}
      * @return {String|JQ}
      */
-    each(['attr', 'prop', 'css'], function (nameIndex, name) {
+    each(["attr", "prop", "css"], function (nameIndex, name) {
       var set = function (ele, key, value) {
         if (nameIndex === 0) {
           ele.setAttribute(key, value);
@@ -1073,13 +1081,13 @@
      * @param className {String}
      * @return {JQ}
      */
-    each(['add', 'remove', 'toggle'], function (nameIndex, name) {
-      $.fn[name + 'Class'] = function (className) {
+    each(["add", "remove", "toggle"], function (nameIndex, name) {
+      $.fn[name + "Class"] = function (className) {
         if (!className) {
           return this;
         }
 
-        var classes = className.split(' ');
+        var classes = className.split(" ");
         return this.each(function (i, ele) {
           each(classes, function (j, cls) {
             ele.classList[name](cls);
@@ -1096,49 +1104,63 @@
      * height - 获取元素的高度
      * @return {Number}
      */
-    each({
-      Width: 'width',
-      Height: 'height',
-    }, function (prop, name) {
-      $.fn[name] = function (val) {
-        if (val === undefined) {
-          // 获取
-          var ele = this[0];
+    each(
+      {
+        Width: "width",
+        Height: "height",
+      },
+      function (prop, name) {
+        $.fn[name] = function (val) {
+          if (val === undefined) {
+            // 获取
+            var ele = this[0];
 
-          if (isWindow(ele)) {
-            return ele['inner' + prop];
-          }
-
-          if (isDocument(ele)) {
-            return ele.documentElement['scroll' + prop];
-          }
-
-          var $ele = $(ele);
-
-          // IE10、IE11 在 box-sizing:border-box 时，不会包含 padding 和 border，这里进行修复
-          var IEFixValue = 0;
-          var isWidth = name === 'width';
-          if ('ActiveXObject' in window) { // 判断是 IE 浏览器
-            if ($ele.css('box-sizing') === 'border-box') {
-              IEFixValue =
-                parseFloat($ele.css('padding-' + (isWidth ? 'left' : 'top'))) +
-                parseFloat($ele.css('padding-' + (isWidth ? 'right' : 'bottom'))) +
-                parseFloat($ele.css('border-' + (isWidth ? 'left' : 'top') + '-width')) +
-                parseFloat($ele.css('border-' + (isWidth ? 'right' : 'bottom') + '-width'));
+            if (isWindow(ele)) {
+              return ele["inner" + prop];
             }
-          }
 
-          return parseFloat($(ele).css(name)) + IEFixValue;
-        } else {
-          // 设置
-          if (!isNaN(Number(val)) && val !== '') {
-            val += 'px';
-          }
+            if (isDocument(ele)) {
+              return ele.documentElement["scroll" + prop];
+            }
 
-          return this.css(name, val);
-        }
-      };
-    });
+            var $ele = $(ele);
+
+            // IE10、IE11 在 box-sizing:border-box 时，不会包含 padding 和 border，这里进行修复
+            var IEFixValue = 0;
+            var isWidth = name === "width";
+            if ("ActiveXObject" in window) {
+              // 判断是 IE 浏览器
+              if ($ele.css("box-sizing") === "border-box") {
+                IEFixValue =
+                  parseFloat(
+                    $ele.css("padding-" + (isWidth ? "left" : "top"))
+                  ) +
+                  parseFloat(
+                    $ele.css("padding-" + (isWidth ? "right" : "bottom"))
+                  ) +
+                  parseFloat(
+                    $ele.css("border-" + (isWidth ? "left" : "top") + "-width")
+                  ) +
+                  parseFloat(
+                    $ele.css(
+                      "border-" + (isWidth ? "right" : "bottom") + "-width"
+                    )
+                  );
+              }
+            }
+
+            return parseFloat($(ele).css(name)) + IEFixValue;
+          } else {
+            // 设置
+            if (!isNaN(Number(val)) && val !== "") {
+              val += "px";
+            }
+
+            return this.css(name, val);
+          }
+        };
+      }
+    );
 
     /**
      * innerWidth - 获取元素的宽度，包含内边距
@@ -1148,22 +1170,29 @@
      * innerHeight - 获取元素的高度，包含内边距
      * @return {Number}
      */
-    each({
-      Width: 'width',
-      Height: 'height',
-    }, function (prop, name) {
-      $.fn['inner' + prop] = function () {
-        var value = this[name]();
-        var $ele = $(this[0]);
+    each(
+      {
+        Width: "width",
+        Height: "height",
+      },
+      function (prop, name) {
+        $.fn["inner" + prop] = function () {
+          var value = this[name]();
+          var $ele = $(this[0]);
 
-        if ($ele.css('box-sizing') !== 'border-box') {
-          value += parseFloat($ele.css('padding-' + (name === 'width' ? 'left' : 'top')));
-          value += parseFloat($ele.css('padding-' + (name === 'width' ? 'right' : 'bottom')));
-        }
+          if ($ele.css("box-sizing") !== "border-box") {
+            value += parseFloat(
+              $ele.css("padding-" + (name === "width" ? "left" : "top"))
+            );
+            value += parseFloat(
+              $ele.css("padding-" + (name === "width" ? "right" : "bottom"))
+            );
+          }
 
-        return value;
-      };
-    });
+          return value;
+        };
+      }
+    );
 
     var dir = function (nodes, selector, nameIndex, node) {
       var ret = [];
@@ -1214,12 +1243,11 @@
      * @param selector {String=}
      * @return {JQ}
      */
-    each(['', 'All', 'Until'], function (nameIndex, name) {
-      $.fn['prev' + name] = function (selector) {
-
+    each(["", "All", "Until"], function (nameIndex, name) {
+      $.fn["prev" + name] = function (selector) {
         // prevAll、prevUntil 需要把元素的顺序倒序处理，以便和 jQuery 的结果一致
         var $nodes = nameIndex === 0 ? this : $(this.get().reverse());
-        return dir($nodes, selector, nameIndex, 'previousElementSibling');
+        return dir($nodes, selector, nameIndex, "previousElementSibling");
       };
     });
 
@@ -1238,9 +1266,9 @@
      * @param selector {String=}
      * @return {JQ}
      */
-    each(['', 'All', 'Until'], function (nameIndex, name) {
-      $.fn['next' + name] = function (selector) {
-        return dir(this, selector, nameIndex, 'nextElementSibling');
+    each(["", "All", "Until"], function (nameIndex, name) {
+      $.fn["next" + name] = function (selector) {
+        return dir(this, selector, nameIndex, "nextElementSibling");
       };
     });
 
@@ -1259,12 +1287,11 @@
      * @param selector {String=}
      * @return {JQ}
      */
-    each(['', 's', 'sUntil'], function (nameIndex, name) {
-      $.fn['parent' + name] = function (selector) {
-
+    each(["", "s", "sUntil"], function (nameIndex, name) {
+      $.fn["parent" + name] = function (selector) {
         // parents、parentsUntil 需要把元素的顺序反向处理，以便和 jQuery 的结果一致
         var $nodes = nameIndex === 0 ? this : $(this.get().reverse());
-        return dir($nodes, selector, nameIndex, 'parentNode');
+        return dir($nodes, selector, nameIndex, "parentNode");
       };
     });
 
@@ -1278,13 +1305,13 @@
      * @param newChild {String|Node|NodeList|JQ}
      * @return {JQ}
      */
-    each(['append', 'prepend'], function (nameIndex, name) {
+    each(["append", "prepend"], function (nameIndex, name) {
       $.fn[name] = function (newChild) {
         var newChilds;
         var copyByClone = this.length > 1;
 
         if (isString(newChild)) {
-          var tempDiv = document.createElement('div');
+          var tempDiv = document.createElement("div");
           tempDiv.innerHTML = newChild;
           newChilds = slice.call(tempDiv.childNodes);
         } else {
@@ -1325,7 +1352,7 @@
      * @param selector {String|Node|NodeList|JQ}
      * @return {JQ}
      */
-    each(['insertBefore', 'insertAfter'], function (nameIndex, name) {
+    each(["insertBefore", "insertAfter"], function (nameIndex, name) {
       $.fn[name] = function (selector) {
         var $ele = $(selector);
         return this.each(function (i, _this) {
@@ -1364,23 +1391,24 @@
      * @param selector {String|Node|NodeList|JQ}
      * @return {JQ}
      */
-    each({
-      appendTo: 'append',
-      prependTo: 'prepend',
-      before: 'insertBefore',
-      after: 'insertAfter',
-      replaceAll: 'replaceWith',
-    }, function (name, original) {
-      $.fn[name] = function (selector) {
-        $(selector)[original](this);
-        return this;
-      };
-    });
-
-
+    each(
+      {
+        appendTo: "append",
+        prependTo: "prepend",
+        before: "insertBefore",
+        after: "insertAfter",
+        replaceAll: "replaceWith",
+      },
+      function (name, original) {
+        $.fn[name] = function (selector) {
+          $(selector)[original](this);
+          return this;
+        };
+      }
+    );
 
     (function () {
-      var dataNS = 'mduiElementDataStorage';
+      var dataNS = "mduiElementDataStorage";
 
       $.extend({
         /**
@@ -1403,7 +1431,7 @@
             var result = {};
             each(ele.attributes, function (i, attribute) {
               var name = attribute.name;
-              if (name.indexOf('data-') === 0) {
+              if (name.indexOf("data-") === 0) {
                 var prop = name.slice(5).replace(/-./g, function (u) {
                   // 横杠转为驼峰法
                   return u.charAt(1).toUpperCase();
@@ -1422,10 +1450,10 @@
             return result;
           } else {
             // 获取指定值
-            if (ele[dataNS] && (key in ele[dataNS])) {
+            if (ele[dataNS] && key in ele[dataNS]) {
               return ele[dataNS][key];
             } else {
-              var dataKey = ele.getAttribute('data-' + key);
+              var dataKey = ele.getAttribute("data-" + key);
               if (dataKey) {
                 return dataKey;
               } else {
@@ -1455,11 +1483,9 @@
             delete ele.mduiElementDataStorage[key];
           }
         },
-
       });
 
       $.fn.extend({
-
         /**
          * 在元素上读取或设置数据
          * @param key 必须
@@ -1469,13 +1495,11 @@
         data: function (key, value) {
           if (value === undefined) {
             if (isObjectLike(key)) {
-
               // 同时设置多个值
               return this.each(function (i, ele) {
                 $.data(ele, key);
               });
             } else if (this[0]) {
-
               // 获取值
               return $.data(this[0], key);
             } else {
@@ -1499,10 +1523,8 @@
             $.removeData(ele, key);
           });
         },
-
       });
     })();
-
 
     (function () {
       // 存储事件
@@ -1532,12 +1554,19 @@
          * @returns {ready}
          */
         ready: function (callback) {
-          if (/complete|loaded|interactive/.test(document.readyState) && document.body) {
+          if (
+            /complete|loaded|interactive/.test(document.readyState) &&
+            document.body
+          ) {
             callback($);
           } else {
-            document.addEventListener('DOMContentLoaded', function () {
-              callback($);
-            }, false);
+            document.addEventListener(
+              "DOMContentLoaded",
+              function () {
+                callback($);
+              },
+              false
+            );
           }
 
           return this;
@@ -1585,7 +1614,11 @@
 
           // selector 不存在
           // $().on(event, data, callback)
-          if (!isString(selector) && !isFunction(callback) && callback !== false) {
+          if (
+            !isString(selector) &&
+            !isFunction(callback) &&
+            callback !== false
+          ) {
             callback = data;
             data = selector;
             selector = undefined;
@@ -1629,12 +1662,12 @@
 
           if (!isString(eventName)) {
             each(eventName, function (type, fn) {
-              type.split(' ').forEach(function (eName) {
+              type.split(" ").forEach(function (eName) {
                 _this.on(eName, selector, data, fn, 1);
               });
             });
           } else {
-            eventName.split(' ').forEach(function (eName) {
+            eventName.split(" ").forEach(function (eName) {
               _this.on(eName, selector, data, callback, 1);
             });
           }
@@ -1670,7 +1703,11 @@
 
           // selector 不存在
           // $().off(event, callback)
-          if (!isString(selector) && !isFunction(callback) && callback !== false) {
+          if (
+            !isString(selector) &&
+            !isFunction(callback) &&
+            callback !== false
+          ) {
             callback = selector;
             selector = undefined;
           }
@@ -1697,7 +1734,9 @@
             return;
           }
 
-          var isMouseEvent = ['click', 'mousedown', 'mouseup', 'mousemove'].indexOf(eventName) > -1;
+          var isMouseEvent =
+            ["click", "mousedown", "mouseup", "mousemove"].indexOf(eventName) >
+            -1;
 
           var evt;
 
@@ -1709,8 +1748,24 @@
                 cancelable: true,
               });
             } catch (e) {
-              evt = document.createEvent('MouseEvent');
-              evt.initMouseEvent(eventName, true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+              evt = document.createEvent("MouseEvent");
+              evt.initMouseEvent(
+                eventName,
+                true,
+                true,
+                window,
+                0,
+                0,
+                0,
+                0,
+                0,
+                false,
+                false,
+                false,
+                false,
+                0,
+                null
+              );
             }
           } else {
             try {
@@ -1720,7 +1775,7 @@
                 cancelable: true,
               });
             } catch (e) {
-              evt = document.createEvent('CustomEvent');
+              evt = document.createEvent("CustomEvent");
               evt.initCustomEvent(eventName, true, true, data);
             }
           }
@@ -1753,8 +1808,7 @@
           useCapture = true;
         }
 
-        eventName.split(' ').forEach(function (event) {
-
+        eventName.split(" ").forEach(function (event) {
           var handler = {
             e: event,
             fn: func,
@@ -1764,7 +1818,10 @@
 
           var callFn = function (e, ele) {
             // 因为鼠标事件模拟事件的 detail 属性是只读的，因此在 e._detail 中存储参数
-            var result = func.apply(ele, e._detail === undefined ? [e] : [e].concat(e._detail));
+            var result = func.apply(
+              ele,
+              e._detail === undefined ? [e] : [e].concat(e._detail)
+            );
 
             if (result === false) {
               e.preventDefault();
@@ -1772,23 +1829,27 @@
             }
           };
 
-          var proxyfn = handler.proxy = function (e) {
+          var proxyfn = (handler.proxy = function (e) {
             e._data = data;
 
             // 事件代理
             if (selector) {
-              $(element).find(selector).get().reverse().forEach(function (ele) {
-                if (ele === e.target || $.contains(ele, e.target)) {
-                  callFn(e, ele);
-                }
-              });
+              $(element)
+                .find(selector)
+                .get()
+                .reverse()
+                .forEach(function (ele) {
+                  if (ele === e.target || $.contains(ele, e.target)) {
+                    callFn(e, ele);
+                  }
+                });
             }
 
             // 不使用事件代理
             else {
               callFn(e, element);
             }
-          };
+          });
 
           handlers[elementId].push(handler);
           element.addEventListener(handler.e, proxyfn, useCapture);
@@ -1803,8 +1864,10 @@
        * @param selector
        */
       function remove(element, eventName, func, selector) {
-        (eventName || '').split(' ').forEach(function (event) {
-          getHandlers(element, event, func, selector).forEach(function (handler) {
+        (eventName || "").split(" ").forEach(function (event) {
+          getHandlers(element, event, func, selector).forEach(function (
+            handler
+          ) {
             delete handlers[getElementId(element)][handler.i];
             element.removeEventListener(handler.e, handler.proxy, false);
           });
@@ -1829,17 +1892,18 @@
        * @returns {Array.<T>}
        */
       function getHandlers(element, eventName, func, selector) {
-        return (handlers[getElementId(element)] || []).filter(function (handler) {
-
-          return handler &&
-            (!eventName  || handler.e === eventName) &&
+        return (handlers[getElementId(element)] || []).filter(function (
+          handler
+        ) {
+          return (
+            handler &&
+            (!eventName || handler.e === eventName) &&
             (!func || handler.fn.toString() === func.toString()) &&
-            (!selector || handler.sel === selector);
+            (!selector || handler.sel === selector)
+          );
         });
       }
-
     })();
-
 
     (function () {
       var globalOptions = {};
@@ -1847,10 +1911,10 @@
 
       // 全局事件名
       var ajaxEvent = {
-        ajaxStart: 'start.mdui.ajax',
-        ajaxSuccess: 'success.mdui.ajax',
-        ajaxError: 'error.mdui.ajax',
-        ajaxComplete: 'complete.mdui.ajax',
+        ajaxStart: "start.mdui.ajax",
+        ajaxSuccess: "success.mdui.ajax",
+        ajaxError: "error.mdui.ajax",
+        ajaxComplete: "complete.mdui.ajax",
       };
 
       /**
@@ -1859,7 +1923,7 @@
        * @returns {boolean}
        */
       var isQueryStringData = function (method) {
-        return ['GET', 'HEAD'].indexOf(method) >= 0;
+        return ["GET", "HEAD"].indexOf(method) >= 0;
       };
 
       /**
@@ -1869,11 +1933,10 @@
        * @returns {string}
        */
       var appendQuery = function (url, query) {
-        return (url + '&' + query).replace(/[&?]{1,2}/, '?');
+        return (url + "&" + query).replace(/[&?]{1,2}/, "?");
       };
 
       $.extend({
-
         /**
          * 为 ajax 请求设置全局配置参数
          * @param options
@@ -1887,28 +1950,28 @@
          * @param options
          */
         ajax: function (options) {
-
           // 配置参数
           var defaults = {
-            method: 'GET',         // 请求方式
-            data: false,           // 请求的数据，查询字符串或对象
-            processData: true,     // 是否把数据转换为查询字符串发送，为 false 时不进行自动转换。
-            async: true,           // 是否为异步请求
-            cache: true,           // 是否从缓存中读取，只对 GET/HEAD 请求有效，dataType 为 jsonp 时为 false
-            username: '',          // HTTP 访问认证的用户名
-            password: '',          // HTTP 访问认证的密码
-            headers: {},           // 一个键值对，随着请求一起发送
-            xhrFields: {},         // 设置 XHR 对象
-            statusCode: {},        // 一个 HTTP 代码和函数的对象
-            dataType: 'text',      // 预期服务器返回的数据类型 text、json、jsonp
-            jsonp: 'callback',     // jsonp 请求的回调函数名称
-            jsonpCallback: function () {  // （string 或 Function）使用指定的回调函数名代替自动生成的回调函数名
-              return 'mduijsonp_' + Date.now() + '_' + (jsonpID += 1);
+            method: "GET", // 请求方式
+            data: false, // 请求的数据，查询字符串或对象
+            processData: true, // 是否把数据转换为查询字符串发送，为 false 时不进行自动转换。
+            async: true, // 是否为异步请求
+            cache: true, // 是否从缓存中读取，只对 GET/HEAD 请求有效，dataType 为 jsonp 时为 false
+            username: "", // HTTP 访问认证的用户名
+            password: "", // HTTP 访问认证的密码
+            headers: {}, // 一个键值对，随着请求一起发送
+            xhrFields: {}, // 设置 XHR 对象
+            statusCode: {}, // 一个 HTTP 代码和函数的对象
+            dataType: "text", // 预期服务器返回的数据类型 text、json、jsonp
+            jsonp: "callback", // jsonp 请求的回调函数名称
+            jsonpCallback: function () {
+              // （string 或 Function）使用指定的回调函数名代替自动生成的回调函数名
+              return "mduijsonp_" + Date.now() + "_" + (jsonpID += 1);
             },
 
-            contentType: 'application/x-www-form-urlencoded', // 发送信息至服务器时内容编码类型
-            timeout: 0,            // 设置请求超时时间（毫秒）
-            global: true,          // 是否在 document 上触发全局 ajax 事件
+            contentType: "application/x-www-form-urlencoded", // 发送信息至服务器时内容编码类型
+            timeout: 0, // 设置请求超时时间（毫秒）
+            global: true, // 是否在 document 上触发全局 ajax 事件
             // beforeSend:    function (XMLHttpRequest) 请求发送前执行，返回 false 可取消本次 ajax 请求
             // success:       function (data, textStatus, XMLHttpRequest) 请求成功时调用
             // error:         function (XMLHttpRequest, textStatus) 请求失败时调用
@@ -1919,11 +1982,11 @@
 
           // 回调函数
           var callbacks = [
-            'beforeSend',
-            'success',
-            'error',
-            'statusCode',
-            'complete',
+            "beforeSend",
+            "success",
+            "error",
+            "statusCode",
+            "complete",
           ];
 
           // 是否已取消请求
@@ -1977,14 +2040,17 @@
               }
 
               // beforeSend 回调返回 false 时取消 ajax 请求
-              if (callback === 'beforeSend' && (result1 === false || result2 === false)) {
+              if (
+                callback === "beforeSend" &&
+                (result1 === false || result2 === false)
+              ) {
                 isCanceled = true;
               }
             }
           }
 
           // 请求方式转为大写
-          var method = options.method = options.method.toUpperCase();
+          var method = (options.method = options.method.toUpperCase());
 
           // 默认使用当前页面 URL
           if (!options.url) {
@@ -1997,9 +2063,13 @@
           if (
             (isQueryStringData(method) || options.processData) &&
             options.data &&
-            [ArrayBuffer, Blob, Document, FormData].indexOf(options.data.constructor) < 0
+            [ArrayBuffer, Blob, Document, FormData].indexOf(
+              options.data.constructor
+            ) < 0
           ) {
-            sendData = isString(options.data) ? options.data : $.param(options.data);
+            sendData = isString(options.data)
+              ? options.data
+              : $.param(options.data);
           } else {
             sendData = options.data;
           }
@@ -2012,17 +2082,20 @@
           }
 
           // JSONP
-          if (options.dataType === 'jsonp') {
+          if (options.dataType === "jsonp") {
             // URL 中添加自动生成的回调函数名
-            var callbackName = isFunction(options.jsonpCallback) ?
-              options.jsonpCallback() :
-              options.jsonpCallback;
-            var requestUrl = appendQuery(options.url, options.jsonp + '=' + callbackName);
+            var callbackName = isFunction(options.jsonpCallback)
+              ? options.jsonpCallback()
+              : options.jsonpCallback;
+            var requestUrl = appendQuery(
+              options.url,
+              options.jsonp + "=" + callbackName
+            );
 
             eventParams.options = options;
 
             triggerEvent(ajaxEvent.ajaxStart, eventParams);
-            triggerCallback('beforeSend', null);
+            triggerCallback("beforeSend", null);
 
             if (isCanceled) {
               return;
@@ -2031,8 +2104,8 @@
             var abortTimeout;
 
             // 创建 script
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
+            var script = document.createElement("script");
+            script.type = "text/javascript";
 
             // 创建 script 失败
             script.onerror = function () {
@@ -2041,10 +2114,10 @@
               }
 
               triggerEvent(ajaxEvent.ajaxError, eventParams);
-              triggerCallback('error', null, 'scripterror');
+              triggerCallback("error", null, "scripterror");
 
               triggerEvent(ajaxEvent.ajaxComplete, eventParams);
-              triggerCallback('complete', null, 'scripterror');
+              triggerCallback("complete", null, "scripterror");
             };
 
             script.src = requestUrl;
@@ -2058,14 +2131,14 @@
               eventParams.data = data;
 
               triggerEvent(ajaxEvent.ajaxSuccess, eventParams);
-              triggerCallback('success', data, 'success', null);
+              triggerCallback("success", data, "success", null);
 
               $(script).remove();
               script = null;
               delete window[callbackName];
             };
 
-            $('head').append(script);
+            $("head").append(script);
 
             if (options.timeout > 0) {
               abortTimeout = setTimeout(function () {
@@ -2073,7 +2146,7 @@
                 script = null;
 
                 triggerEvent(ajaxEvent.ajaxError, eventParams);
-                triggerCallback('error', null, 'timeout');
+                triggerCallback("error", null, "timeout");
               }, options.timeout);
             }
 
@@ -2082,21 +2155,32 @@
 
           // GET/HEAD 请求的缓存处理
           if (isQueryStringData(method) && !options.cache) {
-            options.url = appendQuery(options.url, '_=' + Date.now());
+            options.url = appendQuery(options.url, "_=" + Date.now());
           }
 
           // 创建 XHR
           var xhr = new XMLHttpRequest();
 
-          xhr.open(method, options.url, options.async, options.username, options.password);
+          xhr.open(
+            method,
+            options.url,
+            options.async,
+            options.username,
+            options.password
+          );
 
-          if (sendData && !isQueryStringData(method) && options.contentType !== false || options.contentType) {
-            xhr.setRequestHeader('Content-Type', options.contentType);
+          if (
+            (sendData &&
+              !isQueryStringData(method) &&
+              options.contentType !== false) ||
+            options.contentType
+          ) {
+            xhr.setRequestHeader("Content-Type", options.contentType);
           }
 
           // 设置 Accept
-          if (options.dataType === 'json') {
-            xhr.setRequestHeader('Accept', 'application/json, text/javascript');
+          if (options.dataType === "json") {
+            xhr.setRequestHeader("Accept", "application/json, text/javascript");
           }
 
           // 添加 headers
@@ -2114,7 +2198,7 @@
           }
 
           if (!options.crossDomain) {
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
           }
 
           if (options.xhrFields) {
@@ -2137,47 +2221,49 @@
             var textStatus;
 
             // AJAX 返回的 HTTP 响应码是否表示成功
-            var isHttpStatusSuccess = (xhr.status >= 200 && xhr.status < 300) || xhr.status === 0;
+            var isHttpStatusSuccess =
+              (xhr.status >= 200 && xhr.status < 300) || xhr.status === 0;
 
             if (isHttpStatusSuccess) {
-
-              if (xhr.status === 204 || method === 'HEAD') {
-                textStatus = 'nocontent';
+              if (xhr.status === 204 || method === "HEAD") {
+                textStatus = "nocontent";
               } else if (xhr.status === 304) {
-                textStatus = 'notmodified';
+                textStatus = "notmodified";
               } else {
-                textStatus = 'success';
+                textStatus = "success";
               }
 
               var responseData;
-              if (options.dataType === 'json') {
+              if (options.dataType === "json") {
                 try {
-                  eventParams.data = responseData = JSON.parse(xhr.responseText);
+                  eventParams.data = responseData = JSON.parse(
+                    xhr.responseText
+                  );
                 } catch (err) {
-                  textStatus = 'parsererror';
+                  textStatus = "parsererror";
 
                   triggerEvent(ajaxEvent.ajaxError, eventParams);
-                  triggerCallback('error', xhr, textStatus);
+                  triggerCallback("error", xhr, textStatus);
                 }
 
-                if (textStatus !== 'parsererror') {
+                if (textStatus !== "parsererror") {
                   triggerEvent(ajaxEvent.ajaxSuccess, eventParams);
-                  triggerCallback('success', responseData, textStatus, xhr);
+                  triggerCallback("success", responseData, textStatus, xhr);
                 }
               } else {
                 eventParams.data = responseData =
-                  xhr.responseType === 'text' || xhr.responseType === '' ?
-                  xhr.responseText :
-                  xhr.response;
+                  xhr.responseType === "text" || xhr.responseType === ""
+                    ? xhr.responseText
+                    : xhr.response;
 
                 triggerEvent(ajaxEvent.ajaxSuccess, eventParams);
-                triggerCallback('success', responseData, textStatus, xhr);
+                triggerCallback("success", responseData, textStatus, xhr);
               }
             } else {
-              textStatus = 'error';
+              textStatus = "error";
 
               triggerEvent(ajaxEvent.ajaxError, eventParams);
-              triggerCallback('error', xhr, textStatus);
+              triggerCallback("error", xhr, textStatus);
             }
 
             // statusCode
@@ -2192,7 +2278,7 @@
             });
 
             triggerEvent(ajaxEvent.ajaxComplete, eventParams);
-            triggerCallback('complete', xhr, textStatus);
+            triggerCallback("complete", xhr, textStatus);
           };
 
           xhr.onerror = function () {
@@ -2201,30 +2287,30 @@
             }
 
             triggerEvent(ajaxEvent.ajaxError, eventParams);
-            triggerCallback('error', xhr, xhr.statusText);
+            triggerCallback("error", xhr, xhr.statusText);
 
             triggerEvent(ajaxEvent.ajaxComplete, eventParams);
-            triggerCallback('complete', xhr, 'error');
+            triggerCallback("complete", xhr, "error");
           };
 
           xhr.onabort = function () {
-            var textStatus = 'abort';
+            var textStatus = "abort";
 
             if (xhrTimeout) {
-              textStatus = 'timeout';
+              textStatus = "timeout";
               clearTimeout(xhrTimeout);
             }
 
             triggerEvent(ajaxEvent.ajaxError, eventParams);
-            triggerCallback('error', xhr, textStatus);
+            triggerCallback("error", xhr, textStatus);
 
             triggerEvent(ajaxEvent.ajaxComplete, eventParams);
-            triggerCallback('complete', xhr, textStatus);
+            triggerCallback("complete", xhr, textStatus);
           };
 
           // ajax start 回调
           triggerEvent(ajaxEvent.ajaxStart, eventParams);
-          triggerCallback('beforeSend', xhr);
+          triggerCallback("beforeSend", xhr);
 
           if (isCanceled) {
             return xhr;
@@ -2268,12 +2354,10 @@
       });
     })();
 
-
-  /* jshint ignore:start */
+    /* jshint ignore:start */
     return $;
   })(window, document);
   /* jshint ignore:end */
-
 
   /**
    * =============================================================================
@@ -2314,10 +2398,9 @@
      */
     queue.dequeue = function (queueName) {
       if (queueData[queueName] !== undefined && queueData[queueName].length) {
-        (queueData[queueName].shift())();
+        queueData[queueName].shift()();
       }
     };
-
   })();
 
   /**
@@ -2341,14 +2424,14 @@
       if (
         TouchHandler.touches &&
         [
-          'mousedown',
-          'mouseup',
-          'mousemove',
-          'click',
-          'mouseover',
-          'mouseout',
-          'mouseenter',
-          'mouseleave',
+          "mousedown",
+          "mouseup",
+          "mousemove",
+          "click",
+          "mouseover",
+          "mouseout",
+          "mouseenter",
+          "mouseleave",
         ].indexOf(e.type) > -1
       ) {
         // 触发了 touch 事件后阻止鼠标事件
@@ -2363,10 +2446,12 @@
      * @param e
      */
     register: function (e) {
-      if (e.type === 'touchstart') {
+      if (e.type === "touchstart") {
         // 触发了 touch 事件
         TouchHandler.touches += 1;
-      } else if (['touchmove', 'touchend', 'touchcancel'].indexOf(e.type) > -1) {
+      } else if (
+        ["touchmove", "touchend", "touchcancel"].indexOf(e.type) > -1
+      ) {
         // touch 事件结束 500ms 后解除对鼠标事件的阻止
         setTimeout(function () {
           if (TouchHandler.touches) {
@@ -2376,11 +2461,11 @@
       }
     },
 
-    start: 'touchstart mousedown',
-    move: 'touchmove mousemove',
-    end: 'touchend mouseup',
-    cancel: 'touchcancel mouseleave',
-    unlock: 'touchend touchmove touchcancel',
+    start: "touchstart mousedown",
+    move: "touchmove mousemove",
+    end: "touchend mouseup",
+    cancel: "touchcancel mouseleave",
+    unlock: "touchend touchmove touchcancel",
   };
 
   // 测试事件
@@ -2416,10 +2501,9 @@
     // https://css-tricks.com/transitions-only-after-page-load/
 
     setTimeout(function () {
-      $('body').addClass('mdui-loaded');
+      $("body").addClass("mdui-loaded");
     }, 0);
   });
-
 
   /**
    * =============================================================================
@@ -2439,18 +2523,20 @@
       return options;
     }
 
-    if (typeof str === 'object') {
+    if (typeof str === "object") {
       return str;
     }
 
     /* jshint ignore:start */
-    var start = str.indexOf('{');
+    var start = str.indexOf("{");
     try {
-      options = (new Function('',
-        'var json = ' + str.substr(start) +
-        '; return JSON.parse(JSON.stringify(json));'))();
-    } catch (e) {
-    }
+      options = new Function(
+        "",
+        "var json = " +
+          str.substr(start) +
+          "; return JSON.parse(JSON.stringify(json));"
+      )();
+    } catch (e) {}
     /* jshint ignore:end */
 
     return options;
@@ -2471,17 +2557,16 @@
 
     obj.inst = inst;
 
-    var fullEventName = eventName + '.mdui.' + pluginName;
+    var fullEventName = eventName + ".mdui." + pluginName;
 
     // jQuery 事件
-    if (typeof jQuery !== 'undefined') {
+    if (typeof jQuery !== "undefined") {
       jQuery(trigger).trigger(fullEventName, obj);
     }
 
     // JQ 事件
     $(trigger).trigger(fullEventName, obj);
   };
-
 
   /**
    * =============================================================================
@@ -2490,7 +2575,6 @@
    */
 
   $.fn.extend({
-
     /**
      * 执行强制重绘
      */
@@ -2505,8 +2589,8 @@
      * @param duration
      */
     transition: function (duration) {
-      if (typeof duration !== 'string') {
-        duration = duration + 'ms';
+      if (typeof duration !== "string") {
+        duration = duration + "ms";
       }
 
       return this.each(function () {
@@ -2521,10 +2605,7 @@
      * @returns {transitionEnd}
      */
     transitionEnd: function (callback) {
-      var events = [
-          'webkitTransitionEnd',
-          'transitionend',
-        ];
+      var events = ["webkitTransitionEnd", "transitionend"];
       var i;
       var _this = this;
 
@@ -2570,7 +2651,6 @@
         this.style.transform = transform;
       });
     },
-
   });
 
   $.extend({
@@ -2579,13 +2659,13 @@
      * @param zIndex 遮罩层的 z-index
      */
     showOverlay: function (zIndex) {
-      var $overlay = $('.mdui-overlay');
+      var $overlay = $(".mdui-overlay");
 
       if ($overlay.length) {
-        $overlay.data('isDeleted', 0);
+        $overlay.data("isDeleted", 0);
 
         if (zIndex !== undefined) {
-          $overlay.css('z-index', zIndex);
+          $overlay.css("z-index", zIndex);
         }
       } else {
         if (zIndex === undefined) {
@@ -2595,13 +2675,13 @@
         $overlay = $('<div class="mdui-overlay">')
           .appendTo(document.body)
           .reflow()
-          .css('z-index', zIndex);
+          .css("z-index", zIndex);
       }
 
-      var level = $overlay.data('overlay-level') || 0;
+      var level = $overlay.data("overlay-level") || 0;
       return $overlay
-        .data('overlay-level', ++level)
-        .addClass('mdui-overlay-show');
+        .data("overlay-level", ++level)
+        .addClass("mdui-overlay-show");
     },
 
     /**
@@ -2609,24 +2689,24 @@
      * @param force 是否强制隐藏遮罩
      */
     hideOverlay: function (force) {
-      var $overlay = $('.mdui-overlay');
+      var $overlay = $(".mdui-overlay");
 
       if (!$overlay.length) {
         return;
       }
 
-      var level = force ? 1 : $overlay.data('overlay-level');
+      var level = force ? 1 : $overlay.data("overlay-level");
       if (level > 1) {
-        $overlay.data('overlay-level', --level);
+        $overlay.data("overlay-level", --level);
         return;
       }
 
       $overlay
-        .data('overlay-level', 0)
-        .removeClass('mdui-overlay-show')
-        .data('isDeleted', 1)
+        .data("overlay-level", 0)
+        .removeClass("mdui-overlay-show")
+        .data("isDeleted", 1)
         .transitionEnd(function () {
-          if ($overlay.data('isDeleted')) {
+          if ($overlay.data("isDeleted")) {
             $overlay.remove();
           }
         });
@@ -2636,17 +2716,15 @@
      * 锁定屏幕
      */
     lockScreen: function () {
-      var $body = $('body');
+      var $body = $("body");
 
       // 不直接把 body 设为 box-sizing: border-box，避免污染全局样式
       var newBodyWidth = $body.width();
 
-      $body
-        .addClass('mdui-locked')
-        .width(newBodyWidth);
+      $body.addClass("mdui-locked").width(newBodyWidth);
 
-      var level = $body.data('lockscreen-level') || 0;
-      $body.data('lockscreen-level', ++level);
+      var level = $body.data("lockscreen-level") || 0;
+      $body.data("lockscreen-level", ++level);
     },
 
     /**
@@ -2654,18 +2732,15 @@
      * @param force 是否强制解锁屏幕
      */
     unlockScreen: function (force) {
-      var $body = $('body');
+      var $body = $("body");
 
-      var level = force ? 1 : $body.data('lockscreen-level');
+      var level = force ? 1 : $body.data("lockscreen-level");
       if (level > 1) {
-        $body.data('lockscreen-level', --level);
+        $body.data("lockscreen-level", --level);
         return;
       }
 
-      $body
-        .data('lockscreen-level', 0)
-        .removeClass('mdui-locked')
-        .width('');
+      $body.data("lockscreen-level", 0).removeClass("mdui-locked").width("");
     },
 
     /**
@@ -2704,7 +2779,7 @@
 
     $.extend({
       guid: function (name) {
-        if (typeof name !== 'undefined' && typeof GUID[name] !== 'undefined') {
+        if (typeof name !== "undefined" && typeof GUID[name] !== "undefined") {
           return GUID[name];
         }
 
@@ -2714,9 +2789,21 @@
             .substring(1);
         }
 
-        var guid = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        var guid =
+          s4() +
+          s4() +
+          "-" +
+          s4() +
+          "-" +
+          s4() +
+          "-" +
+          s4() +
+          "-" +
+          s4() +
+          s4() +
+          s4();
 
-        if (typeof name !== 'undefined') {
+        if (typeof name !== "undefined") {
           GUID[name] = guid;
         }
 
@@ -2724,7 +2811,6 @@
       },
     });
   })();
-
 
   /**
    * =============================================================================
@@ -2754,15 +2840,15 @@
      *    类似 Drawer 可以使用委托事件完成.
      *    类似 Collapse 需要知道 DOM 发生突变, 并再次进行初始化.
      */
-    var entries = { };
+    var entries = {};
 
     function mutation(selector, apiInit, that, i, item) {
       var $this = $(that);
-      var m = $this.data('mdui.mutation');
+      var m = $this.data("mdui.mutation");
 
       if (!m) {
         m = [];
-        $this.data('mdui.mutation', m);
+        $this.data("mdui.mutation", m);
       }
 
       if (m.indexOf(selector) === -1) {
@@ -2789,7 +2875,7 @@
     });
 
     mdui.mutation = function (selector, apiInit) {
-      if (typeof selector !== 'string' || typeof apiInit !== 'function') {
+      if (typeof selector !== "string" || typeof apiInit !== "function") {
         $(document).mutation();
         return;
       }
@@ -2799,9 +2885,7 @@
         mutation(selector, apiInit, this, i, item);
       });
     };
-
   })();
-
 
   /**
    * =============================================================================
@@ -2810,17 +2894,16 @@
    */
 
   mdui.Headroom = (function () {
-
     /**
      * 默认参数
      * @type {{}}
      */
     var DEFAULT = {
-      tolerance: 5,                                 // 滚动条滚动多少距离开始隐藏或显示元素，{down: num, up: num}，或数字
-      offset: 0,                                    // 在页面顶部多少距离内滚动不会隐藏元素
-      initialClass: 'mdui-headroom',                // 初始化时添加的类
-      pinnedClass: 'mdui-headroom-pinned-top',      // 元素固定时添加的类
-      unpinnedClass: 'mdui-headroom-unpinned-top',  // 元素隐藏时添加的类
+      tolerance: 5, // 滚动条滚动多少距离开始隐藏或显示元素，{down: num, up: num}，或数字
+      offset: 0, // 在页面顶部多少距离内滚动不会隐藏元素
+      initialClass: "mdui-headroom", // 初始化时添加的类
+      pinnedClass: "mdui-headroom-pinned-top", // 元素固定时添加的类
+      unpinnedClass: "mdui-headroom-unpinned-top", // 元素隐藏时添加的类
     };
 
     /**
@@ -2838,12 +2921,12 @@
       }
 
       // 已通过自定义属性实例化过，不再重复实例化
-      var oldInst = _this.$headroom.data('mdui.headroom');
+      var oldInst = _this.$headroom.data("mdui.headroom");
       if (oldInst) {
         return oldInst;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
+      _this.options = $.extend({}, DEFAULT, opts || {});
 
       // 数值转为 {down: bum, up: num}
       var tolerance = _this.options.tolerance;
@@ -2864,10 +2947,12 @@
     Headroom.prototype._init = function () {
       var _this = this;
 
-      _this.state = 'pinned';
+      _this.state = "pinned";
       _this.$headroom
         .addClass(_this.options.initialClass)
-        .removeClass(_this.options.pinnedClass + ' ' + _this.options.unpinnedClass);
+        .removeClass(
+          _this.options.pinnedClass + " " + _this.options.unpinnedClass
+        );
 
       _this.inited = false;
       _this.lastScrollY = 0;
@@ -2886,7 +2971,7 @@
         _this.lastScrollY = window.pageYOffset;
         _this.inited = true;
 
-        $window.on('scroll', function () {
+        $window.on("scroll", function () {
           _this._scroll();
         });
       }
@@ -2900,7 +2985,7 @@
       var _this = this;
       _this.rafId = window.requestAnimationFrame(function () {
         var currentScrollY = window.pageYOffset;
-        var direction = currentScrollY > _this.lastScrollY ? 'down' : 'up';
+        var direction = currentScrollY > _this.lastScrollY ? "down" : "up";
         var toleranceExceeded =
           Math.abs(currentScrollY - _this.lastScrollY) >=
           _this.options.tolerance[direction];
@@ -2908,7 +2993,8 @@
         if (
           currentScrollY > _this.lastScrollY &&
           currentScrollY >= _this.options.offset &&
-          toleranceExceeded) {
+          toleranceExceeded
+        ) {
           _this.unpin();
         } else if (
           (currentScrollY < _this.lastScrollY && toleranceExceeded) ||
@@ -2926,14 +3012,14 @@
      * @param inst
      */
     var transitionEnd = function (inst) {
-      if (inst.state === 'pinning') {
-        inst.state = 'pinned';
-        componentEvent('pinned', 'headroom', inst, inst.$headroom);
+      if (inst.state === "pinning") {
+        inst.state = "pinned";
+        componentEvent("pinned", "headroom", inst, inst.$headroom);
       }
 
-      if (inst.state === 'unpinning') {
-        inst.state = 'unpinned';
-        componentEvent('unpinned', 'headroom', inst, inst.$headroom);
+      if (inst.state === "unpinning") {
+        inst.state = "unpinned";
+        componentEvent("unpinned", "headroom", inst, inst.$headroom);
       }
     };
 
@@ -2944,16 +3030,16 @@
       var _this = this;
 
       if (
-        _this.state === 'pinning' ||
-        _this.state === 'pinned' ||
+        _this.state === "pinning" ||
+        _this.state === "pinned" ||
         !_this.$headroom.hasClass(_this.options.initialClass)
       ) {
         return;
       }
 
-      componentEvent('pin', 'headroom', _this, _this.$headroom);
+      componentEvent("pin", "headroom", _this, _this.$headroom);
 
-      _this.state = 'pinning';
+      _this.state = "pinning";
 
       _this.$headroom
         .removeClass(_this.options.unpinnedClass)
@@ -2970,16 +3056,16 @@
       var _this = this;
 
       if (
-        _this.state === 'unpinning' ||
-        _this.state === 'unpinned' ||
+        _this.state === "unpinning" ||
+        _this.state === "unpinned" ||
         !_this.$headroom.hasClass(_this.options.initialClass)
       ) {
         return;
       }
 
-      componentEvent('unpin', 'headroom', _this, _this.$headroom);
+      componentEvent("unpin", "headroom", _this, _this.$headroom);
 
-      _this.state = 'unpinning';
+      _this.state = "unpinning";
 
       _this.$headroom
         .removeClass(_this.options.pinnedClass)
@@ -3008,14 +3094,15 @@
 
       if (_this.inited) {
         _this.inited = false;
-        _this.$headroom
-          .removeClass([
+        _this.$headroom.removeClass(
+          [
             _this.options.initialClass,
             _this.options.pinnedClass,
             _this.options.unpinnedClass,
-          ].join(' '));
+          ].join(" ")
+        );
 
-        $window.off('scroll', function () {
+        $window.off("scroll", function () {
           _this._scroll();
         });
 
@@ -3031,9 +3118,7 @@
     };
 
     return Headroom;
-
   })();
-
 
   /**
    * =============================================================================
@@ -3042,18 +3127,17 @@
    */
 
   $(function () {
-    mdui.mutation('[mdui-headroom]', function () {
+    mdui.mutation("[mdui-headroom]", function () {
       var $this = $(this);
-      var options = parseOptions($this.attr('mdui-headroom'));
+      var options = parseOptions($this.attr("mdui-headroom"));
 
-      var inst = $this.data('mdui.headroom');
+      var inst = $this.data("mdui.headroom");
       if (!inst) {
         inst = new mdui.Headroom($this, options);
-        $this.data('mdui.headroom', inst);
+        $this.data("mdui.headroom", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -3061,12 +3145,11 @@
    * =============================================================================
    */
   var CollapsePrivate = (function () {
-
     /**
      * 默认参数
      */
     var DEFAULT = {
-      accordion: false,                             // 是否使用手风琴效果
+      accordion: false, // 是否使用手风琴效果
     };
 
     /**
@@ -3083,11 +3166,11 @@
       _this.ns = namespace;
 
       // 类名
-      var classpPefix = 'mdui-' + _this.ns + '-item';
+      var classpPefix = "mdui-" + _this.ns + "-item";
       _this.class_item = classpPefix;
-      _this.class_item_open = classpPefix + '-open';
-      _this.class_header = classpPefix + '-header';
-      _this.class_body = classpPefix + '-body';
+      _this.class_item_open = classpPefix + "-open";
+      _this.class_header = classpPefix + "-header";
+      _this.class_body = classpPefix + "-body";
 
       // 折叠面板元素
       _this.$collapse = $(selector).eq(0);
@@ -3096,27 +3179,33 @@
       }
 
       // 已通过自定义属性实例化过，不再重复实例化
-      var oldInst = _this.$collapse.data('mdui.' + _this.ns);
+      var oldInst = _this.$collapse.data("mdui." + _this.ns);
       if (oldInst) {
         return oldInst;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
+      _this.options = $.extend({}, DEFAULT, opts || {});
 
-      _this.$collapse.on('click', '.' + _this.class_header, function () {
-        var $item = $(this).parent('.' + _this.class_item);
+      _this.$collapse.on("click", "." + _this.class_header, function () {
+        var $item = $(this).parent("." + _this.class_item);
         if (_this.$collapse.children($item).length) {
           _this.toggle($item);
         }
       });
 
       // 绑定关闭按钮
-      _this.$collapse.on('click', '[mdui-' + _this.ns + '-item-close]', function () {
-        var $item = $(this).parents('.' + _this.class_item).eq(0);
-        if (_this._isOpen($item)) {
-          _this.close($item);
+      _this.$collapse.on(
+        "click",
+        "[mdui-" + _this.ns + "-item-close]",
+        function () {
+          var $item = $(this)
+            .parents("." + _this.class_item)
+            .eq(0);
+          if (_this._isOpen($item)) {
+            _this.close($item);
+          }
         }
-      });
+      );
     }
 
     /**
@@ -3140,7 +3229,7 @@
 
       if (parseInt(item) === item) {
         // item 是索引号
-        return _this.$collapse.children('.' + _this.class_item).eq(item);
+        return _this.$collapse.children("." + _this.class_item).eq(item);
       }
 
       return $(item).eq(0);
@@ -3154,17 +3243,13 @@
      */
     var transitionEnd = function (inst, $content, $item) {
       if (inst._isOpen($item)) {
-        $content
-          .transition(0)
-          .height('auto')
-          .reflow()
-          .transition('');
+        $content.transition(0).height("auto").reflow().transition("");
 
-        componentEvent('opened', inst.ns, inst, $item[0]);
+        componentEvent("opened", inst.ns, inst, $item[0]);
       } else {
-        $content.height('');
+        $content.height("");
 
-        componentEvent('closed', inst.ns, inst, $item[0]);
+        componentEvent("closed", inst.ns, inst, $item[0]);
       }
     };
 
@@ -3182,7 +3267,7 @@
 
       // 关闭其他项
       if (_this.options.accordion) {
-        _this.$collapse.children('.' + _this.class_item_open).each(function () {
+        _this.$collapse.children("." + _this.class_item_open).each(function () {
           var $tmpItem = $(this);
 
           if ($tmpItem !== $item) {
@@ -3191,15 +3276,13 @@
         });
       }
 
-      var $content = $item.children('.' + _this.class_body);
+      var $content = $item.children("." + _this.class_body);
 
-      $content
-        .height($content[0].scrollHeight)
-        .transitionEnd(function () {
-          transitionEnd(_this, $content, $item);
-        });
+      $content.height($content[0].scrollHeight).transitionEnd(function () {
+        transitionEnd(_this, $content, $item);
+      });
 
-      componentEvent('open', _this.ns, _this, $item[0]);
+      componentEvent("open", _this.ns, _this, $item[0]);
 
       $item.addClass(_this.class_item_open);
     };
@@ -3216,9 +3299,9 @@
         return;
       }
 
-      var $content = $item.children('.' + _this.class_body);
+      var $content = $item.children("." + _this.class_body);
 
-      componentEvent('close', _this.ns, _this, $item[0]);
+      componentEvent("close", _this.ns, _this, $item[0]);
 
       $item.removeClass(_this.class_item_open);
 
@@ -3226,8 +3309,8 @@
         .transition(0)
         .height($content[0].scrollHeight)
         .reflow()
-        .transition('')
-        .height('')
+        .transition("")
+        .height("")
         .transitionEnd(function () {
           transitionEnd(_this, $content, $item);
         });
@@ -3254,7 +3337,7 @@
     Collapse.prototype.openAll = function () {
       var _this = this;
 
-      _this.$collapse.children('.' + _this.class_item).each(function () {
+      _this.$collapse.children("." + _this.class_item).each(function () {
         var $tmpItem = $(this);
 
         if (!_this._isOpen($tmpItem)) {
@@ -3269,7 +3352,7 @@
     Collapse.prototype.closeAll = function () {
       var _this = this;
 
-      _this.$collapse.children('.' + _this.class_item).each(function () {
+      _this.$collapse.children("." + _this.class_item).each(function () {
         var $tmpItem = $(this);
 
         if (_this._isOpen($tmpItem)) {
@@ -3287,14 +3370,12 @@
    * =============================================================================
    */
   mdui.Collapse = (function () {
-
     function Collapse(selector, opts) {
-      return new CollapsePrivate(selector, opts, 'collapse');
+      return new CollapsePrivate(selector, opts, "collapse");
     }
 
     return Collapse;
   })();
-
 
   /**
    * =============================================================================
@@ -3303,18 +3384,17 @@
    */
 
   $(function () {
-    mdui.mutation('[mdui-collapse]', function () {
+    mdui.mutation("[mdui-collapse]", function () {
       var $target = $(this);
 
-      var inst = $target.data('mdui.collapse');
+      var inst = $target.data("mdui.collapse");
       if (!inst) {
-        var options = parseOptions($target.attr('mdui-collapse'));
+        var options = parseOptions($target.attr("mdui-collapse"));
         inst = new mdui.Collapse($target, options);
-        $target.data('mdui.collapse', inst);
+        $target.data("mdui.collapse", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -3323,19 +3403,24 @@
    */
 
   (function () {
-
     /**
      * 生成 checkbox 的 HTML 结构
      * @param tag
      * @returns {string}
      */
     var checkboxHTML = function (tag) {
-      return '<' + tag + ' class="mdui-table-cell-checkbox">' +
-               '<label class="mdui-checkbox">' +
-                 '<input type="checkbox"/>' +
-                 '<i class="mdui-checkbox-icon"></i>' +
-               '</label>' +
-             '</' + tag + '>';
+      return (
+        "<" +
+        tag +
+        ' class="mdui-table-cell-checkbox">' +
+        '<label class="mdui-checkbox">' +
+        '<input type="checkbox"/>' +
+        '<i class="mdui-checkbox-icon"></i>' +
+        "</label>" +
+        "</" +
+        tag +
+        ">"
+      );
     };
 
     /**
@@ -3361,10 +3446,10 @@
     Table.prototype.init = function () {
       var _this = this;
 
-      _this.$thRow = _this.$table.find('thead tr');
-      _this.$tdRows = _this.$table.find('tbody tr');
+      _this.$thRow = _this.$table.find("thead tr");
+      _this.$tdRows = _this.$table.find("tbody tr");
       _this.$tdCheckboxs = $();
-      _this.selectable = _this.$table.hasClass('mdui-table-selectable');
+      _this.selectable = _this.$table.hasClass("mdui-table-selectable");
       _this.selectedRow = 0;
 
       _this._updateThCheckbox();
@@ -3382,38 +3467,40 @@
         var $tdRow = $(this);
 
         // 移除旧的 checkbox
-        $tdRow.find('.mdui-table-cell-checkbox').remove();
+        $tdRow.find(".mdui-table-cell-checkbox").remove();
 
         if (!_this.selectable) {
           return;
         }
 
         // 创建 DOM
-        var $checkbox = $(checkboxHTML('td'))
+        var $checkbox = $(checkboxHTML("td"))
           .prependTo($tdRow)
           .find('input[type="checkbox"]');
 
         // 默认选中的行
-        if ($tdRow.hasClass('mdui-table-row-selected')) {
+        if ($tdRow.hasClass("mdui-table-row-selected")) {
           $checkbox[0].checked = true;
           _this.selectedRow++;
         }
 
         // 所有行都选中后，选中表头；否则，不选中表头
-        _this.$thCheckbox[0].checked = _this.selectedRow === _this.$tdRows.length;
+        _this.$thCheckbox[0].checked =
+          _this.selectedRow === _this.$tdRows.length;
 
         // 绑定事件
-        $checkbox.on('change', function () {
+        $checkbox.on("change", function () {
           if ($checkbox[0].checked) {
-            $tdRow.addClass('mdui-table-row-selected');
+            $tdRow.addClass("mdui-table-row-selected");
             _this.selectedRow++;
           } else {
-            $tdRow.removeClass('mdui-table-row-selected');
+            $tdRow.removeClass("mdui-table-row-selected");
             _this.selectedRow--;
           }
 
           // 所有行都选中后，选中表头；否则，不选中表头
-          _this.$thCheckbox[0].checked = _this.selectedRow === _this.$tdRows.length;
+          _this.$thCheckbox[0].checked =
+            _this.selectedRow === _this.$tdRows.length;
         });
 
         _this.$tdCheckboxs = _this.$tdCheckboxs.add($checkbox);
@@ -3427,17 +3514,16 @@
       var _this = this;
 
       // 移除旧的 checkbox
-      _this.$thRow.find('.mdui-table-cell-checkbox').remove();
+      _this.$thRow.find(".mdui-table-cell-checkbox").remove();
 
       if (!_this.selectable) {
         return;
       }
 
-      _this.$thCheckbox = $(checkboxHTML('th'))
+      _this.$thCheckbox = $(checkboxHTML("th"))
         .prependTo(_this.$thRow)
         .find('input[type="checkbox"]')
-        .on('change', function () {
-
+        .on("change", function () {
           var isCheckedAll = _this.$thCheckbox[0].checked;
           _this.selectedRow = isCheckedAll ? _this.$tdRows.length : 0;
 
@@ -3446,9 +3532,10 @@
           });
 
           _this.$tdRows.each(function (i, row) {
-            $(row)[isCheckedAll ? 'addClass' : 'removeClass']('mdui-table-row-selected');
+            $(row)[isCheckedAll ? "addClass" : "removeClass"](
+              "mdui-table-row-selected"
+            );
           });
-
         });
     };
 
@@ -3460,13 +3547,15 @@
       var $th;
       var $tdRow;
 
-      _this.$thRow.find('th').each(function (i, th) {
+      _this.$thRow.find("th").each(function (i, th) {
         $th = $(th);
 
         _this.$tdRows.each(function () {
           $tdRow = $(this);
-          var method = $th.hasClass('mdui-table-col-numeric') ? 'addClass' : 'removeClass';
-          $tdRow.find('td').eq(i)[method]('mdui-table-col-numeric');
+          var method = $th.hasClass("mdui-table-col-numeric")
+            ? "addClass"
+            : "removeClass";
+          $tdRow.find("td").eq(i)[method]("mdui-table-col-numeric");
         });
       });
     };
@@ -3474,10 +3563,10 @@
     /**
      * 初始化表格
      */
-    mdui.mutation('.mdui-table', function () {
+    mdui.mutation(".mdui-table", function () {
       var $table = $(this);
-      if (!$table.data('mdui.table')) {
-        $table.data('mdui.table', new Table($table));
+      if (!$table.data("mdui.table")) {
+        $table.data("mdui.table", new Table($table));
       }
     });
 
@@ -3485,20 +3574,18 @@
      * 更新表格
      */
     mdui.updateTables = function () {
-      $(arguments.length ? arguments[0] : '.mdui-table').each(function () {
+      $(arguments.length ? arguments[0] : ".mdui-table").each(function () {
         var $table = $(this);
-        var inst = $table.data('mdui.table');
+        var inst = $table.data("mdui.table");
 
         if (inst) {
           inst.init();
         } else {
-          $table.data('mdui.table', new Table($table));
+          $table.data("mdui.table", new Table($table));
         }
       });
     };
-
   })();
-
 
   /**
    * =============================================================================
@@ -3512,9 +3599,7 @@
    */
 
   (function () {
-
     var Ripple = {
-
       /**
        * 延时，避免手指滑动时也触发涟漪（单位：毫秒）
        */
@@ -3526,7 +3611,6 @@
        * @param $ripple
        */
       show: function (e, $ripple) {
-
         // 鼠标右键不产生涟漪
         if (e.button === 2) {
           return;
@@ -3534,7 +3618,7 @@
 
         // 点击位置坐标
         var tmp;
-        if ('touches' in e && e.touches.length) {
+        if ("touches" in e && e.touches.length) {
           tmp = e.touches[0];
         } else {
           tmp = e;
@@ -3553,26 +3637,44 @@
         var height = $ripple.innerHeight();
         var width = $ripple.innerWidth();
         var diameter = Math.max(
-          Math.pow((Math.pow(height, 2) + Math.pow(width, 2)), 0.5), 48
+          Math.pow(Math.pow(height, 2) + Math.pow(width, 2), 0.5),
+          48
         );
 
         // 涟漪扩散动画
         var translate =
-          'translate3d(' + (-center.x + width / 2) + 'px, ' + (-center.y + height / 2) + 'px, 0) ' +
-          'scale(1)';
+          "translate3d(" +
+          (-center.x + width / 2) +
+          "px, " +
+          (-center.y + height / 2) +
+          "px, 0) " +
+          "scale(1)";
 
         // 涟漪的 DOM 结构
-        $('<div class="mdui-ripple-wave" style="' +
-          'width: ' + diameter + 'px; ' +
-          'height: ' + diameter + 'px; ' +
-          'margin-top:-' + diameter / 2 + 'px; ' +
-          'margin-left:-' + diameter / 2 + 'px; ' +
-          'left:' + center.x + 'px; ' +
-          'top:' + center.y + 'px;">' +
-          '</div>')
-
+        $(
+          '<div class="mdui-ripple-wave" style="' +
+            "width: " +
+            diameter +
+            "px; " +
+            "height: " +
+            diameter +
+            "px; " +
+            "margin-top:-" +
+            diameter / 2 +
+            "px; " +
+            "margin-left:-" +
+            diameter / 2 +
+            "px; " +
+            "left:" +
+            center.x +
+            "px; " +
+            "top:" +
+            center.y +
+            'px;">' +
+            "</div>"
+        )
           // 缓存动画效果
-          .data('translate', translate)
+          .data("translate", translate)
 
           .prependTo($ripple)
           .reflow()
@@ -3585,11 +3687,14 @@
       hide: function (e, element) {
         var $ripple = $(element || this);
 
-        $ripple.children('.mdui-ripple-wave').each(function () {
+        $ripple.children(".mdui-ripple-wave").each(function () {
           removeRipple($(this));
         });
 
-        $ripple.off('touchmove touchend touchcancel mousemove mouseup mouseleave', Ripple.hide);
+        $ripple.off(
+          "touchmove touchend touchcancel mousemove mouseup mouseleave",
+          Ripple.hide
+        );
       },
     };
 
@@ -3598,27 +3703,27 @@
      * @param $wave
      */
     function removeRipple($wave) {
-      if (!$wave.length || $wave.data('isRemoved')) {
+      if (!$wave.length || $wave.data("isRemoved")) {
         return;
       }
 
-      $wave.data('isRemoved', true);
+      $wave.data("isRemoved", true);
 
       var removeTimeout = setTimeout(function () {
         $wave.remove();
       }, 400);
 
-      var translate = $wave.data('translate');
+      var translate = $wave.data("translate");
 
       $wave
-        .addClass('mdui-ripple-wave-fill')
-        .transform(translate.replace('scale(1)', 'scale(1.01)'))
+        .addClass("mdui-ripple-wave-fill")
+        .transform(translate.replace("scale(1)", "scale(1.01)"))
         .transitionEnd(function () {
           clearTimeout(removeTimeout);
 
           $wave
-            .addClass('mdui-ripple-wave-out')
-            .transform(translate.replace('scale(1)', 'scale(1.01)'));
+            .addClass("mdui-ripple-wave-out")
+            .transform(translate.replace("scale(1)", "scale(1.01)"));
 
           removeTimeout = setTimeout(function () {
             $wave.remove();
@@ -3653,20 +3758,19 @@
       var $target = $(e.target);
 
       // 获取含 .mdui-ripple 类的元素
-      if ($target.hasClass('mdui-ripple')) {
+      if ($target.hasClass("mdui-ripple")) {
         $ripple = $target;
       } else {
-        $ripple = $target.parents('.mdui-ripple').eq(0);
+        $ripple = $target.parents(".mdui-ripple").eq(0);
       }
 
       if ($ripple.length) {
-
         // 禁用状态的元素上不产生涟漪效果
-        if ($ripple[0].disabled || $ripple.attr('disabled') !== null) {
+        if ($ripple[0].disabled || $ripple.attr("disabled") !== null) {
           return;
         }
 
-        if (e.type === 'touchstart') {
+        if (e.type === "touchstart") {
           var hidden = false;
 
           // toucstart 触发指定时间后开始涟漪动画
@@ -3700,12 +3804,14 @@
           };
 
           $ripple
-            .on('touchmove', touchMove)
-            .on('touchend touchcancel', hideRipple);
-
+            .on("touchmove", touchMove)
+            .on("touchend touchcancel", hideRipple);
         } else {
           Ripple.show(e, $ripple);
-          $ripple.on('touchmove touchend touchcancel mousemove mouseup mouseleave', Ripple.hide);
+          $ripple.on(
+            "touchmove touchend touchcancel mousemove mouseup mouseleave",
+            Ripple.hide
+          );
         }
       }
     }
@@ -3716,7 +3822,6 @@
       .on(TouchHandler.unlock, TouchHandler.register);
   })();
 
-
   /**
    * =============================================================================
    * ************   Text Field 文本框   ************
@@ -3724,14 +3829,13 @@
    */
 
   (function () {
-
     var getProp = function (obj, prop) {
-      return (
-        typeof obj === 'object' &&
+      return typeof obj === "object" &&
         obj !== null &&
         obj[prop] !== undefined &&
         obj[prop]
-      ) ? obj[prop] : false;
+        ? obj[prop]
+        : false;
     };
 
     /**
@@ -3745,58 +3849,65 @@
       var value = $input.val();
 
       // reInit 为 true 时，需要重新初始化文本框
-      var reInit = getProp(e.detail, 'reInit');
+      var reInit = getProp(e.detail, "reInit");
 
       // domLoadedEvent 为 true 时，为 DOM 加载完毕后自动触发的事件
-      var domLoadedEvent = getProp(e.detail, 'domLoadedEvent');
+      var domLoadedEvent = getProp(e.detail, "domLoadedEvent");
 
       // 文本框类型
-      var type = $input.attr('type') || '';
-      if (['checkbox', 'button', 'submit', 'range', 'radio', 'image'].indexOf(type) >= 0) {
+      var type = $input.attr("type") || "";
+      if (
+        ["checkbox", "button", "submit", "range", "radio", "image"].indexOf(
+          type
+        ) >= 0
+      ) {
         return;
       }
 
-      var $textField = $input.parent('.mdui-textfield');
+      var $textField = $input.parent(".mdui-textfield");
 
       // 输入框是否聚焦
-      if (event === 'focus') {
-        $textField.addClass('mdui-textfield-focus');
+      if (event === "focus") {
+        $textField.addClass("mdui-textfield-focus");
       }
 
-      if (event === 'blur') {
-        $textField.removeClass('mdui-textfield-focus');
+      if (event === "blur") {
+        $textField.removeClass("mdui-textfield-focus");
       }
 
       // 输入框是否为空
-      if (event === 'blur' || event === 'input') {
-        $textField[(value && value !== '') ? 'addClass' : 'removeClass']('mdui-textfield-not-empty');
+      if (event === "blur" || event === "input") {
+        $textField[value && value !== "" ? "addClass" : "removeClass"](
+          "mdui-textfield-not-empty"
+        );
       }
 
       // 输入框是否禁用
-      $textField[input.disabled ? 'addClass' : 'removeClass']('mdui-textfield-disabled');
+      $textField[input.disabled ? "addClass" : "removeClass"](
+        "mdui-textfield-disabled"
+      );
 
       // 表单验证
-      if ((event === 'input' || event === 'blur') && !domLoadedEvent) {
+      if ((event === "input" || event === "blur") && !domLoadedEvent) {
         if (input.validity) {
-          var method = input.validity.valid ? 'removeClass' : 'addClass';
-          $textField[method]('mdui-textfield-invalid-html5');
+          var method = input.validity.valid ? "removeClass" : "addClass";
+          $textField[method]("mdui-textfield-invalid-html5");
         }
       }
 
       // textarea 高度自动调整
-      if (e.target.nodeName.toLowerCase() === 'textarea') {
-
+      if (e.target.nodeName.toLowerCase() === "textarea") {
         // IE bug：textarea 的值仅为多个换行，不含其他内容时，textarea 的高度不准确
         //         此时，在计算高度前，在值的开头加入一个空格，计算完后，移除空格
         var inputValue = $input.val();
         var hasExtraSpace = false;
-        if (inputValue.replace(/[\r\n]/g, '') === '') {
-          $input.val(' ' + inputValue);
+        if (inputValue.replace(/[\r\n]/g, "") === "") {
+          $input.val(" " + inputValue);
           hasExtraSpace = true;
         }
 
         // 设置 textarea 高度
-        $input.height('');
+        $input.height("");
         var height = $input.height();
         var scrollHeight = input.scrollHeight;
 
@@ -3812,89 +3923,98 @@
 
       // 实时字数统计
       if (reInit) {
-        $textField
-          .find('.mdui-textfield-counter')
-          .remove();
+        $textField.find(".mdui-textfield-counter").remove();
       }
 
-      var maxlength = $input.attr('maxlength');
+      var maxlength = $input.attr("maxlength");
       if (maxlength) {
         if (reInit || domLoadedEvent) {
-          $('<div class="mdui-textfield-counter">' +
-              '<span class="mdui-textfield-counter-inputed"></span> / ' + maxlength +
-            '</div>').appendTo($textField);
+          $(
+            '<div class="mdui-textfield-counter">' +
+              '<span class="mdui-textfield-counter-inputed"></span> / ' +
+              maxlength +
+              "</div>"
+          ).appendTo($textField);
         }
 
         // 字符长度，确保统计方式和 maxlength 一致
-        var inputed = value.length + value.split('\n').length - 1;
-        $textField.find('.mdui-textfield-counter-inputed').text(inputed.toString());
+        var inputed = value.length + value.split("\n").length - 1;
+        $textField
+          .find(".mdui-textfield-counter-inputed")
+          .text(inputed.toString());
       }
 
       // 含 帮助文本、错误提示、字数统计 时，增加文本框底部内边距
       if (
-        $textField.find('.mdui-textfield-helper').length ||
-        $textField.find('.mdui-textfield-error').length ||
+        $textField.find(".mdui-textfield-helper").length ||
+        $textField.find(".mdui-textfield-error").length ||
         maxlength
       ) {
-        $textField.addClass('mdui-textfield-has-bottom');
+        $textField.addClass("mdui-textfield-has-bottom");
       }
     };
 
     // 绑定事件
-    $document.on('input focus blur', '.mdui-textfield-input', { useCapture: true }, inputEvent);
+    $document.on(
+      "input focus blur",
+      ".mdui-textfield-input",
+      { useCapture: true },
+      inputEvent
+    );
 
     // 可展开文本框展开
-    $document.on('click', '.mdui-textfield-expandable .mdui-textfield-icon', function () {
-      $(this)
+    $document.on(
+      "click",
+      ".mdui-textfield-expandable .mdui-textfield-icon",
+      function () {
+        $(this)
+          // 展开文本框
+          .parents(".mdui-textfield")
+          .addClass("mdui-textfield-expanded")
 
-        // 展开文本框
-        .parents('.mdui-textfield')
-        .addClass('mdui-textfield-expanded')
-
-        // 聚焦到输入框
-        .find('.mdui-textfield-input')[0].focus();
-    });
+          // 聚焦到输入框
+          .find(".mdui-textfield-input")[0]
+          .focus();
+      }
+    );
 
     // 可展开文本框关闭
-    $document.on('click', '.mdui-textfield-expanded .mdui-textfield-close', function () {
-      $(this)
+    $document.on(
+      "click",
+      ".mdui-textfield-expanded .mdui-textfield-close",
+      function () {
+        $(this)
+          // 关闭文本框
+          .parents(".mdui-textfield")
+          .removeClass("mdui-textfield-expanded")
 
-        // 关闭文本框
-        .parents('.mdui-textfield')
-        .removeClass('mdui-textfield-expanded')
-
-        // 清空输入框
-        .find('.mdui-textfield-input')
-        .val('');
-    });
+          // 清空输入框
+          .find(".mdui-textfield-input")
+          .val("");
+      }
+    );
 
     /**
      * 通过 JS 更新了表单内容，需要重新进行表单处理
      * @param- 如果传入了 .mdui-textfield 所在的 DOM 元素，则更新该文本框；否则，更新所有文本框
      */
     mdui.updateTextFields = function () {
-      $(arguments.length ? arguments[0] : '.mdui-textfield').each(function () {
-        $(this)
-          .find('.mdui-textfield-input')
-          .trigger('input', {
-            reInit: true,
-          });
+      $(arguments.length ? arguments[0] : ".mdui-textfield").each(function () {
+        $(this).find(".mdui-textfield-input").trigger("input", {
+          reInit: true,
+        });
       });
     };
 
     /**
      * 初始化文本框
      */
-    mdui.mutation('.mdui-textfield', function () {
-      $(this)
-        .find('.mdui-textfield-input')
-        .trigger('input', {
-          domLoadedEvent: true,
-        });
+    mdui.mutation(".mdui-textfield", function () {
+      $(this).find(".mdui-textfield-input").trigger("input", {
+        domLoadedEvent: true,
+      });
     });
-
   })();
-
 
   /**
    * =============================================================================
@@ -3903,7 +4023,6 @@
    */
 
   (function () {
-
     /**
      * 滑块的值变更后修改滑块样式
      * @param $slider
@@ -3921,23 +4040,25 @@
       var isDiscrete = data.discrete;
       var $thumbText = data.$thumbText;
       var value = $input.val();
-      var percent = (value - min) / (max - min) * 100;
+      var percent = ((value - min) / (max - min)) * 100;
 
-      $fill.width(percent + '%');
-      $track.width((100 - percent) + '%');
+      $fill.width(percent + "%");
+      $track.width(100 - percent + "%");
 
       if (isDisabled) {
-        $fill.css('padding-right', '6px');
-        $track.css('padding-left', '6px');
+        $fill.css("padding-right", "6px");
+        $track.css("padding-left", "6px");
       }
 
-      $thumb.css('left', percent + '%');
+      $thumb.css("left", percent + "%");
 
       if (isDiscrete) {
         $thumbText.text(value);
       }
 
-      $slider[parseFloat(percent) === 0 ? 'addClass' : 'removeClass']('mdui-slider-zero');
+      $slider[parseFloat(percent) === 0 ? "addClass" : "removeClass"](
+        "mdui-slider-zero"
+      );
     };
 
     /**
@@ -3952,20 +4073,20 @@
 
       // 禁用状态
       var isDisabled = $input[0].disabled;
-      $slider[isDisabled ? 'addClass' : 'removeClass']('mdui-slider-disabled');
+      $slider[isDisabled ? "addClass" : "removeClass"]("mdui-slider-disabled");
 
       // 重新填充 HTML
-      $slider.find('.mdui-slider-track').remove();
-      $slider.find('.mdui-slider-fill').remove();
-      $slider.find('.mdui-slider-thumb').remove();
+      $slider.find(".mdui-slider-track").remove();
+      $slider.find(".mdui-slider-fill").remove();
+      $slider.find(".mdui-slider-thumb").remove();
       $slider.append($track).append($fill).append($thumb);
 
       // 间续型滑块
-      var isDiscrete = $slider.hasClass('mdui-slider-discrete');
+      var isDiscrete = $slider.hasClass("mdui-slider-discrete");
 
       var $thumbText;
       if (isDiscrete) {
-        $thumbText = $('<span></span>');
+        $thumbText = $("<span></span>");
         $thumb.empty().append($thumbText);
       }
 
@@ -3974,11 +4095,11 @@
         $fill: $fill,
         $thumb: $thumb,
         $input: $input,
-        min: $input.attr('min'),    // 滑块最小值
-        max: $input.attr('max'),    // 滑块最大值
-        disabled: isDisabled,       // 是否禁用状态
-        discrete: isDiscrete,       // 是否是间续型滑块
-        $thumbText: $thumbText,      // 间续型滑块的数值
+        min: $input.attr("min"), // 滑块最小值
+        max: $input.attr("max"), // 滑块最大值
+        disabled: isDisabled, // 是否禁用状态
+        discrete: isDiscrete, // 是否是间续型滑块
+        $thumbText: $thumbText, // 间续型滑块的数值
       });
 
       // 设置默认值
@@ -3990,7 +4111,7 @@
     $document
 
       // 滑动滑块事件
-      .on('input change', rangeSelector, function () {
+      .on("input change", rangeSelector, function () {
         var $slider = $(this).parent();
         updateValueStyle($slider);
       })
@@ -4005,7 +4126,7 @@
 
         if (!this.disabled) {
           var $slider = $(this).parent();
-          $slider.addClass('mdui-slider-focus');
+          $slider.addClass("mdui-slider-focus");
         }
       })
 
@@ -4017,7 +4138,7 @@
 
         if (!this.disabled) {
           var $slider = $(this).parent();
-          $slider.removeClass('mdui-slider-focus');
+          $slider.removeClass("mdui-slider-focus");
         }
       })
 
@@ -4026,7 +4147,7 @@
     /**
      * 页面加载完后自动初始化（未初始化时，可以调用该方法初始化）
      */
-    mdui.mutation('.mdui-slider', function () {
+    mdui.mutation(".mdui-slider", function () {
       reInit($(this));
     });
 
@@ -4034,12 +4155,11 @@
      * 重新初始化滑块（强制重新初始化）
      */
     mdui.updateSliders = function () {
-      $(arguments.length ? arguments[0] : '.mdui-slider').each(function () {
+      $(arguments.length ? arguments[0] : ".mdui-slider").each(function () {
         reInit($(this));
       });
     };
   })();
-
 
   /**
    * =============================================================================
@@ -4048,13 +4168,12 @@
    */
 
   mdui.Fab = (function () {
-
     /**
      * 默认参数
      * @type {{}}
      */
     var DEFAULT = {
-      trigger: 'hover',      // 触发方式 ['hover', 'click']
+      trigger: "hover", // 触发方式 ['hover', 'click']
     };
 
     /**
@@ -4072,40 +4191,37 @@
       }
 
       // 已通过 data 属性实例化过，不再重复实例化
-      var oldInst = _this.$fab.data('mdui.fab');
+      var oldInst = _this.$fab.data("mdui.fab");
       if (oldInst) {
         return oldInst;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
-      _this.state = 'closed';
+      _this.options = $.extend({}, DEFAULT, opts || {});
+      _this.state = "closed";
 
-      _this.$btn = _this.$fab.find('.mdui-fab');
-      _this.$dial = _this.$fab.find('.mdui-fab-dial');
-      _this.$dialBtns = _this.$dial.find('.mdui-fab');
+      _this.$btn = _this.$fab.find(".mdui-fab");
+      _this.$dial = _this.$fab.find(".mdui-fab-dial");
+      _this.$dialBtns = _this.$dial.find(".mdui-fab");
 
-      if (_this.options.trigger === 'hover') {
-        _this.$btn
-          .on('touchstart mouseenter', function () {
-            _this.open();
-          });
+      if (_this.options.trigger === "hover") {
+        _this.$btn.on("touchstart mouseenter", function () {
+          _this.open();
+        });
 
-        _this.$fab
-          .on('mouseleave', function () {
-            _this.close();
-          });
+        _this.$fab.on("mouseleave", function () {
+          _this.close();
+        });
       }
 
-      if (_this.options.trigger === 'click') {
-        _this.$btn
-          .on(TouchHandler.start, function () {
-            _this.open();
-          });
+      if (_this.options.trigger === "click") {
+        _this.$btn.on(TouchHandler.start, function () {
+          _this.open();
+        });
       }
 
       // 触摸屏幕其他地方关闭快速拨号
       $document.on(TouchHandler.start, function (e) {
-        if (!$(e.target).parents('.mdui-fab-wrapper').length) {
+        if (!$(e.target).parents(".mdui-fab-wrapper").length) {
           _this.close();
         }
       });
@@ -4117,33 +4233,31 @@
     Fab.prototype.open = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
       // 为菜单中的按钮添加不同的 transition-delay
       _this.$dialBtns.each(function (index, btn) {
-        btn.style['transition-delay'] = btn.style['-webkit-transition-delay'] =
-          15 * (_this.$dialBtns.length - index) + 'ms';
+        btn.style["transition-delay"] = btn.style["-webkit-transition-delay"] =
+          15 * (_this.$dialBtns.length - index) + "ms";
       });
 
-      _this.$dial
-        .css('height', 'auto')
-        .addClass('mdui-fab-dial-show');
+      _this.$dial.css("height", "auto").addClass("mdui-fab-dial-show");
 
       // 如果按钮中存在 .mdui-fab-opened 的图标，则进行图标切换
-      if (_this.$btn.find('.mdui-fab-opened').length) {
-        _this.$btn.addClass('mdui-fab-opened');
+      if (_this.$btn.find(".mdui-fab-opened").length) {
+        _this.$btn.addClass("mdui-fab-opened");
       }
 
-      _this.state = 'opening';
-      componentEvent('open', 'fab', _this, _this.$fab);
+      _this.state = "opening";
+      componentEvent("open", "fab", _this, _this.$fab);
 
       // 打开顺序为从下到上逐个打开，最上面的打开后才表示动画完成
       _this.$dialBtns.eq(0).transitionEnd(function () {
-        if (_this.$btn.hasClass('mdui-fab-opened')) {
-          _this.state = 'opened';
-          componentEvent('opened', 'fab', _this, _this.$fab);
+        if (_this.$btn.hasClass("mdui-fab-opened")) {
+          _this.state = "opened";
+          componentEvent("opened", "fab", _this, _this.$fab);
         }
       });
     };
@@ -4154,26 +4268,27 @@
     Fab.prototype.close = function () {
       var _this = this;
 
-      if (_this.state === 'closing' || _this.state === 'closed') {
+      if (_this.state === "closing" || _this.state === "closed") {
         return;
       }
 
       // 为菜单中的按钮添加不同的 transition-delay
       _this.$dialBtns.each(function (index, btn) {
-        btn.style['transition-delay'] = btn.style['-webkit-transition-delay'] = 15 * index + 'ms';
+        btn.style["transition-delay"] = btn.style["-webkit-transition-delay"] =
+          15 * index + "ms";
       });
 
-      _this.$dial.removeClass('mdui-fab-dial-show');
-      _this.$btn.removeClass('mdui-fab-opened');
-      _this.state = 'closing';
-      componentEvent('close', 'fab', _this, _this.$fab);
+      _this.$dial.removeClass("mdui-fab-dial-show");
+      _this.$btn.removeClass("mdui-fab-opened");
+      _this.state = "closing";
+      componentEvent("close", "fab", _this, _this.$fab);
 
       // 从上往下依次关闭，最后一个关闭后才表示动画完成
       _this.$dialBtns.eq(-1).transitionEnd(function () {
-        if (!_this.$btn.hasClass('mdui-fab-opened')) {
-          _this.state = 'closed';
-          componentEvent('closed', 'fab', _this, _this.$fab);
-          _this.$dial.css('height', 0);
+        if (!_this.$btn.hasClass("mdui-fab-opened")) {
+          _this.state = "closed";
+          componentEvent("closed", "fab", _this, _this.$fab);
+          _this.$dial.css("height", 0);
         }
       });
     };
@@ -4184,9 +4299,9 @@
     Fab.prototype.toggle = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
-      } else if (_this.state === 'closing' || _this.state === 'closed') {
+      } else if (_this.state === "closing" || _this.state === "closed") {
         _this.open();
       }
     };
@@ -4203,19 +4318,18 @@
      * 以动画的形式显示浮动操作按钮
      */
     Fab.prototype.show = function () {
-      this.$fab.removeClass('mdui-fab-hide');
+      this.$fab.removeClass("mdui-fab-hide");
     };
 
     /**
      * 以动画的形式隐藏浮动操作按钮
      */
     Fab.prototype.hide = function () {
-      this.$fab.addClass('mdui-fab-hide');
+      this.$fab.addClass("mdui-fab-hide");
     };
 
     return Fab;
   })();
-
 
   /**
    * =============================================================================
@@ -4227,18 +4341,17 @@
     // mouseenter 不冒泡，无法进行事件委托，这里用 mouseover 代替。
     // 不管是 click 、 mouseover 还是 touchstart ，都先初始化。
 
-    $document.on('touchstart mousedown mouseover', '[mdui-fab]', function (e) {
+    $document.on("touchstart mousedown mouseover", "[mdui-fab]", function (e) {
       var $this = $(this);
 
-      var inst = $this.data('mdui.fab');
+      var inst = $this.data("mdui.fab");
       if (!inst) {
-        var options = parseOptions($this.attr('mdui-fab'));
+        var options = parseOptions($this.attr("mdui-fab"));
         inst = new mdui.Fab($this, options);
-        $this.data('mdui.fab', inst);
+        $this.data("mdui.fab", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -4247,13 +4360,12 @@
    */
 
   mdui.Select = (function () {
-
     /**
      * 默认参数
      */
     var DEFAULT = {
-      position: 'auto',                // 下拉框位置，auto、bottom、top
-      gutter: 16,                      // 菜单与窗口上下边框至少保持多少间距
+      position: "auto", // 下拉框位置，auto、bottom、top
+      gutter: 16, // 菜单与窗口上下边框至少保持多少间距
     };
 
     /**
@@ -4274,7 +4386,7 @@
       // 菜单项高度
       var $menuItemFirst = _this.$items.eq(0);
       var menuItemHeight = parseInt($menuItemFirst.height());
-      var menuItemMargin = parseInt($menuItemFirst.css('margin-top'));
+      var menuItemMargin = parseInt($menuItemFirst.css("margin-top"));
 
       // 菜单高度
       var menuWidth = parseFloat(_this.$select.width() + 0.01); // 必须比真实宽度多一点，不然会出现省略号
@@ -4292,8 +4404,7 @@
       var menuMarginTop;
 
       // position 为 auto 时
-      if (position === 'auto') {
-
+      if (position === "auto") {
         // 菜单高度不能超过窗口高度
         var heightTemp = windowHeight - gutter * 2;
         if (menuHeight > heightTemp) {
@@ -4302,11 +4413,13 @@
 
         // 菜单的 margin-top
         menuMarginTop = -(
-          menuItemMargin + _this.selectedIndex * menuItemHeight +
+          menuItemMargin +
+          _this.selectedIndex * menuItemHeight +
           (menuItemHeight - selectHeight) / 2
         );
         var menuMarginTopMax = -(
-          menuItemMargin + (_this.size - 1) * menuItemHeight +
+          menuItemMargin +
+          (_this.size - 1) * menuItemHeight +
           (menuItemHeight - selectHeight) / 2
         );
         if (menuMarginTop < menuMarginTopMax) {
@@ -4325,13 +4438,17 @@
         }
 
         // transform 的 Y 轴坐标
-        transformOriginY = (_this.selectedIndex * menuItemHeight + menuItemHeight / 2 + menuItemMargin) + 'px';
-      } else if (position === 'bottom') {
+        transformOriginY =
+          _this.selectedIndex * menuItemHeight +
+          menuItemHeight / 2 +
+          menuItemMargin +
+          "px";
+      } else if (position === "bottom") {
         menuMarginTop = selectHeight;
-        transformOriginY = '0px';
-      } else if (position === 'top') {
+        transformOriginY = "0px";
+      } else if (position === "top") {
         menuMarginTop = -menuHeight - 1;
-        transformOriginY = '100%';
+        transformOriginY = "100%";
       }
 
       // 设置样式
@@ -4340,9 +4457,8 @@
         .width(menuWidth)
         .height(menuHeight)
         .css({
-          'margin-top': menuMarginTop + 'px',
-          'transform-origin':
-          'center ' + transformOriginY + ' 0',
+          "margin-top": menuMarginTop + "px",
+          "transform-origin": "center " + transformOriginY + " 0",
         });
     };
 
@@ -4355,34 +4471,34 @@
     function Select(selector, opts) {
       var _this = this;
 
-      var $selectNative =  _this.$selectNative = $(selector).eq(0);
+      var $selectNative = (_this.$selectNative = $(selector).eq(0));
       if (!$selectNative.length) {
         return;
       }
 
       // 已通过自定义属性实例化过，不再重复实例化
-      var oldInst = $selectNative.data('mdui.select');
+      var oldInst = $selectNative.data("mdui.select");
       if (oldInst) {
         return oldInst;
       }
 
       $selectNative.hide();
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
+      _this.options = $.extend({}, DEFAULT, opts || {});
 
       // 为当前 select 生成唯一 ID
       _this.uniqueID = $.guid();
 
-      _this.state = 'closed';
+      _this.state = "closed";
 
       // 生成 select
       _this.handleUpdate();
 
       // 点击 select 外面区域关闭
-      $document.on('click touchstart', function (e) {
+      $document.on("click touchstart", function (e) {
         var $target = $(e.target);
         if (
-          (_this.state === 'opening' || _this.state === 'opened') &&
+          (_this.state === "opening" || _this.state === "opened") &&
           !$target.is(_this.$select) &&
           !$.contains(_this.$select[0], $target[0])
         ) {
@@ -4397,7 +4513,7 @@
     Select.prototype.handleUpdate = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
       }
 
@@ -4405,12 +4521,12 @@
 
       // 当前的值和文本
       _this.value = $selectNative.val();
-      _this.text = '';
+      _this.text = "";
 
       // 生成 HTML
       // 菜单项
       _this.$items = $();
-      $selectNative.find('option').each(function (index, option) {
+      $selectNative.find("option").each(function (index, option) {
         var data = {
           value: option.value,
           text: option.textContent,
@@ -4425,37 +4541,47 @@
         }
 
         _this.$items = _this.$items.add(
-          $('<div class="mdui-select-menu-item mdui-ripple"' +
-            (data.disabled ? ' disabled' : '') +
-            (data.selected ? ' selected' : '') + '>' + data.text + '</div>')
-            .data(data)
+          $(
+            '<div class="mdui-select-menu-item mdui-ripple"' +
+              (data.disabled ? " disabled" : "") +
+              (data.selected ? " selected" : "") +
+              ">" +
+              data.text +
+              "</div>"
+          ).data(data)
         );
       });
 
       // selected
-      _this.$selected = $('<span class="mdui-select-selected">' + _this.text + '</span>');
+      _this.$selected = $(
+        '<span class="mdui-select-selected">' + _this.text + "</span>"
+      );
 
       // select
-      _this.$select =
-        $(
-          '<div class="mdui-select mdui-select-position-' + _this.options.position + '" ' +
-          'style="' + _this.$selectNative.attr('style') + '" ' +
-          'id="' + _this.uniqueID + '"></div>'
-        )
-          .show()
-          .append(_this.$selected);
+      _this.$select = $(
+        '<div class="mdui-select mdui-select-position-' +
+          _this.options.position +
+          '" ' +
+          'style="' +
+          _this.$selectNative.attr("style") +
+          '" ' +
+          'id="' +
+          _this.uniqueID +
+          '"></div>'
+      )
+        .show()
+        .append(_this.$selected);
 
       // menu
-      _this.$menu =
-        $('<div class="mdui-select-menu"></div>')
-          .appendTo(_this.$select)
-          .append(_this.$items);
+      _this.$menu = $('<div class="mdui-select-menu"></div>')
+        .appendTo(_this.$select)
+        .append(_this.$items);
 
-      $('#' + _this.uniqueID).remove();
+      $("#" + _this.uniqueID).remove();
       $selectNative.after(_this.$select);
 
       // 根据 select 的 size 属性设置高度，默认为 6
-      _this.size = _this.$selectNative.attr('size');
+      _this.size = _this.$selectNative.attr("size");
 
       if (!_this.size) {
         _this.size = _this.$items.length;
@@ -4469,14 +4595,14 @@
       }
 
       // 点击选项时关闭下拉菜单
-      _this.$items.on('click', function () {
-        if (_this.state === 'closing') {
+      _this.$items.on("click", function () {
+        if (_this.state === "closing") {
           return;
         }
 
         var $item = $(this);
 
-        if ($item.data('disabled')) {
+        if ($item.data("disabled")) {
           return;
         }
 
@@ -4484,22 +4610,25 @@
 
         _this.$selected.text(itemData.text);
         $selectNative.val(itemData.value);
-        _this.$items.removeAttr('selected');
-        $item.attr('selected', '');
+        _this.$items.removeAttr("selected");
+        $item.attr("selected", "");
         _this.selectedIndex = itemData.index;
         _this.value = itemData.value;
         _this.text = itemData.text;
-        $selectNative.trigger('change');
+        $selectNative.trigger("change");
 
         _this.close();
       });
 
       // 点击 select 时打开下拉菜单
-      _this.$select.on('click', function (e) {
+      _this.$select.on("click", function (e) {
         var $target = $(e.target);
 
         // 在菜单上点击时不打开
-        if ($target.is('.mdui-select-menu') || $target.is('.mdui-select-menu-item')) {
+        if (
+          $target.is(".mdui-select-menu") ||
+          $target.is(".mdui-select-menu-item")
+        ) {
           return;
         }
 
@@ -4512,25 +4641,25 @@
      * @param inst
      */
     var transitionEnd = function (inst) {
-      inst.$select.removeClass('mdui-select-closing');
+      inst.$select.removeClass("mdui-select-closing");
 
-      if (inst.state === 'opening') {
-        inst.state = 'opened';
-        componentEvent('opened', 'select', inst, inst.$selectNative);
+      if (inst.state === "opening") {
+        inst.state = "opened";
+        componentEvent("opened", "select", inst, inst.$selectNative);
 
-        inst.$menu.css('overflow-y', 'auto');
+        inst.$menu.css("overflow-y", "auto");
       }
 
-      if (inst.state === 'closing') {
-        inst.state = 'closed';
-        componentEvent('closed', 'select', inst, inst.$selectNative);
+      if (inst.state === "closing") {
+        inst.state = "closed";
+        componentEvent("closed", "select", inst, inst.$selectNative);
 
         // 恢复样式
-        inst.$select.width('');
+        inst.$select.width("");
         inst.$menu.css({
-          'margin-top': '',
-          height: '',
-          width: '',
+          "margin-top": "",
+          height: "",
+          width: "",
         });
       }
     };
@@ -4541,16 +4670,16 @@
     Select.prototype.open = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
-      _this.state = 'opening';
-      componentEvent('open', 'select', _this, _this.$selectNative);
+      _this.state = "opening";
+      componentEvent("open", "select", _this, _this.$selectNative);
 
       readjustMenu(_this);
 
-      _this.$select.addClass('mdui-select-open');
+      _this.$select.addClass("mdui-select-open");
 
       _this.$menu.transitionEnd(function () {
         transitionEnd(_this);
@@ -4563,18 +4692,18 @@
     Select.prototype.close = function () {
       var _this = this;
 
-      if (_this.state === 'closing' || _this.state === 'closed') {
+      if (_this.state === "closing" || _this.state === "closed") {
         return;
       }
 
-      _this.state = 'closing';
-      componentEvent('close', 'select', _this, _this.$selectNative);
+      _this.state = "closing";
+      componentEvent("close", "select", _this, _this.$selectNative);
 
-      _this.$menu.css('overflow-y', '');
+      _this.$menu.css("overflow-y", "");
 
       _this.$select
-        .removeClass('mdui-select-open')
-        .addClass('mdui-select-closing');
+        .removeClass("mdui-select-open")
+        .addClass("mdui-select-closing");
       _this.$menu.transitionEnd(function () {
         transitionEnd(_this);
       });
@@ -4586,16 +4715,15 @@
     Select.prototype.toggle = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
-      } else if (_this.state === 'closing' || _this.state === 'closed') {
+      } else if (_this.state === "closing" || _this.state === "closed") {
         _this.open();
       }
     };
 
     return Select;
   })();
-
 
   /**
    * =============================================================================
@@ -4604,16 +4732,15 @@
    */
 
   $(function () {
-    mdui.mutation('[mdui-select]', function () {
+    mdui.mutation("[mdui-select]", function () {
       var $this = $(this);
-      var inst = $this.data('mdui.select');
+      var inst = $this.data("mdui.select");
       if (!inst) {
-        inst = new mdui.Select($this, parseOptions($this.attr('mdui-select')));
-        $this.data('mdui.select', inst);
+        inst = new mdui.Select($this, parseOptions($this.attr("mdui-select")));
+        $this.data("mdui.select", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -4626,22 +4753,21 @@
 
   $(function () {
     // 滚动时隐藏应用栏
-    mdui.mutation('.mdui-appbar-scroll-hide', function () {
+    mdui.mutation(".mdui-appbar-scroll-hide", function () {
       var $this = $(this);
-      $this.data('mdui.headroom', new mdui.Headroom($this));
+      $this.data("mdui.headroom", new mdui.Headroom($this));
     });
 
     // 滚动时只隐藏应用栏中的工具栏
-    mdui.mutation('.mdui-appbar-scroll-toolbar-hide', function () {
+    mdui.mutation(".mdui-appbar-scroll-toolbar-hide", function () {
       var $this = $(this);
       var inst = new mdui.Headroom($this, {
-        pinnedClass: 'mdui-headroom-pinned-toolbar',
-        unpinnedClass: 'mdui-headroom-unpinned-toolbar',
+        pinnedClass: "mdui-headroom-pinned-toolbar",
+        unpinnedClass: "mdui-headroom-unpinned-toolbar",
       });
-      $this.data('mdui.headroom', inst);
+      $this.data("mdui.headroom", inst);
     });
   });
-
 
   /**
    * =============================================================================
@@ -4650,16 +4776,15 @@
    */
 
   mdui.Tab = (function () {
-
     var DEFAULT = {
-      trigger: 'click',       // 触发方式 click: 鼠标点击切换 hover: 鼠标悬浮切换
+      trigger: "click", // 触发方式 click: 鼠标点击切换 hover: 鼠标悬浮切换
       //animation: false,       // 切换时是否显示动画
-      loop: false,            // 为true时，在最后一个选项卡时调用 next() 方法会回到第一个选项卡
+      loop: false, // 为true时，在最后一个选项卡时调用 next() 方法会回到第一个选项卡
     };
 
     // 元素是否已禁用
     var isDisabled = function ($ele) {
-      return $ele[0].disabled || $ele.attr('disabled') !== null;
+      return $ele[0].disabled || $ele.attr("disabled") !== null;
     };
 
     /**
@@ -4678,21 +4803,23 @@
       }
 
       // 已通过自定义属性实例化过，不再重复实例化
-      var oldInst = _this.$tab.data('mdui.tab');
+      var oldInst = _this.$tab.data("mdui.tab");
       if (oldInst) {
         return oldInst;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
-      _this.$tabs = _this.$tab.children('a');
-      _this.$indicator = $('<div class="mdui-tab-indicator"></div>').appendTo(_this.$tab);
+      _this.options = $.extend({}, DEFAULT, opts || {});
+      _this.$tabs = _this.$tab.children("a");
+      _this.$indicator = $('<div class="mdui-tab-indicator"></div>').appendTo(
+        _this.$tab
+      );
       _this.activeIndex = false; // 为 false 时表示没有激活的选项卡，或不存在选项卡
 
       // 根据 url hash 获取默认激活的选项卡
       var hash = location.hash;
       if (hash) {
         _this.$tabs.each(function (i, tab) {
-          if ($(tab).attr('href') === hash) {
+          if ($(tab).attr("href") === hash) {
             _this.activeIndex = i;
             return false;
           }
@@ -4702,7 +4829,7 @@
       // 含 mdui-tab-active 的元素默认激活
       if (_this.activeIndex === false) {
         _this.$tabs.each(function (i, tab) {
-          if ($(tab).hasClass('mdui-tab-active')) {
+          if ($(tab).hasClass("mdui-tab-active")) {
             _this.activeIndex = i;
             return false;
           }
@@ -4718,9 +4845,12 @@
       _this._setActive();
 
       // 监听窗口大小变化事件，调整指示器位置
-      $window.on('resize', $.throttle(function () {
-        _this._setIndicatorPosition();
-      }, 100));
+      $window.on(
+        "resize",
+        $.throttle(function () {
+          _this._setIndicatorPosition();
+        }, 100)
+      );
 
       // 监听点击选项卡事件
       _this.$tabs.each(function (i, tab) {
@@ -4749,16 +4879,16 @@
       };
 
       // 无论 trigger 是 click 还是 hover，都会响应 click 事件
-      $tab.on('click', clickEvent);
+      $tab.on("click", clickEvent);
 
       // trigger 为 hover 时，额外响应 mouseenter 事件
-      if (_this.options.trigger === 'hover') {
-        $tab.on('mouseenter', clickEvent);
+      if (_this.options.trigger === "hover") {
+        $tab.on("mouseenter", clickEvent);
       }
 
-      $tab.on('click', function (e) {
+      $tab.on("click", function (e) {
         // 阻止链接的默认点击动作
-        if ($tab.attr('href').indexOf('#') === 0) {
+        if ($tab.attr("href").indexOf("#") === 0) {
           e.preventDefault();
         }
       });
@@ -4773,24 +4903,24 @@
 
       _this.$tabs.each(function (i, tab) {
         var $tab = $(tab);
-        var targetId = $tab.attr('href');
+        var targetId = $tab.attr("href");
 
         // 设置选项卡激活状态
         if (i === _this.activeIndex && !isDisabled($tab)) {
-          if (!$tab.hasClass('mdui-tab-active')) {
-            componentEvent('change', 'tab', _this, _this.$tab, {
+          if (!$tab.hasClass("mdui-tab-active")) {
+            componentEvent("change", "tab", _this, _this.$tab, {
               index: _this.activeIndex,
               id: targetId.substr(1),
             });
-            componentEvent('show', 'tab', _this, $tab);
+            componentEvent("show", "tab", _this, $tab);
 
-            $tab.addClass('mdui-tab-active');
+            $tab.addClass("mdui-tab-active");
           }
 
           $(targetId).show();
           _this._setIndicatorPosition();
         } else {
-          $tab.removeClass('mdui-tab-active');
+          $tab.removeClass("mdui-tab-active");
           $(targetId).hide();
         }
       });
@@ -4821,9 +4951,12 @@
 
       activeTabOffset = $activeTab.offset();
       _this.$indicator.css({
-        left: activeTabOffset.left + _this.$tab[0].scrollLeft -
-              _this.$tab[0].getBoundingClientRect().left + 'px',
-        width: $activeTab.width() + 'px',
+        left:
+          activeTabOffset.left +
+          _this.$tab[0].scrollLeft -
+          _this.$tab[0].getBoundingClientRect().left +
+          "px",
+        width: $activeTab.width() + "px",
       });
     };
 
@@ -4897,10 +5030,10 @@
     Tab.prototype.handleUpdate = function () {
       var _this = this;
 
-      var $oldTabs = _this.$tabs;               // 旧的 tabs JQ对象
-      var $newTabs = _this.$tab.children('a');  // 新的 tabs JQ对象
-      var oldTabsEle = $oldTabs.get();          // 旧 tabs 的元素数组
-      var newTabsEle = $newTabs.get();          // 新的 tabs 元素数组
+      var $oldTabs = _this.$tabs; // 旧的 tabs JQ对象
+      var $newTabs = _this.$tab.children("a"); // 新的 tabs JQ对象
+      var oldTabsEle = $oldTabs.get(); // 旧 tabs 的元素数组
+      var newTabsEle = $newTabs.get(); // 新的 tabs 元素数组
 
       if (!$newTabs.length) {
         _this.activeIndex = false;
@@ -4928,7 +5061,6 @@
       $oldTabs.each(function (i, tab) {
         // 有被移除的选项卡
         if (newTabsEle.indexOf(tab) < 0) {
-
           if (i < _this.activeIndex) {
             _this.activeIndex--;
           } else if (i === _this.activeIndex) {
@@ -4945,7 +5077,6 @@
     return Tab;
   })();
 
-
   /**
    * =============================================================================
    * ************   Tab 自定义属性 API   ************
@@ -4953,16 +5084,15 @@
    */
 
   $(function () {
-    mdui.mutation('[mdui-tab]', function () {
+    mdui.mutation("[mdui-tab]", function () {
       var $this = $(this);
-      var inst = $this.data('mdui.tab');
+      var inst = $this.data("mdui.tab");
       if (!inst) {
-        inst = new mdui.Tab($this, parseOptions($this.attr('mdui-tab')));
-        $this.data('mdui.tab', inst);
+        inst = new mdui.Tab($this, parseOptions($this.attr("mdui-tab")));
+        $this.data("mdui.tab", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -4974,7 +5104,6 @@
    */
 
   mdui.Drawer = (function () {
-
     /**
      * 默认参数
      * @type {{}}
@@ -5005,65 +5134,70 @@
         return;
       }
 
-      var oldInst = _this.$drawer.data('mdui.drawer');
+      var oldInst = _this.$drawer.data("mdui.drawer");
       if (oldInst) {
         return oldInst;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
+      _this.options = $.extend({}, DEFAULT, opts || {});
 
       _this.overlay = false; // 是否显示着遮罩层
-      _this.position = _this.$drawer.hasClass('mdui-drawer-right') ? 'right' : 'left';
+      _this.position = _this.$drawer.hasClass("mdui-drawer-right")
+        ? "right"
+        : "left";
 
-      if (_this.$drawer.hasClass('mdui-drawer-close')) {
-        _this.state = 'closed';
-      } else if (_this.$drawer.hasClass('mdui-drawer-open')) {
-        _this.state = 'opened';
+      if (_this.$drawer.hasClass("mdui-drawer-close")) {
+        _this.state = "closed";
+      } else if (_this.$drawer.hasClass("mdui-drawer-open")) {
+        _this.state = "opened";
       } else if (isDesktop()) {
-        _this.state = 'opened';
+        _this.state = "opened";
       } else {
-        _this.state = 'closed';
+        _this.state = "closed";
       }
 
       // 浏览器窗口大小调整时
-      $window.on('resize', $.throttle(function () {
-        // 由手机平板切换到桌面时
-        if (isDesktop()) {
-          // 如果显示着遮罩，则隐藏遮罩
-          if (_this.overlay && !_this.options.overlay) {
-            $.hideOverlay();
-            _this.overlay = false;
-            $.unlockScreen();
-          }
+      $window.on(
+        "resize",
+        $.throttle(function () {
+          // 由手机平板切换到桌面时
+          if (isDesktop()) {
+            // 如果显示着遮罩，则隐藏遮罩
+            if (_this.overlay && !_this.options.overlay) {
+              $.hideOverlay();
+              _this.overlay = false;
+              $.unlockScreen();
+            }
 
-          // 没有强制关闭，则状态为打开状态
-          if (!_this.$drawer.hasClass('mdui-drawer-close')) {
-            _this.state = 'opened';
-          }
-        }
-
-        // 由桌面切换到手机平板时。如果抽屉栏是打开着的且没有遮罩层，则关闭抽屉栏
-        else {
-          if (!_this.overlay && _this.state === 'opened') {
-            // 抽屉栏处于强制打开状态，添加遮罩
-            if (_this.$drawer.hasClass('mdui-drawer-open')) {
-              $.showOverlay();
-              _this.overlay = true;
-              $.lockScreen();
-
-              $('.mdui-overlay').one('click', function () {
-                _this.close();
-              });
-            } else {
-              _this.state = 'closed';
+            // 没有强制关闭，则状态为打开状态
+            if (!_this.$drawer.hasClass("mdui-drawer-close")) {
+              _this.state = "opened";
             }
           }
-        }
-      }, 100));
+
+          // 由桌面切换到手机平板时。如果抽屉栏是打开着的且没有遮罩层，则关闭抽屉栏
+          else {
+            if (!_this.overlay && _this.state === "opened") {
+              // 抽屉栏处于强制打开状态，添加遮罩
+              if (_this.$drawer.hasClass("mdui-drawer-open")) {
+                $.showOverlay();
+                _this.overlay = true;
+                $.lockScreen();
+
+                $(".mdui-overlay").one("click", function () {
+                  _this.close();
+                });
+              } else {
+                _this.state = "closed";
+              }
+            }
+          }
+        }, 100)
+      );
 
       // 绑定关闭按钮事件
-      _this.$drawer.find('[mdui-drawer-close]').each(function () {
-        $(this).on('click', function () {
+      _this.$drawer.find("[mdui-drawer-close]").each(function () {
+        $(this).on("click", function () {
           _this.close();
         });
       });
@@ -5083,31 +5217,36 @@
       var swipeStartX;
       var swiping = false;
       var maybeSwiping = false;
-      var $body = $('body');
+      var $body = $("body");
 
       // 手势触发的范围
       var swipeAreaWidth = 24;
 
       function enableSwipeHandling() {
         if (!openNavEventHandler) {
-          $body.on('touchstart', onBodyTouchStart);
+          $body.on("touchstart", onBodyTouchStart);
           openNavEventHandler = onBodyTouchStart;
         }
       }
 
       function setPosition(translateX, closeTransform) {
-        var rtlTranslateMultiplier = _this.position === 'right' ? -1 : 1;
-        var transformCSS = 'translate(' + (-1 * rtlTranslateMultiplier * translateX) + 'px, 0) !important;';
+        var rtlTranslateMultiplier = _this.position === "right" ? -1 : 1;
+        var transformCSS =
+          "translate(" +
+          -1 * rtlTranslateMultiplier * translateX +
+          "px, 0) !important;";
         _this.$drawer.css(
-          'cssText',
-          'transform:' + transformCSS + (closeTransform ? 'transition: initial !important;' : '')
+          "cssText",
+          "transform:" +
+            transformCSS +
+            (closeTransform ? "transition: initial !important;" : "")
         );
       }
 
       function cleanPosition() {
         _this.$drawer.css({
-          transform: '',
-          transition: '',
+          transform: "",
+          transition: "",
         });
       }
 
@@ -5118,7 +5257,9 @@
       function getTranslateX(currentX) {
         return Math.min(
           Math.max(
-            swiping === 'closing' ? (swipeStartX - currentX) : (getMaxTranslateX() + swipeStartX - currentX),
+            swiping === "closing"
+              ? swipeStartX - currentX
+              : getMaxTranslateX() + swipeStartX - currentX,
             0
           ),
           getMaxTranslateX()
@@ -5127,14 +5268,17 @@
 
       function onBodyTouchStart(event) {
         touchStartX = event.touches[0].pageX;
-        if (_this.position === 'right') {
+        if (_this.position === "right") {
           touchStartX = $body.width() - touchStartX;
         }
 
         touchStartY = event.touches[0].pageY;
 
-        if (_this.state !== 'opened') {
-          if (touchStartX > swipeAreaWidth || openNavEventHandler !== onBodyTouchStart) {
+        if (_this.state !== "opened") {
+          if (
+            touchStartX > swipeAreaWidth ||
+            openNavEventHandler !== onBodyTouchStart
+          ) {
             return;
           }
         }
@@ -5150,7 +5294,7 @@
 
       function onBodyTouchMove(event) {
         var touchX = event.touches[0].pageX;
-        if (_this.position === 'right') {
+        if (_this.position === "right") {
           touchX = $body.width() - touchX;
         }
 
@@ -5165,7 +5309,7 @@
 
           if (dXAbs > threshold && dYAbs <= threshold) {
             swipeStartX = touchX;
-            swiping = _this.state === 'opened' ? 'closing' : 'opening';
+            swiping = _this.state === "opened" ? "closing" : "opening";
             $.lockScreen();
             setPosition(getTranslateX(touchX), true);
           } else if (dXAbs <= threshold && dYAbs > threshold) {
@@ -5177,7 +5321,7 @@
       function onBodyTouchEnd(event) {
         if (swiping) {
           var touchX = event.changedTouches[0].pageX;
-          if (_this.position === 'right') {
+          if (_this.position === "right") {
             touchX = $body.width() - touchX;
           }
 
@@ -5187,7 +5331,7 @@
           var swipingState = swiping;
           swiping = null;
 
-          if (swipingState === 'opening') {
+          if (swipingState === "opening") {
             if (translateRatio < 0.92) {
               cleanPosition();
               _this.open();
@@ -5225,12 +5369,12 @@
      * @param inst
      */
     var transitionEnd = function (inst) {
-      if (inst.$drawer.hasClass('mdui-drawer-open')) {
-        inst.state = 'opened';
-        componentEvent('opened', 'drawer', inst, inst.$drawer);
+      if (inst.$drawer.hasClass("mdui-drawer-open")) {
+        inst.state = "opened";
+        componentEvent("opened", "drawer", inst, inst.$drawer);
       } else {
-        inst.state = 'closed';
-        componentEvent('closed', 'drawer', inst, inst.$drawer);
+        inst.state = "closed";
+        componentEvent("closed", "drawer", inst, inst.$drawer);
       }
     };
 
@@ -5240,27 +5384,27 @@
     Drawer.prototype.open = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
-      _this.state = 'opening';
-      componentEvent('open', 'drawer', _this, _this.$drawer);
+      _this.state = "opening";
+      componentEvent("open", "drawer", _this, _this.$drawer);
 
       if (!_this.options.overlay) {
-        $('body').addClass('mdui-drawer-body-' + _this.position);
+        $("body").addClass("mdui-drawer-body-" + _this.position);
       }
 
       _this.$drawer
-        .removeClass('mdui-drawer-close')
-        .addClass('mdui-drawer-open')
+        .removeClass("mdui-drawer-close")
+        .addClass("mdui-drawer-open")
         .transitionEnd(function () {
           transitionEnd(_this);
         });
 
       if (!isDesktop() || _this.options.overlay) {
         _this.overlay = true;
-        $.showOverlay().one('click', function () {
+        $.showOverlay().one("click", function () {
           _this.close();
         });
 
@@ -5274,20 +5418,20 @@
     Drawer.prototype.close = function () {
       var _this = this;
 
-      if (_this.state === 'closing' || _this.state === 'closed') {
+      if (_this.state === "closing" || _this.state === "closed") {
         return;
       }
 
-      _this.state = 'closing';
-      componentEvent('close', 'drawer', _this, _this.$drawer);
+      _this.state = "closing";
+      componentEvent("close", "drawer", _this, _this.$drawer);
 
       if (!_this.options.overlay) {
-        $('body').removeClass('mdui-drawer-body-' + _this.position);
+        $("body").removeClass("mdui-drawer-body-" + _this.position);
       }
 
       _this.$drawer
-        .addClass('mdui-drawer-close')
-        .removeClass('mdui-drawer-open')
+        .addClass("mdui-drawer-close")
+        .removeClass("mdui-drawer-open")
         .transitionEnd(function () {
           transitionEnd(_this);
         });
@@ -5305,9 +5449,9 @@
     Drawer.prototype.toggle = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
-      } else if (_this.state === 'closing' || _this.state === 'closed') {
+      } else if (_this.state === "closing" || _this.state === "closed") {
         _this.open();
       }
     };
@@ -5321,9 +5465,7 @@
     };
 
     return Drawer;
-
   })();
-
 
   /**
    * =============================================================================
@@ -5332,27 +5474,25 @@
    */
 
   $(function () {
-    mdui.mutation('[mdui-drawer]', function () {
+    mdui.mutation("[mdui-drawer]", function () {
       var $this = $(this);
-      var options = parseOptions($this.attr('mdui-drawer'));
+      var options = parseOptions($this.attr("mdui-drawer"));
       var selector = options.target;
       delete options.target;
 
       var $drawer = $(selector).eq(0);
 
-      var inst = $drawer.data('mdui.drawer');
+      var inst = $drawer.data("mdui.drawer");
       if (!inst) {
         inst = new mdui.Drawer($drawer, options);
-        $drawer.data('mdui.drawer', inst);
+        $drawer.data("mdui.drawer", inst);
       }
 
-      $this.on('click', function () {
+      $this.on("click", function () {
         inst.toggle();
       });
-
     });
   });
-
 
   /**
    * =============================================================================
@@ -5361,18 +5501,17 @@
    */
 
   mdui.Dialog = (function () {
-
     /**
      * 默认参数
      */
     var DEFAULT = {
-      history: true,                // 监听 hashchange 事件
-      overlay: true,                // 打开对话框时是否显示遮罩
-      modal: false,                 // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
-      closeOnEsc: true,             // 按下 esc 关闭对话框
-      closeOnCancel: true,          // 按下取消按钮时关闭对话框
-      closeOnConfirm: true,         // 按下确认按钮时关闭对话框
-      destroyOnClosed: false,        // 关闭后销毁
+      history: true, // 监听 hashchange 事件
+      overlay: true, // 打开对话框时是否显示遮罩
+      modal: false, // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
+      closeOnEsc: true, // 按下 esc 关闭对话框
+      closeOnCancel: true, // 按下取消按钮时关闭对话框
+      closeOnConfirm: true, // 按下确认按钮时关闭对话框
+      destroyOnClosed: false, // 关闭后销毁
     };
 
     /**
@@ -5394,7 +5533,7 @@
      * 队列名
      * @type {string}
      */
-    var queueName = '__md_dialog';
+    var queueName = "__md_dialog";
 
     /**
      * 窗口宽度变化，或对话框内容变化时，调整对话框位置和对话框内的滚动条
@@ -5406,25 +5545,25 @@
 
       var $dialog = currentInst.$dialog;
 
-      var $dialogTitle = $dialog.children('.mdui-dialog-title');
-      var $dialogContent = $dialog.children('.mdui-dialog-content');
-      var $dialogActions = $dialog.children('.mdui-dialog-actions');
+      var $dialogTitle = $dialog.children(".mdui-dialog-title");
+      var $dialogContent = $dialog.children(".mdui-dialog-content");
+      var $dialogActions = $dialog.children(".mdui-dialog-actions");
 
       // 调整 dialog 的 top 和 height 值
-      $dialog.height('');
-      $dialogContent.height('');
+      $dialog.height("");
+      $dialogContent.height("");
 
       var dialogHeight = $dialog.height();
       $dialog.css({
-        top: (($window.height() - dialogHeight) / 2) + 'px',
-        height: dialogHeight + 'px',
+        top: ($window.height() - dialogHeight) / 2 + "px",
+        height: dialogHeight + "px",
       });
 
       // 调整 mdui-dialog-content 的高度
       $dialogContent.height(
         dialogHeight -
-        ($dialogTitle.height() || 0) -
-        ($dialogActions.height() || 0)
+          ($dialogTitle.height() || 0) -
+          ($dialogActions.height() || 0)
       );
     };
 
@@ -5432,7 +5571,7 @@
      * hashchange 事件触发时关闭对话框
      */
     var hashchangeEvent = function () {
-      if (location.hash.substring(1).indexOf('&mdui-dialog') < 0) {
+      if (location.hash.substring(1).indexOf("&mdui-dialog") < 0) {
         currentInst.close(true);
       }
     };
@@ -5442,7 +5581,7 @@
      * @param e
      */
     var overlayClick = function (e) {
-      if ($(e.target).hasClass('mdui-overlay') && currentInst) {
+      if ($(e.target).hasClass("mdui-overlay") && currentInst) {
         currentInst.close();
       }
     };
@@ -5463,7 +5602,7 @@
       }
 
       // 已通过 data 属性实例化过，不再重复实例化
-      var oldInst = _this.$dialog.data('mdui.dialog');
+      var oldInst = _this.$dialog.data("mdui.dialog");
       if (oldInst) {
         return oldInst;
       }
@@ -5471,16 +5610,16 @@
       // 如果对话框元素没有在当前文档中，则需要添加
       if (!$.contains(document.body, _this.$dialog[0])) {
         _this.append = true;
-        $('body').append(_this.$dialog);
+        $("body").append(_this.$dialog);
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
-      _this.state = 'closed';
+      _this.options = $.extend({}, DEFAULT, opts || {});
+      _this.state = "closed";
 
       // 绑定取消按钮事件
-      _this.$dialog.find('[mdui-dialog-cancel]').each(function () {
-        $(this).on('click', function () {
-          componentEvent('cancel', 'dialog', _this, _this.$dialog);
+      _this.$dialog.find("[mdui-dialog-cancel]").each(function () {
+        $(this).on("click", function () {
+          componentEvent("cancel", "dialog", _this, _this.$dialog);
           if (_this.options.closeOnCancel) {
             _this.close();
           }
@@ -5488,9 +5627,9 @@
       });
 
       // 绑定确认按钮事件
-      _this.$dialog.find('[mdui-dialog-confirm]').each(function () {
-        $(this).on('click', function () {
-          componentEvent('confirm', 'dialog', _this, _this.$dialog);
+      _this.$dialog.find("[mdui-dialog-confirm]").each(function () {
+        $(this).on("click", function () {
+          componentEvent("confirm", "dialog", _this, _this.$dialog);
           if (_this.options.closeOnConfirm) {
             _this.close();
           }
@@ -5498,8 +5637,8 @@
       });
 
       // 绑定关闭按钮事件
-      _this.$dialog.find('[mdui-dialog-close]').each(function () {
-        $(this).on('click', function () {
+      _this.$dialog.find("[mdui-dialog-close]").each(function () {
+        $(this).on("click", function () {
           _this.close();
         });
       });
@@ -5510,24 +5649,31 @@
      * @param inst
      */
     var transitionEnd = function (inst) {
-      if (inst.$dialog.hasClass('mdui-dialog-open')) {
-        inst.state = 'opened';
-        componentEvent('opened', 'dialog', inst, inst.$dialog);
+      if (inst.$dialog.hasClass("mdui-dialog-open")) {
+        inst.state = "opened";
+        componentEvent("opened", "dialog", inst, inst.$dialog);
       } else {
-        inst.state = 'closed';
-        componentEvent('closed', 'dialog', inst, inst.$dialog);
+        inst.state = "closed";
+        componentEvent("closed", "dialog", inst, inst.$dialog);
 
         inst.$dialog.hide();
 
         // 所有对话框都关闭，且当前没有打开的对话框时，解锁屏幕
-        if (queue.queue(queueName).length === 0 && !currentInst && isLockScreen) {
+        if (
+          queue.queue(queueName).length === 0 &&
+          !currentInst &&
+          isLockScreen
+        ) {
           $.unlockScreen();
           isLockScreen = false;
         }
 
-        $window.off('resize', $.throttle(function () {
-          readjust();
-        }, 100));
+        $window.off(
+          "resize",
+          $.throttle(function () {
+            readjust();
+          }, 100)
+        );
 
         if (inst.options.destroyOnClosed) {
           inst.destroy();
@@ -5552,43 +5698,44 @@
       _this.$dialog.show();
 
       readjust();
-      $window.on('resize', $.throttle(function () {
-        readjust();
-      }, 100));
+      $window.on(
+        "resize",
+        $.throttle(function () {
+          readjust();
+        }, 100)
+      );
 
       // 打开消息框
-      _this.state = 'opening';
-      componentEvent('open', 'dialog', _this, _this.$dialog);
+      _this.state = "opening";
+      componentEvent("open", "dialog", _this, _this.$dialog);
 
-      _this.$dialog
-        .addClass('mdui-dialog-open')
-        .transitionEnd(function () {
-          transitionEnd(_this);
-        });
+      _this.$dialog.addClass("mdui-dialog-open").transitionEnd(function () {
+        transitionEnd(_this);
+      });
 
       // 不存在遮罩层元素时，添加遮罩层
       if (!$overlay) {
         $overlay = $.showOverlay(5100);
       }
 
-      $overlay
-
+      $overlay[
         // 点击遮罩层时是否关闭对话框
-        [_this.options.modal ? 'off' : 'on']('click', overlayClick)
+        _this.options.modal ? "off" : "on"
+      ]("click", overlayClick)
 
         // 是否显示遮罩层，不显示时，把遮罩层背景透明
-        .css('opacity', _this.options.overlay ? '' : 0);
+        .css("opacity", _this.options.overlay ? "" : 0);
 
       if (_this.options.history) {
         // 如果 hash 中原来就有 &mdui-dialog，先删除，避免后退历史纪录后仍然有 &mdui-dialog 导致无法关闭
         var hash = location.hash.substring(1);
-        if (hash.indexOf('&mdui-dialog') > -1) {
-          hash = hash.replace(/&mdui-dialog/g, '');
+        if (hash.indexOf("&mdui-dialog") > -1) {
+          hash = hash.replace(/&mdui-dialog/g, "");
         }
 
         // 后退按钮关闭对话框
-        location.hash = hash + '&mdui-dialog';
-        $window.on('hashchange', hashchangeEvent);
+        location.hash = hash + "&mdui-dialog";
+        $window.on("hashchange", hashchangeEvent);
       }
     };
 
@@ -5598,13 +5745,15 @@
     Dialog.prototype.open = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
       // 如果当前有正在打开或已经打开的对话框,或队列不为空，则先加入队列，等旧对话框开始关闭时再打开
       if (
-        (currentInst && (currentInst.state === 'opening' || currentInst.state === 'opened')) ||
+        (currentInst &&
+          (currentInst.state === "opening" ||
+            currentInst.state === "opened")) ||
         queue.queue(queueName).length
       ) {
         queue.queue(queueName, function () {
@@ -5626,14 +5775,14 @@
       // setTimeout 的作用是：
       // 当同时关闭一个对话框，并打开另一个对话框时，使打开对话框的操作先执行，以使需要打开的对话框先加入队列
       setTimeout(function () {
-        if (_this.state === 'closing' || _this.state === 'closed') {
+        if (_this.state === "closing" || _this.state === "closed") {
           return;
         }
 
         currentInst = null;
 
-        _this.state = 'closing';
-        componentEvent('close', 'dialog', _this, _this.$dialog);
+        _this.state = "closing";
+        componentEvent("close", "dialog", _this, _this.$dialog);
 
         // 所有对话框都关闭，且当前没有打开的对话框时，隐藏遮罩
         if (queue.queue(queueName).length === 0 && $overlay) {
@@ -5642,7 +5791,7 @@
         }
 
         _this.$dialog
-          .removeClass('mdui-dialog-open')
+          .removeClass("mdui-dialog-open")
           .transitionEnd(function () {
             transitionEnd(_this);
           });
@@ -5655,7 +5804,7 @@
             window.history.back();
           }
 
-          $window.off('hashchange', hashchangeEvent);
+          $window.off("hashchange", hashchangeEvent);
         }
 
         // 关闭旧对话框，打开新对话框。
@@ -5672,9 +5821,9 @@
     Dialog.prototype.toggle = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
-      } else if (_this.state === 'closing' || _this.state === 'closed') {
+      } else if (_this.state === "closing" || _this.state === "closed") {
         _this.open();
       }
     };
@@ -5697,7 +5846,7 @@
         _this.$dialog.remove();
       }
 
-      _this.$dialog.removeData('mdui.dialog');
+      _this.$dialog.removeData("mdui.dialog");
 
       if (queue.queue(queueName).length === 0 && !currentInst) {
         if ($overlay) {
@@ -5720,11 +5869,11 @@
     };
 
     // esc 按下时关闭对话框
-    $document.on('keydown', function (e) {
+    $document.on("keydown", function (e) {
       if (
         currentInst &&
         currentInst.options.closeOnEsc &&
-        currentInst.state === 'opened' &&
+        currentInst.state === "opened" &&
         e.keyCode === 27
       ) {
         currentInst.close();
@@ -5732,9 +5881,7 @@
     });
 
     return Dialog;
-
   })();
-
 
   /**
    * =============================================================================
@@ -5743,24 +5890,23 @@
    */
 
   $(function () {
-    $document.on('click', '[mdui-dialog]', function () {
+    $document.on("click", "[mdui-dialog]", function () {
       var $this = $(this);
-      var options = parseOptions($this.attr('mdui-dialog'));
+      var options = parseOptions($this.attr("mdui-dialog"));
       var selector = options.target;
       delete options.target;
 
       var $dialog = $(selector).eq(0);
 
-      var inst = $dialog.data('mdui.dialog');
+      var inst = $dialog.data("mdui.dialog");
       if (!inst) {
         inst = new mdui.Dialog($dialog, options);
-        $dialog.data('mdui.dialog', inst);
+        $dialog.data("mdui.dialog", inst);
       }
 
       inst.open();
     });
   });
-
 
   /**
    * =============================================================================
@@ -5769,31 +5915,34 @@
    */
 
   mdui.dialog = function (options) {
-
     /**
      * 默认参数
      */
     var DEFAULT = {
-      title: '',                // 标题
-      content: '',              // 文本
-      buttons: [],              // 按钮
-      stackedButtons: false,    // 垂直排列按钮
-      cssClass: '',             // 在 Dialog 上添加的 CSS 类
-      history: true,            // 监听 hashchange 事件
-      overlay: true,            // 是否显示遮罩
-      modal: false,             // 是否模态化对话框
-      closeOnEsc: true,         // 按下 esc 时关闭对话框
-      destroyOnClosed: true,    // 关闭后销毁
-      onOpen: function () {     // 打开动画开始时的回调
+      title: "", // 标题
+      content: "", // 文本
+      buttons: [], // 按钮
+      stackedButtons: false, // 垂直排列按钮
+      cssClass: "", // 在 Dialog 上添加的 CSS 类
+      history: true, // 监听 hashchange 事件
+      overlay: true, // 是否显示遮罩
+      modal: false, // 是否模态化对话框
+      closeOnEsc: true, // 按下 esc 时关闭对话框
+      destroyOnClosed: true, // 关闭后销毁
+      onOpen: function () {
+        // 打开动画开始时的回调
       },
 
-      onOpened: function () {   // 打开动画结束后的回调
+      onOpened: function () {
+        // 打开动画结束后的回调
       },
 
-      onClose: function () {    // 关闭动画开始时的回调
+      onClose: function () {
+        // 关闭动画开始时的回调
       },
 
-      onClosed: function () {   // 关闭动画结束时的回调
+      onClosed: function () {
+        // 关闭动画结束时的回调
       },
     };
 
@@ -5801,45 +5950,53 @@
      * 按钮的默认参数
      */
     var DEFAULT_BUTTON = {
-      text: '',                   // 按钮文本
-      bold: false,                // 按钮文本是否加粗
-      close: true,                // 点击按钮后关闭对话框
-      onClick: function (inst) {  // 点击按钮的回调
+      text: "", // 按钮文本
+      bold: false, // 按钮文本是否加粗
+      close: true, // 点击按钮后关闭对话框
+      onClick: function (inst) {
+        // 点击按钮的回调
       },
     };
 
     // 合并参数
-    options = $.extend({}, DEFAULT, (options || {}));
+    options = $.extend({}, DEFAULT, options || {});
     $.each(options.buttons, function (i, button) {
       options.buttons[i] = $.extend({}, DEFAULT_BUTTON, button);
     });
 
     // 按钮的 HTML
-    var buttonsHTML = '';
+    var buttonsHTML = "";
     if (options.buttons.length) {
       buttonsHTML =
         '<div class="mdui-dialog-actions ' +
-          (options.stackedButtons ? 'mdui-dialog-actions-stacked' : '') +
+        (options.stackedButtons ? "mdui-dialog-actions-stacked" : "") +
         '">';
       $.each(options.buttons, function (i, button) {
         buttonsHTML +=
           '<a href="javascript:void(0)" ' +
-            'class="mdui-btn mdui-ripple mdui-text-color-primary ' +
-            (button.bold ? 'mdui-btn-bold' : '') + '">' +
-            button.text +
-          '</a>';
+          'class="mdui-btn mdui-ripple mdui-text-color-primary ' +
+          (button.bold ? "mdui-btn-bold" : "") +
+          '">' +
+          button.text +
+          "</a>";
       });
 
-      buttonsHTML += '</div>';
+      buttonsHTML += "</div>";
     }
 
     // Dialog 的 HTML
     var HTML =
-      '<div class="mdui-dialog ' + options.cssClass + '">' +
-        (options.title ? '<div class="mdui-dialog-title">' + options.title + '</div>' : '') +
-        (options.content ? '<div class="mdui-dialog-content">' + options.content + '</div>' : '') +
-        buttonsHTML +
-      '</div>';
+      '<div class="mdui-dialog ' +
+      options.cssClass +
+      '">' +
+      (options.title
+        ? '<div class="mdui-dialog-title">' + options.title + "</div>"
+        : "") +
+      (options.content
+        ? '<div class="mdui-dialog-content">' + options.content + "</div>"
+        : "") +
+      buttonsHTML +
+      "</div>";
 
     // 实例化 Dialog
     var inst = new mdui.Dialog(HTML, {
@@ -5852,32 +6009,34 @@
 
     // 绑定按钮事件
     if (options.buttons.length) {
-      inst.$dialog.find('.mdui-dialog-actions .mdui-btn').each(function (i, button) {
-        $(button).on('click', function () {
-          if (typeof options.buttons[i].onClick === 'function') {
-            options.buttons[i].onClick(inst);
-          }
+      inst.$dialog
+        .find(".mdui-dialog-actions .mdui-btn")
+        .each(function (i, button) {
+          $(button).on("click", function () {
+            if (typeof options.buttons[i].onClick === "function") {
+              options.buttons[i].onClick(inst);
+            }
 
-          if (options.buttons[i].close) {
-            inst.close();
-          }
+            if (options.buttons[i].close) {
+              inst.close();
+            }
+          });
         });
-      });
     }
 
     // 绑定打开关闭事件
-    if (typeof options.onOpen === 'function') {
+    if (typeof options.onOpen === "function") {
       inst.$dialog
-        .on('open.mdui.dialog', function () {
+        .on("open.mdui.dialog", function () {
           options.onOpen(inst);
         })
-        .on('opened.mdui.dialog', function () {
+        .on("opened.mdui.dialog", function () {
           options.onOpened(inst);
         })
-        .on('close.mdui.dialog', function () {
+        .on("close.mdui.dialog", function () {
           options.onClose(inst);
         })
-        .on('closed.mdui.dialog', function () {
+        .on("closed.mdui.dialog", function () {
           options.onClosed(inst);
         });
     }
@@ -5887,7 +6046,6 @@
     return inst;
   };
 
-
   /**
    * =============================================================================
    * ************   mdui.alert(text, title, onConfirm, options)   ************
@@ -5896,10 +6054,9 @@
    */
 
   mdui.alert = function (text, title, onConfirm, options) {
-
     // title 参数可选
-    if (typeof title === 'function') {
-      title = '';
+    if (typeof title === "function") {
+      title = "";
       onConfirm = arguments[1];
       options = arguments[2];
     }
@@ -5916,10 +6073,10 @@
      * 默认参数
      */
     var DEFAULT = {
-      confirmText: 'ok',             // 按钮上的文本
-      history: true,                 // 监听 hashchange 事件
-      modal: false,                  // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
-      closeOnEsc: true,              // 按下 esc 关闭对话框
+      confirmText: "ok", // 按钮上的文本
+      history: true, // 监听 hashchange 事件
+      modal: false, // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
+      closeOnEsc: true, // 按下 esc 关闭对话框
     };
 
     options = $.extend({}, DEFAULT, options);
@@ -5935,13 +6092,12 @@
           onClick: onConfirm,
         },
       ],
-      cssClass: 'mdui-dialog-alert',
+      cssClass: "mdui-dialog-alert",
       history: options.history,
       modal: options.modal,
       closeOnEsc: options.closeOnEsc,
     });
   };
-
 
   /**
    * =============================================================================
@@ -5951,10 +6107,9 @@
    */
 
   mdui.confirm = function (text, title, onConfirm, onCancel, options) {
-
     // title 参数可选
-    if (typeof title === 'function') {
-      title = '';
+    if (typeof title === "function") {
+      title = "";
       onConfirm = arguments[1];
       onCancel = arguments[2];
       options = arguments[3];
@@ -5976,11 +6131,11 @@
      * 默认参数
      */
     var DEFAULT = {
-      confirmText: 'ok',            // 确认按钮的文本
-      cancelText: 'cancel',         // 取消按钮的文本
-      history: true,                // 监听 hashchange 事件
-      modal: false,                 // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
-      closeOnEsc: true,             // 按下 esc 关闭对话框
+      confirmText: "ok", // 确认按钮的文本
+      cancelText: "cancel", // 取消按钮的文本
+      history: true, // 监听 hashchange 事件
+      modal: false, // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
+      closeOnEsc: true, // 按下 esc 关闭对话框
     };
 
     options = $.extend({}, DEFAULT, options);
@@ -6002,13 +6157,12 @@
           onClick: onConfirm,
         },
       ],
-      cssClass: 'mdui-dialog-confirm',
+      cssClass: "mdui-dialog-confirm",
       history: options.history,
       modal: options.modal,
       closeOnEsc: options.closeOnEsc,
     });
   };
-
 
   /**
    * =============================================================================
@@ -6018,10 +6172,9 @@
    */
 
   mdui.prompt = function (label, title, onConfirm, onCancel, options) {
-
     // title 参数可选
-    if (typeof title === 'function') {
-      title = '';
+    if (typeof title === "function") {
+      title = "";
       onConfirm = arguments[1];
       onCancel = arguments[2];
       options = arguments[3];
@@ -6043,34 +6196,40 @@
      * 默认参数
      */
     var DEFAULT = {
-      confirmText: 'ok',        // 确认按钮的文本
-      cancelText: 'cancel',     // 取消按钮的文本
-      history: true,            // 监听 hashchange 事件
-      modal: false,             // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
-      closeOnEsc: true,         // 按下 esc 关闭对话框
-      type: 'text',             // 输入框类型，text: 单行文本框 textarea: 多行文本框
-      maxlength: '',            // 最大输入字符数
-      defaultValue: '',         // 输入框中的默认文本
-      confirmOnEnter: false,    // 按下 enter 确认输入内容
+      confirmText: "ok", // 确认按钮的文本
+      cancelText: "cancel", // 取消按钮的文本
+      history: true, // 监听 hashchange 事件
+      modal: false, // 是否模态化对话框，为 false 时点击对话框外面区域关闭对话框，为 true 时不关闭
+      closeOnEsc: true, // 按下 esc 关闭对话框
+      type: "text", // 输入框类型，text: 单行文本框 textarea: 多行文本框
+      maxlength: "", // 最大输入字符数
+      defaultValue: "", // 输入框中的默认文本
+      confirmOnEnter: false, // 按下 enter 确认输入内容
     };
 
     options = $.extend({}, DEFAULT, options);
 
     var content =
       '<div class="mdui-textfield">' +
-        (label ? '<label class="mdui-textfield-label">' + label + '</label>' : '') +
-        (options.type === 'text' ?
-          '<input class="mdui-textfield-input" type="text" ' +
-            'value="' + options.defaultValue + '" ' +
-            (options.maxlength ? ('maxlength="' + options.maxlength + '"') : '') + '/>' :
-          '') +
-        (options.type === 'textarea' ?
-          '<textarea class="mdui-textfield-input" ' +
-            (options.maxlength ? ('maxlength="' + options.maxlength + '"') : '') + '>' +
-              options.defaultValue +
-          '</textarea>' :
-          '') +
-      '</div>';
+      (label
+        ? '<label class="mdui-textfield-label">' + label + "</label>"
+        : "") +
+      (options.type === "text"
+        ? '<input class="mdui-textfield-input" type="text" ' +
+          'value="' +
+          options.defaultValue +
+          '" ' +
+          (options.maxlength ? 'maxlength="' + options.maxlength + '"' : "") +
+          "/>"
+        : "") +
+      (options.type === "textarea"
+        ? '<textarea class="mdui-textfield-input" ' +
+          (options.maxlength ? 'maxlength="' + options.maxlength + '"' : "") +
+          ">" +
+          options.defaultValue +
+          "</textarea>"
+        : "") +
+      "</div>";
 
     return mdui.dialog({
       title: title,
@@ -6081,7 +6240,7 @@
           bold: false,
           close: true,
           onClick: function (inst) {
-            var value = inst.$dialog.find('.mdui-textfield-input').val();
+            var value = inst.$dialog.find(".mdui-textfield-input").val();
             onCancel(value, inst);
           },
         },
@@ -6090,29 +6249,28 @@
           bold: false,
           close: true,
           onClick: function (inst) {
-            var value = inst.$dialog.find('.mdui-textfield-input').val();
+            var value = inst.$dialog.find(".mdui-textfield-input").val();
             onConfirm(value, inst);
           },
         },
       ],
-      cssClass: 'mdui-dialog-prompt',
+      cssClass: "mdui-dialog-prompt",
       history: options.history,
       modal: options.modal,
       closeOnEsc: options.closeOnEsc,
       onOpen: function (inst) {
-
         // 初始化输入框
-        var $input = inst.$dialog.find('.mdui-textfield-input');
+        var $input = inst.$dialog.find(".mdui-textfield-input");
         mdui.updateTextFields($input);
 
         // 聚焦到输入框
         $input[0].focus();
 
         // 捕捉文本框回车键，在单行文本框的情况下触发回调
-        if (options.type === 'text' && options.confirmOnEnter === true) {
-          $input.on('keydown', function (event) {
+        if (options.type === "text" && options.confirmOnEnter === true) {
+          $input.on("keydown", function (event) {
             if (event.keyCode === 13) {
-              var value = inst.$dialog.find('.mdui-textfield-input').val();
+              var value = inst.$dialog.find(".mdui-textfield-input").val();
               onConfirm(value, inst);
               inst.close();
             }
@@ -6120,8 +6278,8 @@
         }
 
         // 如果是多行输入框，监听输入框的 input 事件，更新对话框高度
-        if (options.type === 'textarea') {
-          $input.on('input', function () {
+        if (options.type === "textarea") {
+          $input.on("input", function () {
             inst.handleUpdate();
           });
         }
@@ -6132,9 +6290,7 @@
         }
       },
     });
-
   };
-
 
   /**
    * =============================================================================
@@ -6143,14 +6299,13 @@
    */
 
   mdui.Tooltip = (function () {
-
     /**
      * 默认参数
      */
     var DEFAULT = {
-      position: 'auto',     // 提示所在位置
-      delay: 0,             // 延迟，单位毫秒
-      content: '',          // 提示文本，允许包含 HTML
+      position: "auto", // 提示所在位置
+      delay: 0, // 延迟，单位毫秒
+      content: "", // 提示文本，允许包含 HTML
     };
 
     /**
@@ -6174,7 +6329,7 @@
       var targetProps = inst.$target[0].getBoundingClientRect();
 
       // 触发的元素和 Tooltip 之间的距离
-      var targetMargin = (isDesktop() ? 14 : 24);
+      var targetMargin = isDesktop() ? 14 : 24;
 
       // Tooltip 的宽度和高度
       var tooltipWidth = inst.$tooltip[0].offsetWidth;
@@ -6184,56 +6339,62 @@
       position = inst.options.position;
 
       // 自动判断位置，加 2px，使 Tooltip 距离窗口边框至少有 2px 的间距
-      if (['bottom', 'top', 'left', 'right'].indexOf(position) === -1) {
+      if (["bottom", "top", "left", "right"].indexOf(position) === -1) {
         if (
-          targetProps.top + targetProps.height + targetMargin + tooltipHeight + 2 <
+          targetProps.top +
+            targetProps.height +
+            targetMargin +
+            tooltipHeight +
+            2 <
           $window.height()
         ) {
-          position = 'bottom';
+          position = "bottom";
         } else if (targetMargin + tooltipHeight + 2 < targetProps.top) {
-          position = 'top';
+          position = "top";
         } else if (targetMargin + tooltipWidth + 2 < targetProps.left) {
-          position = 'left';
+          position = "left";
         } else if (
           targetProps.width + targetMargin + tooltipWidth + 2 <
           $window.width() - targetProps.left
         ) {
-          position = 'right';
+          position = "right";
         } else {
-          position = 'bottom';
+          position = "bottom";
         }
       }
 
       // 设置位置
       switch (position) {
-        case 'bottom':
+        case "bottom":
           marginLeft = -1 * (tooltipWidth / 2);
-          marginTop = (targetProps.height / 2) + targetMargin;
-          inst.$tooltip.transformOrigin('top center');
+          marginTop = targetProps.height / 2 + targetMargin;
+          inst.$tooltip.transformOrigin("top center");
           break;
-        case 'top':
+        case "top":
           marginLeft = -1 * (tooltipWidth / 2);
-          marginTop = -1 * (tooltipHeight + (targetProps.height / 2) + targetMargin);
-          inst.$tooltip.transformOrigin('bottom center');
+          marginTop =
+            -1 * (tooltipHeight + targetProps.height / 2 + targetMargin);
+          inst.$tooltip.transformOrigin("bottom center");
           break;
-        case 'left':
-          marginLeft = -1 * (tooltipWidth + (targetProps.width / 2) + targetMargin);
+        case "left":
+          marginLeft =
+            -1 * (tooltipWidth + targetProps.width / 2 + targetMargin);
           marginTop = -1 * (tooltipHeight / 2);
-          inst.$tooltip.transformOrigin('center right');
+          inst.$tooltip.transformOrigin("center right");
           break;
-        case 'right':
-          marginLeft = (targetProps.width / 2) + targetMargin;
+        case "right":
+          marginLeft = targetProps.width / 2 + targetMargin;
           marginTop = -1 * (tooltipHeight / 2);
-          inst.$tooltip.transformOrigin('center left');
+          inst.$tooltip.transformOrigin("center left");
           break;
       }
 
       var targetOffset = inst.$target.offset();
       inst.$tooltip.css({
-        top: targetOffset.top + (targetProps.height / 2) + 'px',
-        left: targetOffset.left + (targetProps.width / 2) + 'px',
-        'margin-left': marginLeft + 'px',
-        'margin-top': marginTop + 'px',
+        top: targetOffset.top + targetProps.height / 2 + "px",
+        left: targetOffset.left + targetProps.width / 2 + "px",
+        "margin-left": marginLeft + "px",
+        "margin-top": marginTop + "px",
       });
     }
 
@@ -6252,24 +6413,26 @@
       }
 
       // 已通过 data 属性实例化过，不再重复实例化
-      var oldInst = _this.$target.data('mdui.tooltip');
+      var oldInst = _this.$target.data("mdui.tooltip");
       if (oldInst) {
         return oldInst;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
-      _this.state = 'closed';
+      _this.options = $.extend({}, DEFAULT, opts || {});
+      _this.state = "closed";
 
       // 创建 Tooltip HTML
       _this.$tooltip = $(
-        '<div class="mdui-tooltip" id="' + $.guid() + '">' +
+        '<div class="mdui-tooltip" id="' +
+          $.guid() +
+          '">' +
           _this.options.content +
-        '</div>'
+          "</div>"
       ).appendTo(document.body);
 
       // 绑定事件。元素处于 disabled 状态时无法触发鼠标事件，为了统一，把 touch 事件也禁用
       _this.$target
-        .on('touchstart mouseenter', function (e) {
+        .on("touchstart mouseenter", function (e) {
           if (this.disabled) {
             return;
           }
@@ -6282,7 +6445,7 @@
 
           _this.open();
         })
-        .on('touchend mouseleave', function (e) {
+        .on("touchend mouseleave", function (e) {
           if (this.disabled) {
             return;
           }
@@ -6307,12 +6470,12 @@
      * @private
      */
     var transitionEnd = function (inst) {
-      if (inst.$tooltip.hasClass('mdui-tooltip-open')) {
-        inst.state = 'opened';
-        componentEvent('opened', 'tooltip', inst, inst.$target);
+      if (inst.$tooltip.hasClass("mdui-tooltip-open")) {
+        inst.state = "opened";
+        componentEvent("opened", "tooltip", inst, inst.$target);
       } else {
-        inst.state = 'closed';
-        componentEvent('closed', 'tooltip', inst, inst.$target);
+        inst.state = "closed";
+        componentEvent("closed", "tooltip", inst, inst.$target);
       }
     };
 
@@ -6323,14 +6486,12 @@
     Tooltip.prototype._doOpen = function () {
       var _this = this;
 
-      _this.state = 'opening';
-      componentEvent('open', 'tooltip', _this, _this.$target);
+      _this.state = "opening";
+      componentEvent("open", "tooltip", _this, _this.$target);
 
-      _this.$tooltip
-        .addClass('mdui-tooltip-open')
-        .transitionEnd(function () {
-          transitionEnd(_this);
-        });
+      _this.$tooltip.addClass("mdui-tooltip-open").transitionEnd(function () {
+        transitionEnd(_this);
+      });
     };
 
     /**
@@ -6340,14 +6501,14 @@
     Tooltip.prototype.open = function (opts) {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
       var oldOpts = $.extend({}, _this.options);
 
       // 合并 data 属性参数
-      $.extend(_this.options, parseOptions(_this.$target.attr('mdui-tooltip')));
+      $.extend(_this.options, parseOptions(_this.$target.attr("mdui-tooltip")));
       if (opts) {
         $.extend(_this.options, opts);
       }
@@ -6380,15 +6541,15 @@
         _this.timeoutId = false;
       }
 
-      if (_this.state === 'closing' || _this.state === 'closed') {
+      if (_this.state === "closing" || _this.state === "closed") {
         return;
       }
 
-      _this.state = 'closing';
-      componentEvent('close', 'tooltip', _this, _this.$target);
+      _this.state = "closing";
+      componentEvent("close", "tooltip", _this, _this.$target);
 
       _this.$tooltip
-        .removeClass('mdui-tooltip-open')
+        .removeClass("mdui-tooltip-open")
         .transitionEnd(function () {
           transitionEnd(_this);
         });
@@ -6400,9 +6561,9 @@
     Tooltip.prototype.toggle = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
-      } else if (_this.state === 'closing' || _this.state === 'closed') {
+      } else if (_this.state === "closing" || _this.state === "closed") {
         _this.open();
       }
     };
@@ -6426,9 +6587,7 @@
     };*/
 
     return Tooltip;
-
   })();
-
 
   /**
    * =============================================================================
@@ -6438,18 +6597,17 @@
 
   $(function () {
     // mouseenter 不能冒泡，所以这里用 mouseover 代替
-    $document.on('touchstart mouseover', '[mdui-tooltip]', function () {
+    $document.on("touchstart mouseover", "[mdui-tooltip]", function () {
       var $this = $(this);
 
-      var inst = $this.data('mdui.tooltip');
+      var inst = $this.data("mdui.tooltip");
       if (!inst) {
-        var options = parseOptions($this.attr('mdui-tooltip'));
+        var options = parseOptions($this.attr("mdui-tooltip"));
         inst = new mdui.Tooltip($this, options);
-        $this.data('mdui.tooltip', inst);
+        $this.data("mdui.tooltip", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -6458,7 +6616,6 @@
    */
 
   (function () {
-
     /**
      * 当前打开着的 Snackbar
      */
@@ -6468,31 +6625,37 @@
      * 对列名
      * @type {string}
      */
-    var queueName = '__md_snackbar';
+    var queueName = "__md_snackbar";
 
     var DEFAULT = {
-      timeout: 4000,                  // 在用户没有操作时多长时间自动隐藏
-      buttonText: '',                 // 按钮的文本
-      buttonColor: '',                // 按钮的颜色，支持 blue #90caf9 rgba(...)
-      position: 'bottom',             // 位置 bottom、top、left-top、left-bottom、right-top、right-bottom
-      closeOnButtonClick: true,       // 点击按钮时关闭
-      closeOnOutsideClick: true,      // 触摸或点击屏幕其他地方时关闭
-      onClick: function () {          // 在 Snackbar 上点击的回调
+      timeout: 4000, // 在用户没有操作时多长时间自动隐藏
+      buttonText: "", // 按钮的文本
+      buttonColor: "", // 按钮的颜色，支持 blue #90caf9 rgba(...)
+      position: "bottom", // 位置 bottom、top、left-top、left-bottom、right-top、right-bottom
+      closeOnButtonClick: true, // 点击按钮时关闭
+      closeOnOutsideClick: true, // 触摸或点击屏幕其他地方时关闭
+      onClick: function () {
+        // 在 Snackbar 上点击的回调
       },
 
-      onButtonClick: function () {    // 点击按钮的回调
+      onButtonClick: function () {
+        // 点击按钮的回调
       },
 
-      onOpen: function () {           // 打开动画开始时的回调
+      onOpen: function () {
+        // 打开动画开始时的回调
       },
 
-      onOpened: function () {         // 打开动画结束时的回调
+      onOpened: function () {
+        // 打开动画结束时的回调
       },
 
-      onClose: function () {          // 关闭动画开始时的回调
+      onClose: function () {
+        // 关闭动画开始时的回调
       },
 
-      onClosed: function () {         // 打开动画结束时的回调
+      onClosed: function () {
+        // 打开动画结束时的回调
       },
     };
 
@@ -6502,7 +6665,10 @@
      */
     var closeOnOutsideClick = function (e) {
       var $target = $(e.target);
-      if (!$target.hasClass('mdui-snackbar') && !$target.parents('.mdui-snackbar').length) {
+      if (
+        !$target.hasClass("mdui-snackbar") &&
+        !$target.parents(".mdui-snackbar").length
+      ) {
         currentInst.close();
       }
     };
@@ -6517,54 +6683,55 @@
       var _this = this;
 
       _this.message = message;
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
+      _this.options = $.extend({}, DEFAULT, opts || {});
 
       // message 参数必须
       if (!_this.message) {
         return;
       }
 
-      _this.state = 'closed';
+      _this.state = "closed";
 
       _this.timeoutId = false;
 
       // 按钮颜色
-      var buttonColorStyle = '';
-      var buttonColorClass = '';
+      var buttonColorStyle = "";
+      var buttonColorClass = "";
 
       if (
-        _this.options.buttonColor.indexOf('#') === 0 ||
-        _this.options.buttonColor.indexOf('rgb') === 0
+        _this.options.buttonColor.indexOf("#") === 0 ||
+        _this.options.buttonColor.indexOf("rgb") === 0
       ) {
         buttonColorStyle = 'style="color:' + _this.options.buttonColor + '"';
-      } else if (_this.options.buttonColor !== '') {
-        buttonColorClass = 'mdui-text-color-' + _this.options.buttonColor;
+      } else if (_this.options.buttonColor !== "") {
+        buttonColorClass = "mdui-text-color-" + _this.options.buttonColor;
       }
 
       // 添加 HTML
       _this.$snackbar = $(
         '<div class="mdui-snackbar">' +
           '<div class="mdui-snackbar-text">' +
-            _this.message +
-          '</div>' +
-          (_this.options.buttonText ?
-            ('<a href="javascript:void(0)" ' +
-            'class="mdui-snackbar-action mdui-btn mdui-ripple mdui-ripple-white ' +
-              buttonColorClass + '" ' +
-              buttonColorStyle + '>' +
+          _this.message +
+          "</div>" +
+          (_this.options.buttonText
+            ? '<a href="javascript:void(0)" ' +
+              'class="mdui-snackbar-action mdui-btn mdui-ripple mdui-ripple-white ' +
+              buttonColorClass +
+              '" ' +
+              buttonColorStyle +
+              ">" +
               _this.options.buttonText +
-            '</a>') :
-            ''
-          ) +
-        '</div>')
-        .appendTo(document.body);
+              "</a>"
+            : "") +
+          "</div>"
+      ).appendTo(document.body);
 
       // 设置位置
-      _this._setPosition('close');
+      _this._setPosition("close");
 
       _this.$snackbar
         .reflow()
-        .addClass('mdui-snackbar-' + _this.options.position);
+        .addClass("mdui-snackbar-" + _this.options.position);
     }
 
     /**
@@ -6582,34 +6749,36 @@
       var translateY;
 
       // translateX
-      if (position === 'bottom' || position === 'top') {
-        translateX = '-50%';
+      if (position === "bottom" || position === "top") {
+        translateX = "-50%";
       } else {
-        translateX = '0';
+        translateX = "0";
       }
 
       // translateY
-      if (state === 'open') {
-        translateY = '0';
+      if (state === "open") {
+        translateY = "0";
       } else {
-        if (position === 'bottom') {
+        if (position === "bottom") {
           translateY = snackbarHeight;
         }
 
-        if (position === 'top') {
+        if (position === "top") {
           translateY = -snackbarHeight;
         }
 
-        if (position === 'left-top' || position === 'right-top') {
+        if (position === "left-top" || position === "right-top") {
           translateY = -snackbarHeight - 24;
         }
 
-        if (position === 'left-bottom' || position === 'right-bottom') {
+        if (position === "left-bottom" || position === "right-bottom") {
           translateY = snackbarHeight + 24;
         }
       }
 
-      _this.$snackbar.transform('translate(' + translateX + ',' + translateY + 'px)');
+      _this.$snackbar.transform(
+        "translate(" + translateX + "," + translateY + "px)"
+      );
     };
 
     /**
@@ -6622,7 +6791,7 @@
         return;
       }
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
@@ -6638,51 +6807,50 @@
       currentInst = _this;
 
       // 开始打开
-      _this.state = 'opening';
+      _this.state = "opening";
       _this.options.onOpen();
 
-      _this._setPosition('open');
+      _this._setPosition("open");
 
-      _this.$snackbar
-        .transitionEnd(function () {
-          if (_this.state !== 'opening') {
-            return;
-          }
+      _this.$snackbar.transitionEnd(function () {
+        if (_this.state !== "opening") {
+          return;
+        }
 
-          _this.state = 'opened';
-          _this.options.onOpened();
+        _this.state = "opened";
+        _this.options.onOpened();
 
-          // 有按钮时绑定事件
-          if (_this.options.buttonText) {
-            _this.$snackbar
-              .find('.mdui-snackbar-action')
-              .on('click', function () {
-                _this.options.onButtonClick();
-                if (_this.options.closeOnButtonClick) {
-                  _this.close();
-                }
-              });
-          }
+        // 有按钮时绑定事件
+        if (_this.options.buttonText) {
+          _this.$snackbar
+            .find(".mdui-snackbar-action")
+            .on("click", function () {
+              _this.options.onButtonClick();
+              if (_this.options.closeOnButtonClick) {
+                _this.close();
+              }
+            });
+        }
 
-          // 点击 snackbar 的事件
-          _this.$snackbar.on('click', function (e) {
-            if (!$(e.target).hasClass('mdui-snackbar-action')) {
-              _this.options.onClick();
-            }
-          });
-
-          // 点击 Snackbar 外面的区域关闭
-          if (_this.options.closeOnOutsideClick) {
-            $document.on(TouchHandler.start, closeOnOutsideClick);
-          }
-
-          // 超时后自动关闭
-          if (_this.options.timeout) {
-            _this.timeoutId = setTimeout(function () {
-              _this.close();
-            }, _this.options.timeout);
+        // 点击 snackbar 的事件
+        _this.$snackbar.on("click", function (e) {
+          if (!$(e.target).hasClass("mdui-snackbar-action")) {
+            _this.options.onClick();
           }
         });
+
+        // 点击 Snackbar 外面的区域关闭
+        if (_this.options.closeOnOutsideClick) {
+          $document.on(TouchHandler.start, closeOnOutsideClick);
+        }
+
+        // 超时后自动关闭
+        if (_this.options.timeout) {
+          _this.timeoutId = setTimeout(function () {
+            _this.close();
+          }, _this.options.timeout);
+        }
+      });
     };
 
     /**
@@ -6695,7 +6863,7 @@
         return;
       }
 
-      if (_this.state === 'closing' || _this.state === 'closed') {
+      if (_this.state === "closing" || _this.state === "closed") {
         return;
       }
 
@@ -6707,23 +6875,22 @@
         $document.off(TouchHandler.start, closeOnOutsideClick);
       }
 
-      _this.state = 'closing';
+      _this.state = "closing";
       _this.options.onClose();
 
-      _this._setPosition('close');
+      _this._setPosition("close");
 
-      _this.$snackbar
-        .transitionEnd(function () {
-          if (_this.state !== 'closing') {
-            return;
-          }
+      _this.$snackbar.transitionEnd(function () {
+        if (_this.state !== "closing") {
+          return;
+        }
 
-          currentInst = null;
-          _this.state = 'closed';
-          _this.options.onClosed();
-          _this.$snackbar.remove();
-          queue.dequeue(queueName);
-        });
+        currentInst = null;
+        _this.state = "closed";
+        _this.options.onClosed();
+        _this.$snackbar.remove();
+        queue.dequeue(queueName);
+      });
     };
 
     /**
@@ -6732,7 +6899,7 @@
      * @param opts
      */
     mdui.snackbar = function (message, opts) {
-      if (typeof message !== 'string') {
+      if (typeof message !== "string") {
         opts = message;
         message = opts.message;
       }
@@ -6742,9 +6909,7 @@
       inst.open();
       return inst;
     };
-
   })();
-
 
   /**
    * =============================================================================
@@ -6753,36 +6918,33 @@
    */
 
   (function () {
-
     // 切换导航项
-    $document.on('click', '.mdui-bottom-nav>a', function () {
+    $document.on("click", ".mdui-bottom-nav>a", function () {
       var $this = $(this);
       var $bottomNav = $this.parent();
       var isThis;
-      $bottomNav.children('a').each(function (i, item) {
+      $bottomNav.children("a").each(function (i, item) {
         isThis = $this.is(item);
         if (isThis) {
-          componentEvent('change', 'bottomNav', null, $bottomNav, {
+          componentEvent("change", "bottomNav", null, $bottomNav, {
             index: i,
           });
         }
 
-        $(item)[isThis ? 'addClass' : 'removeClass']('mdui-bottom-nav-active');
+        $(item)[isThis ? "addClass" : "removeClass"]("mdui-bottom-nav-active");
       });
     });
 
     // 滚动时隐藏 mdui-bottom-nav-scroll-hide
-    mdui.mutation('.mdui-bottom-nav-scroll-hide', function () {
+    mdui.mutation(".mdui-bottom-nav-scroll-hide", function () {
       var $this = $(this);
       var inst = new mdui.Headroom($this, {
-        pinnedClass: 'mdui-headroom-pinned-down',
-        unpinnedClass: 'mdui-headroom-unpinned-down',
+        pinnedClass: "mdui-headroom-pinned-down",
+        unpinnedClass: "mdui-headroom-unpinned-down",
       });
-      $this.data('mdui.headroom', inst);
+      $this.data("mdui.headroom", inst);
     });
-
   })();
-
 
   /**
    * =============================================================================
@@ -6797,17 +6959,21 @@
     var layerHTML = function () {
       var i = arguments.length ? arguments[0] : false;
 
-      return '<div class="mdui-spinner-layer ' + (i ? 'mdui-spinner-layer-' + i : '') + '">' +
-                 '<div class="mdui-spinner-circle-clipper mdui-spinner-left">' +
-               '<div class="mdui-spinner-circle"></div>' +
-               '</div>' +
-               '<div class="mdui-spinner-gap-patch">' +
-                 '<div class="mdui-spinner-circle"></div>' +
-               '</div>' +
-               '<div class="mdui-spinner-circle-clipper mdui-spinner-right">' +
-                 '<div class="mdui-spinner-circle"></div>' +
-               '</div>' +
-             '</div>';
+      return (
+        '<div class="mdui-spinner-layer ' +
+        (i ? "mdui-spinner-layer-" + i : "") +
+        '">' +
+        '<div class="mdui-spinner-circle-clipper mdui-spinner-left">' +
+        '<div class="mdui-spinner-circle"></div>' +
+        "</div>" +
+        '<div class="mdui-spinner-gap-patch">' +
+        '<div class="mdui-spinner-circle"></div>' +
+        "</div>" +
+        '<div class="mdui-spinner-circle-clipper mdui-spinner-right">' +
+        '<div class="mdui-spinner-circle"></div>' +
+        "</div>" +
+        "</div>"
+      );
     };
 
     /**
@@ -6817,8 +6983,9 @@
     var fillHTML = function (spinner) {
       var $spinner = $(spinner);
       var layer;
-      if ($spinner.hasClass('mdui-spinner-colorful')) {
-        layer = layerHTML('1') + layerHTML('2') + layerHTML('3') + layerHTML('4');
+      if ($spinner.hasClass("mdui-spinner-colorful")) {
+        layer =
+          layerHTML("1") + layerHTML("2") + layerHTML("3") + layerHTML("4");
       } else {
         layer = layerHTML();
       }
@@ -6829,7 +6996,7 @@
     /**
      * 页面加载完后自动填充 HTML 结构
      */
-    mdui.mutation('.mdui-spinner', function () {
+    mdui.mutation(".mdui-spinner", function () {
       fillHTML(this);
     });
 
@@ -6837,14 +7004,11 @@
      * 更新圆形进度条
      */
     mdui.updateSpinners = function () {
-      $(arguments.length ? arguments[0] : '.mdui-spinner').each(function () {
+      $(arguments.length ? arguments[0] : ".mdui-spinner").each(function () {
         fillHTML(this);
       });
     };
-
   })();
-
-
 
   /**
    * =============================================================================
@@ -6853,15 +7017,12 @@
    */
 
   mdui.Panel = (function () {
-
     function Panel(selector, opts) {
-      return new CollapsePrivate(selector, opts, 'panel');
+      return new CollapsePrivate(selector, opts, "panel");
     }
 
     return Panel;
-
   })();
-
 
   /**
    * =============================================================================
@@ -6870,18 +7031,17 @@
    */
 
   $(function () {
-    mdui.mutation('[mdui-panel]', function () {
+    mdui.mutation("[mdui-panel]", function () {
       var $target = $(this);
 
-      var inst = $target.data('mdui.panel');
+      var inst = $target.data("mdui.panel");
       if (!inst) {
-        var options = parseOptions($target.attr('mdui-panel'));
+        var options = parseOptions($target.attr("mdui-panel"));
         inst = new mdui.Panel($target, options);
-        $target.data('mdui.panel', inst);
+        $target.data("mdui.panel", inst);
       }
     });
   });
-
 
   /**
    * =============================================================================
@@ -6890,18 +7050,17 @@
    */
 
   mdui.Menu = (function () {
-
     /**
      * 默认参数
      */
     var DEFAULT = {
-      position: 'auto',         // 菜单位置 top、bottom、center、auto
-      align: 'auto',            // 菜单和触发它的元素的对齐方式 left、right、center、auto
-      gutter: 16,               // 菜单距离窗口边缘的最小距离，单位 px
-      fixed: false,             // 是否使菜单固定在窗口，不随滚动条滚动
-      covered: 'auto',          // 菜单是否覆盖在触发它的元素上，true、false。auto 时简单菜单覆盖，级联菜单不覆盖
-      subMenuTrigger: 'hover',  // 子菜单的触发方式 hover、click
-      subMenuDelay: 200,        // 子菜单的触发延时，仅在 submenuTrigger 为 hover 有效
+      position: "auto", // 菜单位置 top、bottom、center、auto
+      align: "auto", // 菜单和触发它的元素的对齐方式 left、right、center、auto
+      gutter: 16, // 菜单距离窗口边缘的最小距离，单位 px
+      fixed: false, // 是否使菜单固定在窗口，不随滚动条滚动
+      covered: "auto", // 菜单是否覆盖在触发它的元素上，true、false。auto 时简单菜单覆盖，级联菜单不覆盖
+      subMenuTrigger: "hover", // 子菜单的触发方式 hover、click
+      subMenuDelay: 200, // 子菜单的触发延时，仅在 submenuTrigger 为 hover 有效
     };
 
     /**
@@ -6951,21 +7110,26 @@
       // ===============================
       // ================= 自动判断菜单位置
       // ===============================
-      if (_this.options.position === 'auto') {
-
+      if (_this.options.position === "auto") {
         // 判断下方是否放得下菜单
-        if (anchorBottom + (isCovered ? anchorHeight : 0) > menuHeight + gutter) {
-          position = 'bottom';
+        if (
+          anchorBottom + (isCovered ? anchorHeight : 0) >
+          menuHeight + gutter
+        ) {
+          position = "bottom";
         }
 
         // 判断上方是否放得下菜单
-        else if (anchorTop + (isCovered ? anchorHeight : 0) > menuHeight + gutter) {
-          position = 'top';
+        else if (
+          anchorTop + (isCovered ? anchorHeight : 0) >
+          menuHeight + gutter
+        ) {
+          position = "top";
         }
 
         // 上下都放不下，居中显示
         else {
-          position = 'center';
+          position = "center";
         }
       } else {
         position = _this.options.position;
@@ -6974,21 +7138,20 @@
       // ===============================
       // ============== 自动判断菜单对齐方式
       // ===============================
-      if (_this.options.align === 'auto') {
-
+      if (_this.options.align === "auto") {
         // 判断右侧是否放得下菜单
         if (anchorRight + anchorWidth > menuWidth + gutter) {
-          align = 'left';
+          align = "left";
         }
 
         // 判断左侧是否放得下菜单
         else if (anchorLeft + anchorWidth > menuWidth + gutter) {
-          align = 'right';
+          align = "right";
         }
 
         // 左右都放不下，居中显示
         else {
-          align = 'center';
+          align = "center";
         }
       } else {
         align = _this.options.align;
@@ -6997,22 +7160,20 @@
       // ===============================
       // ==================== 设置菜单位置
       // ===============================
-      if (position === 'bottom') {
-        transformOriginY = '0';
+      if (position === "bottom") {
+        transformOriginY = "0";
 
         menuTop =
           (isCovered ? 0 : anchorHeight) +
           (isFixed ? anchorTop : anchorOffsetTop);
-
-      } else if (position === 'top') {
-        transformOriginY = '100%';
+      } else if (position === "top") {
+        transformOriginY = "100%";
 
         menuTop =
           (isCovered ? anchorHeight : 0) +
-          (isFixed ? (anchorTop - menuHeight) : (anchorOffsetTop - menuHeight));
-
+          (isFixed ? anchorTop - menuHeight : anchorOffsetTop - menuHeight);
       } else {
-        transformOriginY = '50%';
+        transformOriginY = "50%";
 
         // =====================在窗口中居中
         // 显示的菜单的高度，简单菜单高度不超过窗口高度，若超过了则在菜单内部显示滚动条
@@ -7029,27 +7190,26 @@
 
         menuTop =
           (windowHeight - menuHeightTemp) / 2 +
-          (isFixed ? 0 : (anchorOffsetTop - anchorTop));
+          (isFixed ? 0 : anchorOffsetTop - anchorTop);
       }
 
-      _this.$menu.css('top', menuTop + 'px');
+      _this.$menu.css("top", menuTop + "px");
 
       // ===============================
       // ================= 设置菜单对齐方式
       // ===============================
-      if (align === 'left') {
-        transformOriginX = '0';
+      if (align === "left") {
+        transformOriginX = "0";
 
         menuLeft = isFixed ? anchorLeft : anchorOffsetLeft;
+      } else if (align === "right") {
+        transformOriginX = "100%";
 
-      } else if (align === 'right') {
-        transformOriginX = '100%';
-
-        menuLeft = isFixed ?
-          (anchorLeft + anchorWidth - menuWidth) :
-          (anchorOffsetLeft + anchorWidth - menuWidth);
+        menuLeft = isFixed
+          ? anchorLeft + anchorWidth - menuWidth
+          : anchorOffsetLeft + anchorWidth - menuWidth;
       } else {
-        transformOriginX = '50%';
+        transformOriginX = "50%";
 
         //=======================在窗口中居中
         // 显示的菜单的宽度，菜单宽度不能超过窗口宽度
@@ -7066,10 +7226,10 @@
           (isFixed ? 0 : anchorOffsetLeft - anchorLeft);
       }
 
-      _this.$menu.css('left', menuLeft + 'px');
+      _this.$menu.css("left", menuLeft + "px");
 
       // 设置菜单动画方向
-      _this.$menu.transformOrigin(transformOriginX + ' ' + transformOriginY);
+      _this.$menu.transformOrigin(transformOriginX + " " + transformOriginY);
     };
 
     /**
@@ -7077,7 +7237,7 @@
      * @param $submenu
      */
     var readjustSubmenu = function ($submenu) {
-      var $item = $submenu.parent('.mdui-menu-item');
+      var $item = $submenu.parent(".mdui-menu-item");
 
       var submenuTop;
       var submenuLeft;
@@ -7111,17 +7271,17 @@
 
       // 判断下方是否放得下菜单
       if (windowHeight - itemTop > submenuHeight) {
-        position = 'bottom';
+        position = "bottom";
       }
 
       // 判断上方是否放得下菜单
       else if (itemTop + itemHeight > submenuHeight) {
-        position = 'top';
+        position = "top";
       }
 
       // 默认放在下方
       else {
-        position = 'bottom';
+        position = "bottom";
       }
 
       // ====================================
@@ -7130,47 +7290,47 @@
 
       // 判断右侧是否放得下菜单
       if (windowWidth - itemLeft - itemWidth > submenuWidth) {
-        align = 'left';
+        align = "left";
       }
 
       // 判断左侧是否放得下菜单
       else if (itemLeft > submenuWidth) {
-        align = 'right';
+        align = "right";
       }
 
       // 默认放在右侧
       else {
-        align = 'left';
+        align = "left";
       }
 
       // ===================================
       // ======================== 设置菜单位置
       // ===================================
-      if (position === 'bottom') {
-        transformOriginY = '0';
-        submenuTop = '0';
-      } else if (position === 'top') {
-        transformOriginY = '100%';
+      if (position === "bottom") {
+        transformOriginY = "0";
+        submenuTop = "0";
+      } else if (position === "top") {
+        transformOriginY = "100%";
         submenuTop = -submenuHeight + itemHeight;
       }
 
-      $submenu.css('top', submenuTop + 'px');
+      $submenu.css("top", submenuTop + "px");
 
       // ===================================
       // ===================== 设置菜单对齐方式
       // ===================================
-      if (align === 'left') {
-        transformOriginX = '0';
+      if (align === "left") {
+        transformOriginX = "0";
         submenuLeft = itemWidth;
-      } else if (align === 'right') {
-        transformOriginX = '100%';
+      } else if (align === "right") {
+        transformOriginX = "100%";
         submenuLeft = -submenuWidth;
       }
 
-      $submenu.css('left', submenuLeft + 'px');
+      $submenu.css("left", submenuLeft + "px");
 
       // 设置菜单动画方向
-      $submenu.transformOrigin(transformOriginX + ' ' + transformOriginY);
+      $submenu.transformOrigin(transformOriginX + " " + transformOriginY);
     };
 
     /**
@@ -7181,9 +7341,9 @@
       readjustSubmenu($submenu);
 
       $submenu
-        .addClass('mdui-menu-open')
-        .parent('.mdui-menu-item')
-        .addClass('mdui-menu-item-active');
+        .addClass("mdui-menu-open")
+        .parent(".mdui-menu-item")
+        .addClass("mdui-menu-item-active");
     };
 
     /**
@@ -7193,27 +7353,27 @@
     var closeSubMenu = function ($submenu) {
       // 关闭子菜单
       $submenu
-        .removeClass('mdui-menu-open')
-        .addClass('mdui-menu-closing')
+        .removeClass("mdui-menu-open")
+        .addClass("mdui-menu-closing")
         .transitionEnd(function () {
-          $submenu.removeClass('mdui-menu-closing');
+          $submenu.removeClass("mdui-menu-closing");
         })
 
         // 移除激活状态的样式
-        .parent('.mdui-menu-item')
-        .removeClass('mdui-menu-item-active');
+        .parent(".mdui-menu-item")
+        .removeClass("mdui-menu-item-active");
 
       // 循环关闭嵌套的子菜单
-      $submenu.find('.mdui-menu').each(function () {
+      $submenu.find(".mdui-menu").each(function () {
         var $subSubmenu = $(this);
         $subSubmenu
-          .removeClass('mdui-menu-open')
-          .addClass('mdui-menu-closing')
+          .removeClass("mdui-menu-open")
+          .addClass("mdui-menu-closing")
           .transitionEnd(function () {
-            $subSubmenu.removeClass('mdui-menu-closing');
+            $subSubmenu.removeClass("mdui-menu-closing");
           })
-          .parent('.mdui-menu-item')
-          .removeClass('mdui-menu-item-active');
+          .parent(".mdui-menu-item")
+          .removeClass("mdui-menu-item-active");
       });
     };
 
@@ -7222,7 +7382,7 @@
      * @param $submenu
      */
     var toggleSubMenu = function ($submenu) {
-      if ($submenu.hasClass('mdui-menu-open')) {
+      if ($submenu.hasClass("mdui-menu-open")) {
         closeSubMenu($submenu);
       } else {
         openSubMenu($submenu);
@@ -7235,38 +7395,41 @@
      */
     var bindSubMenuEvent = function (inst) {
       // 点击打开子菜单
-      inst.$menu.on('click', '.mdui-menu-item', function (e) {
+      inst.$menu.on("click", ".mdui-menu-item", function (e) {
         var $this = $(this);
         var $target = $(e.target);
 
         // 禁用状态菜单不操作
-        if ($this.attr('disabled') !== null) {
+        if ($this.attr("disabled") !== null) {
           return;
         }
 
         // 没有点击在子菜单的菜单项上时，不操作（点在了子菜单的空白区域、或分隔线上）
-        if ($target.is('.mdui-menu') || $target.is('.mdui-divider')) {
+        if ($target.is(".mdui-menu") || $target.is(".mdui-divider")) {
           return;
         }
 
         // 阻止冒泡，点击菜单项时只在最后一级的 mdui-menu-item 上生效，不向上冒泡
-        if (!$target.parents('.mdui-menu-item').eq(0).is($this)) {
+        if (!$target.parents(".mdui-menu-item").eq(0).is($this)) {
           return;
         }
 
         // 当前菜单的子菜单
-        var $submenu = $this.children('.mdui-menu');
+        var $submenu = $this.children(".mdui-menu");
 
         // 先关闭除当前子菜单外的所有同级子菜单
-        $this.parent('.mdui-menu').children('.mdui-menu-item').each(function () {
-          var $tmpSubmenu = $(this).children('.mdui-menu');
-          if (
-            $tmpSubmenu.length &&
-            (!$submenu.length || !$tmpSubmenu.is($submenu))
-          ) {
-            closeSubMenu($tmpSubmenu);
-          }
-        });
+        $this
+          .parent(".mdui-menu")
+          .children(".mdui-menu-item")
+          .each(function () {
+            var $tmpSubmenu = $(this).children(".mdui-menu");
+            if (
+              $tmpSubmenu.length &&
+              (!$submenu.length || !$tmpSubmenu.is($submenu))
+            ) {
+              closeSubMenu($tmpSubmenu);
+            }
+          });
 
         // 切换当前子菜单
         if ($submenu.length) {
@@ -7274,52 +7437,57 @@
         }
       });
 
-      if (inst.options.subMenuTrigger === 'hover') {
+      if (inst.options.subMenuTrigger === "hover") {
         // 临时存储 setTimeout 对象
         var timeout;
 
         var timeoutOpen;
         var timeoutClose;
 
-        inst.$menu.on('mouseover mouseout', '.mdui-menu-item', function (e) {
+        inst.$menu.on("mouseover mouseout", ".mdui-menu-item", function (e) {
           var $this = $(this);
           var eventType = e.type;
           var $relatedTarget = $(e.relatedTarget);
 
           // 禁用状态的菜单不操作
-          if ($this.attr('disabled') !== null) {
+          if ($this.attr("disabled") !== null) {
             return;
           }
 
           // 用 mouseover 模拟 mouseenter
-          if (eventType === 'mouseover') {
-            if (!$this.is($relatedTarget) && $.contains($this[0], $relatedTarget[0])) {
+          if (eventType === "mouseover") {
+            if (
+              !$this.is($relatedTarget) &&
+              $.contains($this[0], $relatedTarget[0])
+            ) {
               return;
             }
           }
 
           // 用 mouseout 模拟 mouseleave
-          else if (eventType === 'mouseout') {
-            if ($this.is($relatedTarget) || $.contains($this[0], $relatedTarget[0])) {
+          else if (eventType === "mouseout") {
+            if (
+              $this.is($relatedTarget) ||
+              $.contains($this[0], $relatedTarget[0])
+            ) {
               return;
             }
           }
 
           // 当前菜单项下的子菜单，未必存在
-          var $submenu = $this.children('.mdui-menu');
+          var $submenu = $this.children(".mdui-menu");
 
           // 鼠标移入菜单项时，显示菜单项下的子菜单
-          if (eventType === 'mouseover') {
+          if (eventType === "mouseover") {
             if ($submenu.length) {
-
               // 当前子菜单准备打开时，如果当前子菜单正准备着关闭，不用再关闭了
-              var tmpClose = $submenu.data('timeoutClose.mdui.menu');
+              var tmpClose = $submenu.data("timeoutClose.mdui.menu");
               if (tmpClose) {
                 clearTimeout(tmpClose);
               }
 
               // 如果当前子菜单已经打开，不操作
-              if ($submenu.hasClass('mdui-menu-open')) {
+              if ($submenu.hasClass("mdui-menu-open")) {
                 return;
               }
 
@@ -7331,16 +7499,15 @@
                 openSubMenu($submenu);
               }, inst.options.subMenuDelay);
 
-              $submenu.data('timeoutOpen.mdui.menu', timeout);
+              $submenu.data("timeoutOpen.mdui.menu", timeout);
             }
           }
 
           // 鼠标移出菜单项时，关闭菜单项下的子菜单
-          else if (eventType === 'mouseout') {
+          else if (eventType === "mouseout") {
             if ($submenu.length) {
-
               // 鼠标移出菜单项时，如果当前菜单项下的子菜单正准备打开，不用再打开了
-              var tmpOpen = $submenu.data('timeoutOpen.mdui.menu');
+              var tmpOpen = $submenu.data("timeoutOpen.mdui.menu");
               if (tmpOpen) {
                 clearTimeout(tmpOpen);
               }
@@ -7350,7 +7517,7 @@
                 closeSubMenu($submenu);
               }, inst.options.subMenuDelay);
 
-              $submenu.data('timeoutClose.mdui.menu', timeout);
+              $submenu.data("timeoutClose.mdui.menu", timeout);
             }
           }
         });
@@ -7374,7 +7541,7 @@
       }
 
       // 已通过自定义属性实例化过，不再重复实例化
-      var oldInst = _this.$anchor.data('mdui.menu');
+      var oldInst = _this.$anchor.data("mdui.menu");
       if (oldInst) {
         return oldInst;
       }
@@ -7386,42 +7553,45 @@
         return;
       }
 
-      _this.options = $.extend({}, DEFAULT, (opts || {}));
-      _this.state = 'closed';
+      _this.options = $.extend({}, DEFAULT, opts || {});
+      _this.state = "closed";
 
       // 是否是级联菜单
-      _this.isCascade = _this.$menu.hasClass('mdui-menu-cascade');
+      _this.isCascade = _this.$menu.hasClass("mdui-menu-cascade");
 
       // covered 参数处理
-      if (_this.options.covered === 'auto') {
+      if (_this.options.covered === "auto") {
         _this.isCovered = !_this.isCascade;
       } else {
         _this.isCovered = _this.options.covered;
       }
 
       // 点击触发菜单切换
-      _this.$anchor.on('click', function () {
+      _this.$anchor.on("click", function () {
         _this.toggle();
       });
 
       // 点击菜单外面区域关闭菜单
-      $document.on('click touchstart', function (e) {
+      $document.on("click touchstart", function (e) {
         var $target = $(e.target);
         if (
-          (_this.state === 'opening' || _this.state === 'opened') &&
-            !$target.is(_this.$menu) &&
-            !$.contains(_this.$menu[0], $target[0]) &&
-            !$target.is(_this.$anchor) &&
-            !$.contains(_this.$anchor[0], $target[0])
+          (_this.state === "opening" || _this.state === "opened") &&
+          !$target.is(_this.$menu) &&
+          !$.contains(_this.$menu[0], $target[0]) &&
+          !$target.is(_this.$anchor) &&
+          !$.contains(_this.$anchor[0], $target[0])
         ) {
           _this.close();
         }
       });
 
       // 点击不含子菜单的菜单条目关闭菜单
-      $document.on('click', '.mdui-menu-item', function (e) {
+      $document.on("click", ".mdui-menu-item", function (e) {
         var $this = $(this);
-        if (!$this.find('.mdui-menu').length && $this.attr('disabled') === null) {
+        if (
+          !$this.find(".mdui-menu").length &&
+          $this.attr("disabled") === null
+        ) {
           _this.close();
         }
       });
@@ -7430,9 +7600,12 @@
       bindSubMenuEvent(_this);
 
       // 窗口大小变化时，重新调整菜单位置
-      $window.on('resize', $.throttle(function () {
-        readjust(_this);
-      }, 100));
+      $window.on(
+        "resize",
+        $.throttle(function () {
+          readjust(_this);
+        }, 100)
+      );
     }
 
     /**
@@ -7441,9 +7614,9 @@
     Menu.prototype.toggle = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         _this.close();
-      } else if (_this.state === 'closing' || _this.state === 'closed') {
+      } else if (_this.state === "closing" || _this.state === "closed") {
         _this.open();
       }
     };
@@ -7453,23 +7626,23 @@
      * @param inst
      */
     var transitionEnd = function (inst) {
-      inst.$menu.removeClass('mdui-menu-closing');
+      inst.$menu.removeClass("mdui-menu-closing");
 
-      if (inst.state === 'opening') {
-        inst.state = 'opened';
-        componentEvent('opened', 'menu', inst, inst.$menu);
+      if (inst.state === "opening") {
+        inst.state = "opened";
+        componentEvent("opened", "menu", inst, inst.$menu);
       }
 
-      if (inst.state === 'closing') {
-        inst.state = 'closed';
-        componentEvent('closed', 'menu', inst, inst.$menu);
+      if (inst.state === "closing") {
+        inst.state = "closed";
+        componentEvent("closed", "menu", inst, inst.$menu);
 
         // 关闭后，恢复菜单样式到默认状态，并恢复 fixed 定位
         inst.$menu.css({
-          top: '',
-          left: '',
-          width: '',
-          position: 'fixed',
+          top: "",
+          left: "",
+          width: "",
+          position: "fixed",
         });
       }
     };
@@ -7480,12 +7653,12 @@
     Menu.prototype.open = function () {
       var _this = this;
 
-      if (_this.state === 'opening' || _this.state === 'opened') {
+      if (_this.state === "opening" || _this.state === "opened") {
         return;
       }
 
-      _this.state = 'opening';
-      componentEvent('open', 'menu', _this, _this.$menu);
+      _this.state = "opening";
+      componentEvent("open", "menu", _this, _this.$menu);
 
       // 调整菜单位置
       readjust(_this);
@@ -7493,10 +7666,10 @@
       _this.$menu
 
         // 菜单隐藏状态使用使用 fixed 定位。
-        .css('position', _this.options.fixed ? 'fixed' : 'absolute')
+        .css("position", _this.options.fixed ? "fixed" : "absolute")
 
         // 打开菜单
-        .addClass('mdui-menu-open')
+        .addClass("mdui-menu-open")
 
         // 打开动画完成后
         .transitionEnd(function () {
@@ -7509,21 +7682,21 @@
      */
     Menu.prototype.close = function () {
       var _this = this;
-      if (_this.state === 'closing' || _this.state === 'closed') {
+      if (_this.state === "closing" || _this.state === "closed") {
         return;
       }
 
-      _this.state = 'closing';
-      componentEvent('close', 'menu', _this, _this.$menu);
+      _this.state = "closing";
+      componentEvent("close", "menu", _this, _this.$menu);
 
       // 菜单开始关闭时，关闭所有子菜单
-      _this.$menu.find('.mdui-menu').each(function () {
+      _this.$menu.find(".mdui-menu").each(function () {
         closeSubMenu($(this));
       });
 
       _this.$menu
-        .removeClass('mdui-menu-open')
-        .addClass('mdui-menu-closing')
+        .removeClass("mdui-menu-open")
+        .addClass("mdui-menu-closing")
         .transitionEnd(function () {
           transitionEnd(_this);
         });
@@ -7532,7 +7705,6 @@
     return Menu;
   })();
 
-
   /**
    * =============================================================================
    * ************   Menu 自定义属性 API   ************
@@ -7540,26 +7712,25 @@
    */
 
   $(function () {
-    $document.on('click', '[mdui-menu]', function () {
+    $document.on("click", "[mdui-menu]", function () {
       var $this = $(this);
 
-      var inst = $this.data('mdui.menu');
+      var inst = $this.data("mdui.menu");
       if (!inst) {
-        var options = parseOptions($this.attr('mdui-menu'));
+        var options = parseOptions($this.attr("mdui-menu"));
         var menuSelector = options.target;
         delete options.target;
 
         inst = new mdui.Menu($this, menuSelector, options);
-        $this.data('mdui.menu', inst);
+        $this.data("mdui.menu", inst);
 
         inst.toggle();
       }
     });
   });
 
-
   /* jshint ignore:start */
   mdui.JQ = $;
   return mdui;
-})));
+});
 /* jshint ignore:end */
