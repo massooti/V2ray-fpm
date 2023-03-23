@@ -59,12 +59,8 @@ chmod +x /etc/rc.local
 }
 
 function install_components() {
-    #切换到虚拟环境
-
-    #安装依赖
-    install_v2ray
+    # install_v2ray
     pip3 install -r requirements.txt
-    #部署后台运行环境
     echo_supervisord_conf > config/supervisord.conf
     SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
     sudo kill -9 $(ps -aux|grep supervisor| awk '{print$2}')
@@ -73,10 +69,9 @@ function install_components() {
     echo "接下来ctrl+d 退出"
     supervisorctl -c config/supervisord.conf
     if [ $? -ne 0 ]; then
-      echo "执行出错，请检查是否root运行"
+      echo "Execution error, please check if root is running"
       exit
     #else
-      # 开机启动
      # start_on_linux $SHELL_FOLDER
     fi
 }

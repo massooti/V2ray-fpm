@@ -400,17 +400,15 @@ def changeOthers():
 
     Others.set_info('INBOUNDS', "socks:" + str(socks) + "," + "http:" + str(http))
 
-    # 路由处理
     if route == "全局":
         Others.set_info('RULES', 'all')
-    elif route == "绕过局域网地址":
+    elif route == "Bypass LAN address":
         Others.set_info('RULES', 'bpL')
-    elif route == "绕过大陆地址":
+    elif route == "Bypass mainland address":
         Others.set_info('RULES', 'bpA')
     else:
         Others.set_info('RULES', 'bpLAA')
 
-    # 策略处理
     Others.set_info('DOMAINSTRATEGY', strategy)
     restart()
     return set_message(200, url_for('index'))
