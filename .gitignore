@@ -4,3 +4,4 @@ __pycache__/
 app/__pycache__/
 v2rayControl/__pycache__/
 logs/*
+app.db

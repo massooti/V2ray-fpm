@@ -30,7 +30,8 @@ run v2ray
 
 
 def start():
-    subprocess.Popen("kill $(ps -ef|grep 'v2ray -config'|awk '{print$1}')", shell=True)
+    subprocess.Popen(
+        "kill $(ps -ef|grep 'v2ray -config'|awk '{print$1}')", shell=True)
 
     subprocess.Popen("v2ray -config /etc/v2ray/config.json &", shell=True)
     return "OK"
@@ -42,7 +43,8 @@ stop v2ray
 
 
 def stop():
-    subprocess.Popen("kill $(ps -ef|grep 'v2ray -config='|awk '{print$1}')", shell=True)
+    subprocess.Popen(
+        "kill $(ps -ef|grep 'v2ray -config='|awk '{print$1}')", shell=True)
     return "OK"
 
 
@@ -52,7 +54,8 @@ restart v2ray
 
 
 def restart():
-    subprocess.Popen("kill $(ps -ef|grep 'v2ray -config'|awk '{print$1}')", shell=True)
+    subprocess.Popen(
+        "kill $(ps -ef|grep 'v2ray -config'|awk '{print$1}')", shell=True)
     subprocess.Popen("v2ray -config /etc/v2ray/config.json &", shell=True)
     return "OK"
 
@@ -75,9 +78,9 @@ def json2config(data, sub_url=""):
         ps=data['ps'],
         tls=data['tls'],
         type=data['type'],
-        encrypt='auto',  
-        mux='off',  
-        status="off",  
+        encrypt='auto',
+        mux='off',
+        status="off",
         sub=sub_url
     )
     return v2
@@ -120,7 +123,8 @@ Main interface routing part
 @app.route('/index', methods=["GET", "POST"])
 def index():
     page = request.args.get('page', 1, type=int)
-    configs = v2rayConfig.query.order_by(v2rayConfig.status.desc()).paginate(page, app.config['PER_PAGE'], False)
+    configs = v2rayConfig.query.order_by(v2rayConfig.status.desc()).paginate(
+        page, app.config['PER_PAGE'], False)
     next_url = url_for('index', page=configs.next_num) \
         if configs.has_next else None
     prev_url = url_for('index', page=configs.prev_num) \
@@ -195,7 +199,8 @@ re_word = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a
 def addSubscription():
     data = json.loads(request.get_data(as_text=True))
     print(data)
-    if not re.findall(re_word, data['addr']): # Check whether the subscription address is legal
+    # Check whether the subscription address is legal
+    if not re.findall(re_word, data['addr']):
         return set_message(400)
     sub = subscription(
         addr=data['addr'],
@@ -229,7 +234,8 @@ def deleteSub():
 def editSubscription():
     data = json.loads(request.get_data(as_text=True))
     print(data)
-    modifyConfig = subscription.query.filter(subscription.num == data['num']).first()
+    modifyConfig = subscription.query.filter(
+        subscription.num == data['num']).first()
     if modifyConfig is None:
         return set_message(400)
     modifyConfig.addr = data['addr']
@@ -259,7 +265,7 @@ def updateSub():
         return set_message(400)
     print(result)
     need_stop = v2rayConfig.query.filter(v2rayConfig.status == "on").first()
-    # 先停止服务
+
     if need_stop is not None:
         stop()
     old_sub = v2rayConfig.query.filter(v2rayConfig.sub == sub_url)
@@ -279,9 +285,10 @@ def updateSub():
 def generate_config():
     data = json.loads(request.get_data(as_text=True))
     print(data)
-    # 修改部分
+
     if 'num' in data.keys():
-        saveConfig = v2rayConfig.query.filter(v2rayConfig.num == data['num']).first()
+        saveConfig = v2rayConfig.query.filter(
+            v2rayConfig.num == data['num']).first()
         saveConfig.id = data['uuid']
         saveConfig.add = data['addr']
         saveConfig.port = data['port']
@@ -296,7 +303,7 @@ def generate_config():
         saveConfig.host = data['host']
         saveConfig.status = data['status']
     else:
-        # 手动添加部分
+
         v2 = v2rayConfig(
             id=data['uuid'],
             add=data['addr'],
@@ -398,9 +405,10 @@ def changeOthers():
     route = data['route']
     strategy = data['strategy']
 
-    Others.set_info('INBOUNDS', "socks:" + str(socks) + "," + "http:" + str(http))
+    Others.set_info('INBOUNDS', "socks:" + str(socks) +
+                    "," + "http:" + str(http))
 
-    if route == "全局":
+    if route == "global":
         Others.set_info('RULES', 'all')
     elif route == "Bypass LAN address":
         Others.set_info('RULES', 'bpL')

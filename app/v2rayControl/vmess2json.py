@@ -637,12 +637,12 @@ def fill_dns(_c, localdns=""):
             "port": 53,
             "domains": ["geosite:cn"]
         }
-        ## 当某个 DNS 服务器指定的域名列表匹配了当前要查询的域名，V2Ray 会优先使用这个 
-        ## DNS 服务器进行查询，否则按从上往下的顺序进行查询。
-        ## 
+   ## When the domain name list specified by a DNS server matches the current domain name to be queried, V2Ray will use this first
+         ## DNS server to query, otherwise query from top to bottom.
+         ##
         _c["dns"]["servers"].insert(1, dns)
 
-        ## 若要使 DNS 服务生效，需要配置路由功能中的 domainStrategy。
+       ## To enable the DNS service, you need to configure the domainStrategy in the routing function.
         _c["routing"]["domainStrategy"] = "IPOnDemand"
 
     return _c
