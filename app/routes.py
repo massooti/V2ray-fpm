@@ -345,13 +345,15 @@ def editById():
 def start_service():
     try:
         data = request.get_data(as_text=True)
+        print(v2rayConfig.status, type(v2rayConfig.status),
+              (v2rayConfig.status == "on"), "\n\n\n", v2rayConfig)
         num = data.split('=')[1]
         startConfig = v2rayConfig.query.filter(v2rayConfig.status == "on")
         for i in startConfig:
             i.status = "off"
         startConfig = v2rayConfig.query.filter(v2rayConfig.num == num).first()
         myjson = json.dumps(startConfig, cls=AlchemyEncoder)
-        print(myjson)
+
         gen_client(json.loads(myjson))
         startConfig.status = "on"
         db.session.commit()

@@ -11,7 +11,7 @@ class Config(object):
     '''
     DOMAINSTRATEGY = "Asis"
     RULES = "bpL"
-    V2RAY_PATH = "config/config.json"
+    V2RAY_PATH = "config/v2ray/config.json"
     LOCALDNS = "8.8.8.8"
     INBOUNDS = "socks:10808,http:10809"
     V2RAY_ERROR_LOG = "logs/error.log"
