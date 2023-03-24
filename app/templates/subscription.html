@@ -22,7 +22,7 @@
                 <input
                   id="input_remarks"
                   class="mdui-textfield-input"
-                  placeholder="备注"
+                  placeholder="Remark"
                   value=""
                 />
               </div>
@@ -33,7 +33,7 @@
                 <input
                   id="input_addr"
                   class="mdui-textfield-input"
-                  placeholder="请输入订阅链接"
+                  placeholder="Please enter a subscription link"
                   value=""
                 />
               </div>
@@ -194,7 +194,7 @@
   }
 
   function edit_confirm() {
-    var matches = document.querySelectorAll("tr.mdui-table-row-selected"); //返回一个NodeList
+    var matches = document.querySelectorAll("tr.mdui-table-row-selected");
     if (matches.length <= 0) {
       message("None Selected");
       return;
