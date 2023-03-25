@@ -1,7 +1,7 @@
 # V2ray-fpm
 
 
-This project is a web-based graphical user interface (GUI) for the V2Ray client using the VMess protocol. It provides an easy-to-use interface for configuring and connecting to V2Ray servers.
+
 
 
 
@@ -13,6 +13,8 @@ This project is a web-based graphical user interface (GUI) for the V2Ray client 
 
 # GUI web application for V2ray client users:
 
+This project is a web-based graphical user interface (GUI) for the V2Ray client using the VMess protocol. It provides an easy-to-use interface for configuring and connecting to V2Ray servers.
+
 
 ## Prerequisites
 * Docker and docker-compose installed on the host machine.
@@ -23,14 +25,12 @@ This project is a web-based graphical user interface (GUI) for the V2Ray client 
 
 Clone this repository to your local machine:
 ```
-git clone https://github.com/your-username/v2ray-vmess-client.git
+git clone https://github.com/massooti/V2ray-fpm.git
 ```
 Navigate to the project directory:
 ```
-cd v2ray-vmess-client
+cd V2ray-fpm
 ```
-Modify the config/v2ray/config.json file to match your V2Ray server configuration.
-
 Start the containers using docker-compose:
 ```
 docker-compose up -d
