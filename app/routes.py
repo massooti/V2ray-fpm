@@ -151,12 +151,12 @@ def log():
     return render_template('log.html', title="run log")
 
 
-@app.route('/others')
-def others():
-    otherConfig = Others.get_all()
-    socks5 = otherConfig['INBOUNDS'].split(',')[0][6:]
-    http = otherConfig['INBOUNDS'].split(',')[1][5:]
-    return render_template('others.html', title="Rest of configuration", config=otherConfig, socks5=socks5, http=http)
+# @app.route('/others')
+# def others():
+#     otherConfig = Others.get_all()
+#     socks5 = otherConfig['INBOUNDS'].split(',')[0][6:]
+#     http = otherConfig['INBOUNDS'].split(',')[1][5:]
+#     return render_template('others.html', title="Rest of configuration", config=otherConfig, socks5=socks5, http=http)
 
 
 @app.route('/get_access_log')

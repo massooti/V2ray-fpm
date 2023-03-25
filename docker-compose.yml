@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  client-app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - v2ray
+    networks:
+      mynetwork:
+        aliases:
+          - myapp
+
+  v2ray:
+    image: v2ray/official:latest
+    volumes:
+      - ./config:/etc/v2ray
+    ports:
+      - "1080:1080"
+      - "8001:8001"
+    restart: always
+    networks:
+      mynetwork:
+        aliases:
+          - v2ray
+
+networks:
+  mynetwork:
+    driver: bridge

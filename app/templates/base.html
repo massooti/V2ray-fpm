@@ -187,9 +187,11 @@
                   class="mdui-list-item mdui-ripple"
                   >run log</a
                 >
-                <a href="" class="mdui-list-item mdui-ripple"
+                {% comment %}
+                <a href="#" class="mdui-list-item mdui-ripple"
                   >Rest of Configuration</a
                 >
+                {% endcomment %}
               </div>
               {% elif title == "subscription management" %}
               <div class="mdui-collapse-item-body mdui-list">
@@ -213,9 +215,11 @@
                   class="mdui-list-item mdui-ripple"
                   >run Log</a
                 >
-                <a href="" class="mdui-list-item mdui-ripple"
+                {% comment %}
+                <a href="#" class="mdui-list-item mdui-ripple"
                   >Rest of configuration</a
                 >
+                {% endcomment %}
               </div>
               {% elif title == "run Log" %}
               <div class="mdui-collapse-item-body mdui-list">
@@ -239,9 +243,11 @@
                   class="mdui-list-item mdui-ripple mdui-list-item-active"
                   >run Log</a
                 >
-                <a href="" class="mdui-list-item mdui-ripple"
+                {% comment %}
+                <a href="#" class="mdui-list-item mdui-ripple"
                   >Rest of configuration</a
                 >
+                {% endcomment %}
               </div>
               {% else %}
               <div class="mdui-collapse-item-body mdui-list">
@@ -265,11 +271,13 @@
                   class="mdui-list-item mdui-ripple"
                   >run Log</a
                 >
+                {% comment %}
                 <a
-                  href=""
+                  href="#"
                   class="mdui-list-item mdui-ripple mdui-list-item-active"
                   >Rest of configuration</a
                 >
+                {% endcomment %}
               </div>
               {% endif %}
             </div>
