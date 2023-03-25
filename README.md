@@ -4,10 +4,11 @@
 This project is a web-based graphical user interface (GUI) for the V2Ray client using the VMess protocol. It provides an easy-to-use interface for configuring and connecting to V2Ray servers.
 
 
+
 <p align="center">
   <img src="https://github.com/massooti/V2ray-fpm/blob/main/images/woman-life-freedom.png" alt="woman, life, freedom" /><br>
-	woman, life, freedom<br>
-	The use of the slogan "Woman, Life, Freedom" has become a symbol of the protests in Iran, and this application aims to support the movement by providing a way for people to connect to free internet.
+	<i>woman, life, freedom</i><br>
+	<i>The use of the slogan "Woman, Life, Freedom" has become a symbol of the protests in Iran, and this application aims to providing a way for people to connect to free internet.</i>
 </p>
 
 # GUI web application for V2ray client users:
@@ -46,5 +47,3 @@ For see screenshots click [images](https://github.com/massooti/V2ray-fpm/tree/ma
 ## Acknowledgments
 
 This project was inspired by the [multi-v2ray](https://github.com/Jrohy/multi-v2ray).
-
-## About Header Image
