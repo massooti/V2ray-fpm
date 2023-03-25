@@ -1,17 +1,25 @@
 # V2ray-fpm
+
+
 This project is a web-based graphical user interface (GUI) for the V2Ray client using the VMess protocol. It provides an easy-to-use interface for configuring and connecting to V2Ray servers.
 
-GUI web application for V2ray client users:
 
+<p align="center">
+  <img src="https://github.com/massooti/V2ray-fpm/blob/main/images/woman-life-freedom.png" alt="woman, life, freedom" /><br>
+	woman, life, freedom<br>
+	The use of the slogan "Woman, Life, Freedom" has become a symbol of the protests in Iran, and this application aims to support the movement by providing a way for people to connect to free internet.
+</p>
 
-![woman, life, freedom](image/woman-life-freedom.png)
-###### woman, life, freedom
-###### The use of the slogan "Woman, Life, Freedom" has become a symbol of the protests in Iran, and this application aims to support the movement by providing a way for people to connect to free internet.
+# GUI web application for V2ray client users:
+
 
 ## Prerequisites
-Docker and docker-compose installed on the host machine.
-A V2Ray server running with the VMess protocol enabled.
+* Docker and docker-compose installed on the host machine.
+* A V2Ray server running with the VMess protocol enabled.
+
+
 ## Installation and Usage
+
 Clone this repository to your local machine:
 ```
 git clone https://github.com/your-username/v2ray-vmess-client.git
@@ -33,7 +41,7 @@ Enter the V2Ray server connection details in the web interface, and click "Conne
 You should now be connected to the V2Ray server.
 
 ## Screenshots:
-For see screenshots click here:
+For see screenshots click [images](https://github.com/massooti/V2ray-fpm/tree/main/images):
 
 ## Acknowledgments
 
