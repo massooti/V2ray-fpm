@@ -7,14 +7,14 @@ function get_now_timestamp()
     echo ${cur_sec_and_ns%-*}
 }
 
-function install_v2ray() {
-    echo "Do you need to install v2rayCore?(Y/N)"
-    read choice
-    if [ $choice == "Y" ]||[ $choice == "y" ];
-    then
-      bash <(curl -L -s https://install.direct/go.sh)
-    fi
-}
+# function install_v2ray() {
+#     echo "Do you need to install v2rayCore?(Y/N)"
+#     read choice
+#     if [ $choice == "Y" ]||[ $choice == "y" ];
+#     then
+#       bash <(curl -L -s https://install.direct/go.sh)
+#     fi
+# }
 
 function ReadMeFirst() {
 echo "Enter UserName(default:NoOne-hub)"
