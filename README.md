@@ -13,7 +13,7 @@
 
 # GUI web application for V2ray client users:
 
-This project is a web-based graphical user interface (GUI) for the V2Ray client using the VMess protocol. It provides an easy-to-use interface for configuring and connecting to V2Ray servers.
+**This project is a web-based graphical user interface (GUI) for the V2Ray client using the VMess protocol. It provides an easy-to-use interface for configuring and connecting to V2Ray servers.**
 
 
 ## Prerequisites
@@ -43,9 +43,9 @@ Enter the V2Ray server connection details in the web interface, and click "Conne
 
 You should now be connected to the V2Ray server.
 
-## Screenshots:
-For see screenshots click [images](https://github.com/massooti/V2ray-fpm/tree/main/images):
+## Screenshots
+### For see screenshots click [images](https://github.com/massooti/V2ray-fpm/tree/main/images)
 
 ## Acknowledgments
 
-This project was inspired by the [multi-v2ray](https://github.com/Jrohy/multi-v2ray).
+**This project was inspired by the [multi-v2ray](https://github.com/Jrohy/multi-v2ray).**
