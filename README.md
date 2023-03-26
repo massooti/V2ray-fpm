@@ -31,6 +31,8 @@ Navigate to the project directory:
 ```
 cd V2ray-fpm
 ```
+You can install it on your local machine simply by running ``` ./install.sh ``` or via docker.
+
 Start the containers using docker-compose:
 ```
 docker-compose up -d
